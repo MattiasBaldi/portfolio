@@ -1,4 +1,4 @@
-import "./Main.css";
+import "./main.css";
 import Header from "./Header.jsx";
 import Project from "./Project.jsx";
 import projects from "./projects.json";
