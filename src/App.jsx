@@ -1,7 +1,7 @@
 import "./main.css";
+import data from "./data.json";
 import Header from "./Header.jsx";
-import Project from "./Project.jsx";
-import projects from "./projects.json";
+import Project from "./projects/Project.jsx";
 import Debug from "./Debug.jsx";
 
 export default function App() {
@@ -10,9 +10,9 @@ export default function App() {
       <Debug />
       <Header />
       {/* Projects */}
-      <div className="h-fit flex flex-col gap-3">
-        {[...Array(projects.length)].map((v, i) => (
-          <Project key={i} />
+      <div className="container h-fit flex flex-col gap-3">
+        {[...Array(data.length)].map((v, i) => (
+          <Project key={i} {...data[i]} />
         ))}
       </div>
     </div>

@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --ff-d: "Helvetica Neue", Arial, sans-serif;
+  --ff-d: Inter, Menlo, Arial, sans-serif; /* Zapfino to test */
   --color-grey-0: #ffffff;
   --color-grey-100: #e5e5e5;
+  --color-grey-200: #cccccc;
   --color-grey-500: #737373;
+  --color-grey-700: #404040;
   --color-grey-900: #171717;
 
   --font-big: 3rem;
@@ -59,37 +61,57 @@
 
   html,
   body {
-    padding: 10px 10px;
+    overflow-x: hidden;
     height: 100%;
     font-family: var(--ff-d);
-    font-size: 1rem;
-    font-weight: 300;
-    background-color: var(--grey-900);
+    background-color: var(--color-grey-100);
     color: var(--grey-900);
-  }
-
-  h1 {
-    font-size: 3rem;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-  }
-
-  .icon {
-    width: 20px;
-    height: 20px;
   }
 }
 
 .r3f-canvas {
-  width: 120px !important;
-  height: 120px !important;
-  border: 0.2px solid black;
+  width: 100px !important;
+  height: 100px !important;
+  border: 1px solid var(--color-grey-500);
   border-radius: 360px;
 }
 
 @media (min-width: 1200px) {
   .r3f-canvas {
     border: none;
+  }
+}
+
+@layer utilities {
+}
+
+@layer components {
+  .container {
+    padding: 10px 10px;
+    width: 100%;
+    min-width: 100%;
+  }
+
+  /* Tablet breakpoint (≥768px) */
+  @media (min-width: 768px) {
+    .container {
+      padding: 20px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+  }
+
+  /* Desktop breakpoint (≥1200px) */
+  @media (min-width: 1200px) {
+    .container {
+      padding: 40px 150px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
   }
 }
