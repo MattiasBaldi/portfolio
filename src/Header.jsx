@@ -43,12 +43,12 @@ export default function Header() {
       </div>
 
       {/* Links */}
-      <div className="border-1 border-grey-500 lg:border-0 lg:border-b-1 flex h-8 justify-between items-center px-5">
+      <div className="border-1 border-grey-500 lg:border-0 lg:border-b-1 flex h-8 justify-between items-center px-5 lg:px-0">
         <button className="cursor-pointer" onClick={setAccordion}>
           Info
         </button>
-        <hr className="w-[1px] h-full bg-gray-500" />
-        <ul className="flex gap-6 justify-between">
+        <hr className="w-[1px] h-full bg-gray-500 lg:hidden" />
+        <ul className="flex gap-6 justify-between hover:decoration-underline">
           <a
             href="https://github.com/MattiasBaldi"
             target="_blank"
@@ -72,8 +72,12 @@ export default function Header() {
           </a>
         </ul>
         {/* message */}
-        <hr className="w-[1px] h-full bg-gray-500" />
-        <a href="mailto:mattiasbaldi@gmail.com" target="_blank">
+        <hr className="w-[1px] h-full bg-gray-500 lg:hidden" />
+        <a
+          className="lg:hidden"
+          href="mailto:mattiasbaldi@gmail.com"
+          target="_blank"
+        >
           <img src="./src/assets/message.svg" className="icon" />
         </a>
       </div>
@@ -96,12 +100,15 @@ export default function Header() {
 
         <div className="font-medium">
           <p>
-            <a href="tel:+4545521789" className="">
+            <a href="tel:+4545521789" className="hover:underline">
               +45 45 521789
             </a>
           </p>
           <p>
-            <a href="mailto:mattiasbaldi@gmail.com" className="">
+            <a
+              href="mailto:mattiasbaldi@gmail.com"
+              className=" hover:underline"
+            >
               mattiasbaldi@gmail.com
             </a>
           </p>

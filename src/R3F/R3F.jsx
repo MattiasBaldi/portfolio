@@ -10,7 +10,7 @@ export default function R3F() {
         className="r3f-canvas fake-border"
         camera={{ position: [0, 0, 2] }}
       >
-        <OrbitControls />
+        <OrbitControls minDistance={1.5} />
 
         <Profile />
       </Canvas>
