@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+@theme {
+  --ff-d: Inter, Menlo, Arial, sans-serif; /* Zapfino to test */
+  --color-grey-0: #ffffff;
+  --color-grey-100: #e5e5e5;
+  --color-grey-200: #cccccc;
+  --color-grey-500: #737373;
+  --color-grey-700: #404040;
+  --color-grey-900: #171717;
+
+  --font-big: 3rem;
+  --font-size: 0.75rem;
+  --font-small: 0.75rem;
+
+  --border-small: 0.2;
+}
+
+@layer base {
+  /* Reset */
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /* border: 1px solid red; */
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    outline: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+  }
+
+  html,
+  body {
+    overflow-x: hidden;
+    height: 100%;
+    font-family: var(--ff-d);
+    background-color: var(--color-grey-100);
+    color: var(--grey-900);
+  }
+}
+
+.r3f-canvas {
+  width: 100px !important;
+  height: 100px !important;
+  border: 1px solid var(--color-grey-500);
+  border-radius: 360px;
+}
+
+@media (min-width: 1200px) {
+  .r3f-canvas {
+    border: none;
+  }
+}
+
+@layer utilities {
+}
+
+@layer components {
+  .container {
+    padding: 10px 10px;
+    width: 100%;
+    min-width: 100%;
+  }
+
+  /* Tablet breakpoint (≥768px) */
+  @media (min-width: 768px) {
+    .container {
+      padding: 20px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+  }
+
+  /* Desktop breakpoint (≥1200px) */
+  @media (min-width: 1200px) {
+    .container {
+      padding: 40px 150px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
