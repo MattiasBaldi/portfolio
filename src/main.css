@@ -16,6 +16,7 @@
   --border-small: 0.2;
 }
 
+
 @layer base {
   /* Reset */
 
@@ -83,9 +84,17 @@
 }
 
 @layer utilities {
+
 }
 
 @layer components {
+  
+
+  h1 {
+      font-size: 40px;
+      font-weight: bold;
+    }
+
   .container {
     padding: 10px 10px;
     width: 100%;
@@ -99,6 +108,12 @@
       max-width: 900px;
       margin: 0 auto;
     }
+
+  h1 {
+    font-size: 64px;
+    font-weight: bold;
+  }
+
   }
 
   /* Desktop breakpoint (≥1200px) */
@@ -108,6 +123,12 @@
       max-width: 1200px;
       margin: 0 auto;
     }
+
+    h1 {
+    font-size: 96px;
+    font-weight: bold;
+    }
+
   }
 
   .icon {

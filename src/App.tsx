@@ -1,19 +1,19 @@
 import "./main.css";
 import data from "./data/data.json" with { type: "json" };
 import Header from "./components/Header.js";
-import Project from "./projects/Project.jsx";
+import Project from "./components/projects/Project.jsx";
 import { Leva, useControls } from "leva";
 import { useDebug } from "./hooks/useDebug.js";
 
 
 export type ProjectData = {
-id: number; 
-name: string;
-description: string; 
-thumbnail: string; 
-media: string[]
-category: string; 
-year: number
+id?: number;
+name?: string;
+description?: string;
+thumbnail?: string;
+media?: string[]
+category?: string;
+year?: number
 }
 
 export type Data = ProjectData[]
@@ -43,15 +43,15 @@ export default function App() {
 
   return (
     <>
-      <Leva hidden={!isDebug} />
-      <div className="flex flex-col gap-4">
+      <Leva hidden={!isDebug} collapsed={true}/>
+
+
+      <div className=" flex flex-col gap-4">
         <Header />
 
-        <div className="container h-fit flex flex-col gap-3">
+        <div className=" h-fit flex flex-col gap-3">
           <hr className="border-t-1"></hr>
-          {[...Array(data.length)].map((v, i) => (
-            <Project key={i} {...data[i]} />
-          ))}
+          {[...Array(data.length)].map((_v, i) => ( <Project key={i} {...data[i]} /> ))}
         </div>
       </div>
     </>
