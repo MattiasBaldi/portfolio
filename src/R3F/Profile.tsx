@@ -1,19 +1,16 @@
 import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
+import { Mesh } from "three";
 
 export default function Profile() {
-  const cube = useRef();
+  const cube = useRef<Mesh>(null);
 
   useFrame((state, delta) => {
+    if (!cube.current) return;
     cube.current.rotation.x += delta * 0.7;
     cube.current.rotation.y += delta * 0.7;
     cube.current.rotation.z += delta * 0.7;
   });
-
-  /*
-     Depreceated - Device Orientation Controls
-  // https://github.com/mrdoob/three.js/blob/r133/examples/jsm/controls/DeviceOrientationControls.js
-  */
 
   return (
     <mesh ref={cube}>

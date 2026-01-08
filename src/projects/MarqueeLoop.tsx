@@ -3,12 +3,20 @@ import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import Draggable from "gsap/Draggable";
 import InertiaPlugin from "gsap/InertiaPlugin";
+import { useControls } from "leva";
 gsap.registerPlugin(useGSAP, Draggable, InertiaPlugin);
 
-export default function MarqueeLoop({ media }) {
-  const wrapper = useRef();
+type MarqueeLoopProps = {
+  media: string[];
+};
+
+export default function MarqueeLoop({ media }: MarqueeLoopProps) {
+  const controls = useControls("Marquee", {
+    height: { value: 500, min: 0, max: 1000 },
+  });
+
+  const wrapper = useRef(null);
   const images = useRef([]);
-  let activeElement;
 
   useGSAP(
     () => {
@@ -16,37 +24,35 @@ export default function MarqueeLoop({ media }) {
       horizontalLoop(images.current, {
         repeat: 2,
         draggable: true,
-        // dragSnap: true,
-        intertia: true,
+        dragSnap: true,
+        inertia: {
+          resistance: 10, // higher = stops faster, lower = slides farther
+          minVelocity: 50, // minimum velocity to start inertia
+          allowX: true,
+          allowY: false,
+        },
         paused: false,
         speed: 0.5,
         center: true,
       });
-
-      return () => {
-        horizontalLoop(images.current, {
-          repeat: -1,
-          draggable: true,
-          dragSnap: true,
-          intertia: true,
-          paused: true,
-          speed: 0.5,
-          center: true,
-        });
-      };
     },
 
     { scope: wrapper }
   );
 
   return (
-    <div ref={wrapper} className="wrapper flex overflow-hidden">
+    <div
+      ref={wrapper}
+      onClick={(e) => e.stopPropagation()}
+      className="wrapper flex overflow-hidden"
+    >
       {media.map((v, i) => (
         <img
           ref={(el) => (images.current[i] = el)}
           key={i}
           src={v}
-          className="w-[600px] h-[350px] object-cover mx-0"
+          style={{ height: controls.height }}
+          className=" object-cover mx-0"
         />
       ))}
     </div>
@@ -55,6 +61,8 @@ export default function MarqueeLoop({ media }) {
 
 /*
 This helper function makes a group of elements animate along the x-axis in a seamless, responsive loop.
+
+https://gsap.com/docs/v3/HelperFunctions/helpers/seamlessLoop/
 
 Features:
 - Uses xPercent so that even if the widths change (like if the window gets resized), it should still work in most cases.
@@ -303,7 +311,6 @@ function horizontalLoop(items, config) {
         onDrag: align,
         onThrowUpdate: align,
         overshootTolerance: 0,
-        inertia: true,
         snap(value) {
           //note: if the user presses and releases in the middle of a throw, due to the sudden correction of proxy.x in the onPressInit(), the velocity could be very large, throwing off the snap. So sense that condition and adjust for it. We also need to set overshootTolerance to 0 to prevent the inertia from causing it to shoot past and come back
           if (Math.abs(startProgress / -ratio - this.x) < 10) {

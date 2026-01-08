@@ -1,9 +1,5 @@
-import { useRef, useEffect, useState } from "react";
-import R3F from "./R3F/R3F.jsx";
-import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(useGSAP);
+import R3F from "../R3F/R3F.js";
+import { useState, useEffect, useRef } from "react";
 
 export default function Header() {
   const accordion = useRef();
@@ -34,7 +30,7 @@ export default function Header() {
       <div className="flex lg:flex-row-reverse h-30 items-center justify-between gap-5 lg:border-b-1 border-gray-500">
         <R3F />
 
-        <div className="max-w-40 md:max-w-none flex flex-col h-full min-h-full gap-5 lg:gap-1">
+        <div className="max-w-40 md:max-w-none flex items-center h-full min-h-full gap-5 lg:gap-50">
           <h1 className="lg:text-8xl lg:font-extralight">Mattias Baldi</h1>
           <p className="text-xs italic">
             Crafting Immersive experiences - that matter
@@ -43,12 +39,12 @@ export default function Header() {
       </div>
 
       {/* Links */}
-      <div className="border-1 border-grey-500 lg:border-0 lg:border-b-1 flex h-8 justify-between items-center px-5 lg:px-0">
+      <div className="border-1 border-grey-500 lg:border-0 lg:border-b-1 flex h-8 justify-between items-center px-5">
         <button className="cursor-pointer" onClick={setAccordion}>
           Info
         </button>
-        <hr className="w-[1px] h-full bg-gray-500 lg:hidden" />
-        <ul className="flex gap-6 justify-between hover:decoration-underline">
+        <hr className="w-[1px] h-full bg-gray-500" />
+        <ul className="flex gap-6 justify-between">
           <a
             href="https://github.com/MattiasBaldi"
             target="_blank"
@@ -56,28 +52,16 @@ export default function Header() {
           >
             <img src="./src/assets/github.svg" className="icon" />
           </a>
-          <a
-            href="https://www.instagram.com/mb_labs/?hl=da"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://www.instagram.com/mb_labs/?hl=da">
             <img src="./src/assets/instagram.svg" className="icon" />
           </a>
-          <a
-            href="https://www.linkedin.com/in/mattias-baldi-6359b0168/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://www.linkedin.com/in/mattias-baldi-6359b0168/">
             <img src="./src/assets/linkedin.svg" className="icon" />
           </a>
         </ul>
         {/* message */}
-        <hr className="w-[1px] h-full bg-gray-500 lg:hidden" />
-        <a
-          className="lg:hidden"
-          href="mailto:mattiasbaldi@gmail.com"
-          target="_blank"
-        >
+        <hr className="w-[1px] h-full bg-gray-500" />
+        <a href="mailto:mattiasbaldi@gmail.com" target="_blank">
           <img src="./src/assets/message.svg" className="icon" />
         </a>
       </div>
@@ -100,15 +84,12 @@ export default function Header() {
 
         <div className="font-medium">
           <p>
-            <a href="tel:+4545521789" className="hover:underline">
+            <a href="tel:+4545521789" className="">
               +45 45 521789
             </a>
           </p>
           <p>
-            <a
-              href="mailto:mattiasbaldi@gmail.com"
-              className=" hover:underline"
-            >
+            <a href="mailto:mattiasbaldi@gmail.com" className="">
               mattiasbaldi@gmail.com
             </a>
           </p>
