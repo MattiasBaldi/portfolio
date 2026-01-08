@@ -1,100 +1,130 @@
-import R3F from "../R3F/R3F.js";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, forwardRef } from "react";
+import type { ReactNode } from "react";
 
+const gap = 30; 
+
+// ---------- Main Header ----------
 export default function Header() {
-  const accordion = useRef();
-  const [open, setOpen] = useState(false);
-  const [maxHeight, setMaxHeight] = useState("0px");
+  const accordionRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [maxHeight, setMaxHeight] = useState<string>("0px");
 
   useEffect(() => {
-    if (!accordion.current) return;
+    if (!accordionRef.current) return;
 
-    const updateHeight = () => {
-      setMaxHeight(open ? `${accordion.current.scrollHeight}px` : "0px");
-    };
+    const updateHeight = () =>
+      setMaxHeight(open ? `${accordionRef.current!.scrollHeight}px` : "0px");
 
-    updateHeight(); // initial
-
-    const observer = new window.ResizeObserver(updateHeight);
-    observer.observe(accordion.current);
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(accordionRef.current);
 
     return () => observer.disconnect();
   }, [open]);
 
-  const setAccordion = () => setOpen((prev) => !prev);
-
   return (
-    // Overall
-    <div className="container w-full flex flex-col gap-2 lg:gap-5">
-      {/* Experience, name and brief description */}
-      <div className="flex lg:flex-row-reverse h-30 items-center justify-between gap-5 lg:border-b-1 border-gray-500">
-        <R3F />
-
-        <div className="max-w-40 md:max-w-none flex items-center h-full min-h-full gap-5 lg:gap-50">
-          <h1 className="lg:text-8xl lg:font-extralight">Mattias Baldi</h1>
-          <p className="text-xs italic">
-            Crafting Immersive experiences - that matter
-          </p>
-        </div>
-      </div>
-
-      {/* Links */}
-      <div className="border-1 border-grey-500 lg:border-0 lg:border-b-1 flex h-8 justify-between items-center px-5">
-        <button className="cursor-pointer" onClick={setAccordion}>
-          Info
-        </button>
-        <hr className="w-[1px] h-full bg-gray-500" />
-        <ul className="flex gap-6 justify-between">
-          <a
-            href="https://github.com/MattiasBaldi"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img src="./src/assets/github.svg" className="icon" />
-          </a>
-          <a href="https://www.instagram.com/mb_labs/?hl=da">
-            <img src="./src/assets/instagram.svg" className="icon" />
-          </a>
-          <a href="https://www.linkedin.com/in/mattias-baldi-6359b0168/">
-            <img src="./src/assets/linkedin.svg" className="icon" />
-          </a>
-        </ul>
-        {/* message */}
-        <hr className="w-[1px] h-full bg-gray-500" />
-        <a href="mailto:mattiasbaldi@gmail.com" target="_blank">
-          <img src="./src/assets/message.svg" className="icon" />
-        </a>
-      </div>
-
-      {/* accordion */}
-      <div
-        ref={accordion}
-        className="overflow-hidden min-w-full w-full  max-w-full flex flex-col lg:flex-row justify-between transition-all duration-800 ease-in-out"
-        style={{ maxHeight }}
+    <div className="container z-10 bg-grey-100 w-fit h-fit flex flex-col gap-10">
+      {/* Header */}
+      <h1
+        onClick={() => setOpen((prev) => !prev)}
+        className="hover:cursor-pointer lg:text-8xl lg:font-semibold"
       >
-        <p className="py-2 max-w-150">
-          I specialize in crafting immersive experiences for brands and
-          businesses that results in real impact. I initially come from a
-          background of design from Copenhagen School of design and Technology,
-          and later complimented that through further technical expertise as I
-          through time became an autodidact developer with the help of courses
-          such as Harvard’s CS50 Computer Science, Three.js Journey and real
-          world experience
-        </p>
+        Mattias Baldi
+        <span className="text-xl font-normal">/</span>
+        <span
+          className={`text-xl hover:underline ${
+            open ? "opacity-[1] font-bold  " : " font-normal  opacity-[0.5]"
+          }`}
+        >
+          info
+        </span>
+      </h1>
 
-        <div className="font-medium">
-          <p>
-            <a href="tel:+4545521789" className="">
-              +45 45 521789
-            </a>
-          </p>
-          <p>
-            <a href="mailto:mattiasbaldi@gmail.com" className="">
-              mattiasbaldi@gmail.com
-            </a>
-          </p>
+      {/* Accordion */}
+      <Accordion maxHeight={maxHeight}>
+        <div ref={accordionRef} className="overflow-hidden transition-all duration-500 ease-in-out" style={{ maxHeight }}>
+
+          {/* all */}
+          <div className={`flex flex-col justify-start items-start gap-${gap}`}>
+            <div className={`flex flex-col md:flex-row-reverse gap-${gap} gap-30 lg:gap-100 `}>
+
+              {/* text */}
+              <p className="py-2 max-w-150 h-fit ">
+                I create immersive digital experiences that deliver real impact
+                for brands and businesses. I have a background in design &
+                technology from the Copenhagen School of Design and Technology,
+                I specialize in experiences for the 3d web particularly related to WebGL and
+                Three.js.
+              </p>
+
+              <Links />
+            </div>
+
+            {/* Close button */}
+            <button className="hover:cursor-pointer hover:underline self-start mt-2" onClick={(e) => { e.stopPropagation(); setOpen(false)}}>Close</button>
+          </div>
         </div>
+      </Accordion>
+    </div>
+  );
+}
+
+// ---------- Accordion ----------
+interface AccordionProps {
+  maxHeight: string;
+  children: ReactNode;
+}
+
+const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
+  ({ maxHeight, children }, ref) => (
+    <div
+      ref={ref}
+      className="overflow-hidden w-full flex flex-col transition-all duration-800 ease-in-out"
+      style={{ maxHeight }}
+    >
+      {children}
+    </div>
+  )
+);
+
+Accordion.displayName = "Accordion";
+
+// ---------- Links Component ----------
+function Links() {
+  return (
+    <div className={`links flex flex-col gap-${gap}`}>
+      <div className="flex flex-col gap-3">
+        <TextLink url="https://github.com/MattiasBaldi" label="GITHUB" />
+        <TextLink url="https://www.instagram.com/mb_labs/?hl=da" label="INSTAGRAM" />
+        <TextLink url="https://www.linkedin.com/in/mattias-baldi-6359b0168" label="LINKEDIN" />
+      </div>
+
+      <div className="font-medium flex flex-col gap-3">
+        <TextLink url="tel:+4545521789" label="+45 45 521789" />
+        <TextLink url="mailto:mattiasbaldi@gmail.com" label="mattiasbaldi@gmail.com" />
       </div>
     </div>
+  );
+}
+
+// ---------- Reusable Link Components ----------
+interface TextLinkProps {
+  url: string;
+  label: string;
+}
+
+function TextLink({ url, label }: TextLinkProps) {
+  return (
+    <p>
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-semibold hover:underline"
+        onClick={(e) => e.stopPropagation()} // prevent parent toggle
+      >
+        {label}
+      </a>
+    </p>
   );
 }
