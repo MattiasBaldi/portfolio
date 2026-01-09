@@ -1,10 +1,8 @@
 import "./main.css";
-import data from "./data/data.json" with { type: "json" };
 import Header from "./components/Header.js";
-import Project from "./components/projects/Project.jsx";
+import {Projects} from "./components/projects/Project.jsx";
 import { Leva, useControls } from "leva";
 import { useDebug } from "./hooks/useDebug.js";
-
 
 export type ProjectData = {
 id?: number;
@@ -18,11 +16,11 @@ year?: number
 
 export type Data = ProjectData[]
 
-
 export default function App() {
   const isDebug = useDebug();
   let dStyles = document.head.appendChild(document.createElement("style"));
 
+  // debug
   useControls(
     "debug",
     {
@@ -38,22 +36,17 @@ export default function App() {
         },
       },
     },
-    { collapsed: false }
+    { collapsed: true }
   );
 
   return (
     <>
-      <Leva hidden={!isDebug} collapsed={true}/>
-
-
-      <div className=" flex flex-col gap-4">
+      <div className="flex flex-col justify-center">
         <Header />
 
-        <div className=" h-fit flex flex-col gap-3">
-          <hr className="border-t-1"></hr>
-          {[...Array(data.length)].map((_v, i) => ( <Project key={i} {...data[i]} /> ))}
-        </div>
+        <Projects /> 
       </div>
+      <Leva hidden={!isDebug} collapsed={true}/>
     </>
   );
 }
