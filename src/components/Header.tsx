@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, forwardRef } from "react";
 import type { ReactNode } from "react";
 
-const gap = 30; 
 
 // ---------- Main Header ----------
 export default function Header() {
@@ -23,7 +22,7 @@ export default function Header() {
   }, [open]);
 
   return (
-    <div className="container z-10 bg-grey-100 w-fit h-fit flex flex-col gap-10">
+    <div className="container group hover:cursor-pointer z-10 bg-grey-100 w-fit h-fit flex flex-col">
       {/* Header */}
       <h1
         onClick={() => setOpen((prev) => !prev)}
@@ -32,7 +31,7 @@ export default function Header() {
         Mattias Baldi
         <span className="text-xl font-normal">/</span>
         <span
-          className={`text-xl hover:underline ${
+          className={`text-xl group-hover:underline ${
             open ? "opacity-[1] font-bold  " : " font-normal  opacity-[0.5]"
           }`}
         >
@@ -41,15 +40,18 @@ export default function Header() {
       </h1>
 
       {/* Accordion */}
-      <Accordion maxHeight={maxHeight}>
+      <Accordion
+        maxHeight={maxHeight}
+        onClick={() => setOpen(false)}
+      >
         <div ref={accordionRef} className="overflow-hidden transition-all duration-500 ease-in-out" style={{ maxHeight }}>
 
           {/* all */}
-          <div className={`flex flex-col justify-start items-start gap-${gap}`}>
-            <div className={`flex flex-col md:flex-row-reverse gap-${gap} gap-30 lg:gap-100 `}>
+          <div className={`flex flex-col justify-start items-start pt-0 md:pt-0 lg:pt-20 gap-10 md:gap-20 lg:gap-30`}>
+            <div className={`flex flex-col md:flex-row-reverse gap-10 md:gap-20 lg:gap-100 `}>
 
               {/* text */}
-              <p className="py-2 max-w-150 h-fit ">
+              <p className="py-2 max-w-100 sm:max-w-150 md:max-w-150 lg:max-w-200 h-fit ">
                 I create immersive digital experiences that deliver real impact
                 for brands and businesses. I have a background in design &
                 technology from the Copenhagen School of Design and Technology,
@@ -61,7 +63,7 @@ export default function Header() {
             </div>
 
             {/* Close button */}
-            <button className="hover:cursor-pointer hover:underline self-start mt-2" onClick={(e) => { e.stopPropagation(); setOpen(false)}}>Close</button>
+            <button className="hover:cursor-pointer self-start mt-2 group-hover:underline" onClick={(e) => { e.stopPropagation(); setOpen(false)}}>Close</button>
           </div>
         </div>
       </Accordion>
@@ -73,14 +75,16 @@ export default function Header() {
 interface AccordionProps {
   maxHeight: string;
   children: ReactNode;
+  onClick?: () => void;
 }
 
 const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
-  ({ maxHeight, children }, ref) => (
+  ({ maxHeight, children, onClick }, ref) => (
     <div
       ref={ref}
-      className="overflow-hidden w-full flex flex-col transition-all duration-800 ease-in-out"
+      className="hover:cursor-pointer overflow-hidden w-full flex flex-col transition-all duration-800 ease-in-out"
       style={{ maxHeight }}
+      onClick={onClick}
     >
       {children}
     </div>
@@ -92,7 +96,7 @@ Accordion.displayName = "Accordion";
 // ---------- Links Component ----------
 function Links() {
   return (
-    <div className={`links flex flex-col gap-${gap}`}>
+    <div className={`links flex flex-col gap-20 md:gap-20 lg:gap-30`}>
       <div className="flex flex-col gap-3">
         <TextLink url="https://github.com/MattiasBaldi" label="GITHUB" />
         <TextLink url="https://www.instagram.com/mb_labs/?hl=da" label="INSTAGRAM" />

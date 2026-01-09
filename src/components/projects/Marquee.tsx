@@ -10,7 +10,7 @@ type MarqueeLoopProps = {
   media: string[];
 };
 
-export default function MarqueeLoop({ media }: MarqueeLoopProps) {
+export function Marquee({ media }: MarqueeLoopProps) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
   useEffect(() => {
@@ -19,10 +19,20 @@ export default function MarqueeLoop({ media }: MarqueeLoopProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const controls = useControls("Marquee", {
-    mobileHeight: { value: 250, min: 0, max: 500, label: "Mobile Height" },
-    desktopHeight: { value: 500, min: 0, max: 1000, label: "Desktop Height" },
-  });
+  const controls = useControls(
+    "Marquee",
+    {
+      mobileHeight: { value: 250, min: 0, max: 500, label: "Mobile Height" },
+      desktopHeight: { value: 500, min: 0, max: 1000, label: "Desktop Height" },
+      speed: { value: 0.5, min: 0, max: 5, step: 0.1, label: "Speed" },
+      resistance: { value: 10, min: 1, max: 50, step: 1, label: "Drag Resistance" },
+      minVelocity: { value: 50, min: 0, max: 200, step: 10, label: "Min Velocity" },
+      repeat: { value: 2, min: 0, max: 10, step: 1, label: "Repeat" },
+      draggable: { value: true, label: "Draggable" },
+      dragSnap: { value: true, label: "Drag Snap" },
+    },
+    { collapsed: true }
+  );
 
   const wrapper = useRef(null);
   const images = useRef([]);
@@ -44,22 +54,22 @@ export default function MarqueeLoop({ media }: MarqueeLoopProps) {
     () => {
       if (!ready || !images.current.length || !images.current[0]) return;
       horizontalLoop(images.current, {
-        repeat: 2,
-        draggable: true,
-        dragSnap: true,
+        repeat: controls.repeat,
+        draggable: controls.draggable,
+        dragSnap: controls.dragSnap,
         inertia: {
-          resistance: 10, // higher = stops faster, lower = slides farther
-          minVelocity: 50, // minimum velocity to start inertia
+          resistance: controls.resistance,
+          minVelocity: controls.minVelocity,
           allowX: true,
           allowY: false,
         },
         paused: false,
-        speed: 0.5,
+        speed: controls.speed,
         center: true,
       });
     },
 
-    { scope: wrapper, dependencies: [ready] }
+    { scope: wrapper, dependencies: [ready, controls.repeat, controls.draggable, controls.dragSnap, controls.resistance, controls.minVelocity, controls.speed] }
   );
 
   return (
