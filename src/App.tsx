@@ -41,9 +41,9 @@ export default function App() {
 
   return (
     <>
-      <div className="flex flex-col justify-center">
+      <div className="flex container flex-col gap-20 justify-center overflow-auto">
         <Header />
-
+          <hr className="w-[200vw] relative left-[-50vw] lg:w-full lg:left-0" />
         <Projects /> 
       </div>
       <Leva hidden={!isDebug} collapsed={true}/>

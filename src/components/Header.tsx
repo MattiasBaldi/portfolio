@@ -22,7 +22,7 @@ export default function Header() {
   }, [open]);
 
   return (
-    <div className="container group hover:cursor-pointer z-10 bg-grey-100 w-fit h-fit flex flex-col">
+    <div className="group hover:cursor-pointer z-10 bg-grey-100 w-fit h-fit flex flex-col">
       {/* Header */}
       <h1
         onClick={() => setOpen((prev) => !prev)}
@@ -45,6 +45,7 @@ export default function Header() {
         onClick={() => setOpen(false)}
       >
         <div ref={accordionRef} className="overflow-hidden transition-all duration-500 ease-in-out" style={{ maxHeight }}>
+
 
           {/* all */}
           <div className={`flex flex-col justify-start items-start pt-0 md:pt-0 lg:pt-20 gap-10 md:gap-20 lg:gap-30`}>
