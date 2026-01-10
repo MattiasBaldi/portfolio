@@ -78,7 +78,7 @@ export function Project(props: ProjectData) {
       {
         contentSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
         contentEase: { value: "power2.inOut", options: ["power1.inOut", "power2.inOut", "power3.inOut"], label: "Ease" },
-        contentHeight: { value: 400, min: 0, max: 1000, step: 0.01, label: "Height" },
+        contentHeight: { value: 100, min: 0, max: 1000, step: 0.01, label: "Height" },
       },
       { collapsed: true }
     ),
@@ -99,7 +99,7 @@ export function Project(props: ProjectData) {
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           onClick={() => toggle()}
-          className="preview cursor-pointer hover:cursor-pointer relative flex justify-between w-full h-40 overflow-hidden"
+          className="preview cursor-pointer hover:cursor-pointer relative flex justify-between w-full h60 overflow-hidden"
           style={{ gap: isMobile ? `${controls.mobileGap}px` : `${controls.desktopGap}px` }}
         >
 
@@ -173,21 +173,15 @@ export function Content(props: ProjectData) {
   const abbreviated = description.slice(0, maxLength);
 
   return (
-    <div className="content h-0 left-200 flex flex-col top-10 gap-10 overflow-hidden">
+    <div className="content h-0 left-200 flex flex-col top-10 gap-20 overflow-hidden">
       <Marquee media={props.media ?? []} />
       <p>
         {viewMore || !isLong ? (
           description
         ) : (
           <>
-            {abbreviated}...{" "} 
-            <span
-              onClick={(e) => {
-                e.stopPropagation();
-                setViewMore(true);
-              }}
-              className="underline cursor-pointer"
-            >
+            {abbreviated}...
+            <span onClick={(e) => { e.stopPropagation(); setViewMore(true); }} className="underline cursor-pointer">
               view more
             </span>
           </>

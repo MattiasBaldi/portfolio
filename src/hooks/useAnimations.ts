@@ -63,6 +63,9 @@ function getMobileTitleOffset(container: HTMLElement): { x: number; y: number } 
   };
 }
 
+
+//** These are giving motion sickness at this point in time */
+
 // Helper: Scroll to element using GSAP ScrollToPlugin
 function scrollToElement(target: HTMLElement, offsetY = 0) {
   const y = target.getBoundingClientRect().top + window.scrollY + offsetY;
@@ -74,7 +77,6 @@ function scrollToElement(target: HTMLElement, offsetY = 0) {
   });
 }
 
-// @claude dont touch this
 // Helper: Scroll content into view using native scrollIntoView
 function scrollIntoView(container: HTMLElement) {
   container.scrollIntoView({
@@ -221,9 +223,6 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
     const titleOffset = getTitleOffset(container);
     const mobileTitleOffset = isMobile ? getMobileTitleOffset(container) : undefined;
 
-    // Scroll to container when expanding (only use one method)
-    // if (!isExpanded) scrollToElement(container, -100)
-
     // Animation
     if (!timelineRef.current) {
       const tl = gsap.timeline();
@@ -234,7 +233,7 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
         .to(".title-description", { x: titleOffset, duration: controls.titleSpeed, ease: controls.titleEase }, "<")    // prettier-ignore
         .to(".thumbnail img", { y: controls.thumbnailY, opacity: controls.thumbnailOpacity, duration: controls.thumbnailSpeed, ease: controls.thumbnailEase },"<")      // prettier-ignore  
         .to(".preview", { height: controls.previewHeight, duration: controls.previewSpeed, ease: controls.previewEase }, "<") // prettier-ignore
-        .to(".content", { height: "100vh", duration: controls.contentSpeed, ease: controls.contentEase}, "<") // prettier-ignore
+        .to(".content", { height: "auto", duration: controls.contentSpeed, ease: controls.contentEase}, "<") // prettier-ignore
 
         // Ani 2
         .to(".close-button", { opacity: 0.5, pointerEvents: "auto", duration: 0.3, ease: "power2.out" }, ) // prettier-ignore
