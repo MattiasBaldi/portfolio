@@ -139,7 +139,9 @@
     "media": [
       "./src/assets/simone-juice.png",
       "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
+      "./src/assets/simone-juice.png", 
+      "./src/assets/simone-juice.png", 
+          "./src/assets/simone-juice.png"
     ],
     "category": "Web",
     "year": 2023

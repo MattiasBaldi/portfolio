@@ -60,10 +60,18 @@
     list-style: none;
   }
 
-  html,
-  body {
+  html {
     overflow-x: hidden;
-    height: 100%;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+
+  html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  body {
+    min-height: 100%;
     font-family: var(--ff-d);
     background-color: var(--color-grey-100);
     color: var(--grey-900);
@@ -88,8 +96,6 @@
 }
 
 @layer components {
-  
-
   h1 {
       font-size: 40px;
       font-weight: bold;

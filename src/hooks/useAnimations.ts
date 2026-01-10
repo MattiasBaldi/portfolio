@@ -1,7 +1,10 @@
 import type { ContextSafeFunc } from "@gsap/react";
 import { useControls, folder } from "leva";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import gsap from "gsap";
+import { getMedia } from "../utils/media";
+gsap.registerPlugin(ScrollToPlugin);
 
 const EASE_OPTIONS = [
   "none",
@@ -37,6 +40,50 @@ const EASE_OPTIONS = [
   "sine.inOut",
 ];
 
+// Helper: Calculate title offset to align with date-index
+function getTitleOffset(container: HTMLElement): number | undefined {
+  const dateIndex = container.querySelector(".date-index");
+  const titleDescription = container.querySelector(".title-description");
+  if (!dateIndex || !titleDescription) return undefined;
+  const dateRect = dateIndex.getBoundingClientRect();
+  const titleRect = titleDescription.getBoundingClientRect();
+  return dateRect.left - titleRect.left;
+}
+
+// Helper: Calculate mobile title offset to align with date-index
+function getMobileTitleOffset(container: HTMLElement): { x: number; y: number } | undefined {
+  const dateIndex = container.querySelector(".date-index");
+  const mobileTitle = container.querySelector(".mobile-title");
+  if (!dateIndex || !mobileTitle) return undefined;
+  const dateRect = dateIndex.getBoundingClientRect();
+  const mobileTitleRect = mobileTitle.getBoundingClientRect();
+  return {
+    x: dateRect.left - mobileTitleRect.left,
+    y: -(mobileTitleRect.top - dateRect.top),
+  };
+}
+
+// Helper: Scroll to element using GSAP ScrollToPlugin
+function scrollToElement(target: HTMLElement, offsetY = 0) {
+  const y = target.getBoundingClientRect().top + window.scrollY + offsetY;
+
+  gsap.to(document.documentElement, {
+    scrollTop: y,
+    duration: 0.8,
+    ease: "power2.out",
+  });
+}
+
+// @claude dont touch this
+// Helper: Scroll content into view using native scrollIntoView
+function scrollIntoView(container: HTMLElement) {
+  container.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+    inline: "start",
+  });
+}
+
 export interface AnimationControls {
   scrollToView?: boolean;
   scrollOffset?: number;
@@ -58,8 +105,7 @@ export interface AnimationControls {
   contentEase?: string;
   contentHeight?: number;
 }
-
-export function useToggle(contextSafe: ContextSafeFunc, containerRef: React.RefObject<HTMLElement>, animationProps?: AnimationControls) {
+export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.RefObject<HTMLElement | null>, animationProps?: AnimationControls) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
@@ -165,69 +211,60 @@ export function useToggle(contextSafe: ContextSafeFunc, containerRef: React.RefO
   );
 
   // Merge animation props with leva controls (props take precedence)
-  const controls = {
-    ...levaControls,
-    ...animationProps,
-  } as typeof levaControls;
+  const controls = { ...levaControls, ...animationProps } as typeof levaControls; //prettier-ignore 
 
   const toggle = contextSafe(() => {
-    console.log('🎯 Toggle called');
-    console.log('  isExpanded:', isExpanded);
-    console.log('  scrollToView:', controls.scrollToView);
-    console.log('  containerRef.current:', containerRef.current);
+    if (!containerRef.current) return;
 
-    // Get elements
-    const dateIndex = document.querySelector(".date-index") as HTMLElement;
-    const titleDescription = document.querySelector(".title-description") as HTMLElement;
+    const container = containerRef.current;
+    const isMobile = getMedia("mobile") || getMedia("touch");
+    const titleOffset = getTitleOffset(container);
+    const mobileTitleOffset = isMobile ? getMobileTitleOffset(container) : undefined;
 
-    // Calculate dynamic offset based on actual element positions
-    let titleOffset = controls.titleX; // fallback to control value
-    if (dateIndex && titleDescription) {
-      const dateRect = dateIndex.getBoundingClientRect();
-      const titleRect = titleDescription.getBoundingClientRect();
-      titleOffset = dateRect.left - titleRect.left;
-    }
+    // Scroll to container when expanding (only use one method)
+    // if (!isExpanded) scrollToElement(container, -100)
 
-    // Create timeline once
+    // Animation
     if (!timelineRef.current) {
       const tl = gsap.timeline();
+
       tl
+        // Ani 1
         .to(".date-index", {  x: -100, opacity: controls.dateOpacity, duration: controls.dateSpeed, ease: controls.dateEase }, "<")      // prettier-ignore
         .to(".title-description", { x: titleOffset, duration: controls.titleSpeed, ease: controls.titleEase }, "<")    // prettier-ignore
-        .to(".thumbnail img", { y: controls.thumbnailY, opacity: controls.thumbnailOpacity, duration: controls.thumbnailSpeed, ease: controls.thumbnailEase },"<")      // prettier-ignore
-        .to(".mobile-title", { y: -115, color: "#171717", duration: controls.titleSpeed, ease: controls.titleEase }, "<") // move to top-left within container
+        .to(".thumbnail img", { y: controls.thumbnailY, opacity: controls.thumbnailOpacity, duration: controls.thumbnailSpeed, ease: controls.thumbnailEase },"<")      // prettier-ignore  
         .to(".preview", { height: controls.previewHeight, duration: controls.previewSpeed, ease: controls.previewEase }, "<") // prettier-ignore
         .to(".content", { height: "100vh", duration: controls.contentSpeed, ease: controls.contentEase}, "<") // prettier-ignore
-        .to(".close-button", { opacity: 0.5, pointerEvents: "auto", duration: 0.3, ease: "power2.out" }) // prettier-ignore
 
-      timelineRef.current = tl;
-    } else {
-      // Update the x value if timeline already exists
+        // Ani 2
+        .to(".close-button", { opacity: 0.5, pointerEvents: "auto", duration: 0.3, ease: "power2.out" }, ) // prettier-ignore
+        .to(".mobile-title", { x: -100, duration: 0.3, ease: "power2.out" }, ) // prettier-ignore        
+
+        timelineRef.current = tl;
+    } 
+
+    else {
+      // Update offsets if timeline already exists
       const children = timelineRef.current.getChildren();
-      if (children[1]) {
+      if (children[1] && titleOffset !== undefined) {
         children[1].vars.x = titleOffset;
+      }
+      if (children[6] && mobileTitleOffset) {
+        children[6].vars.x = mobileTitleOffset.x;
       }
     }
 
-    // Scroll to view when expanding
-    if (!isExpanded && controls.scrollToView && containerRef.current) {
-      containerRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-
     // toggle forward/back
-    timelineRef.current.reversed(isExpanded);
+    isExpanded ? timelineRef.current.reversed(isExpanded).duration(0.75) : timelineRef.current.reversed(isExpanded)
     setIsExpanded(!isExpanded);
   });
 
-  const close = contextSafe(() => {
-    if (isExpanded && timelineRef.current) {
-      timelineRef.current.reversed(true);
-      setIsExpanded(false);
-    }
-  });
+  // reset on resizing
+  useEffect(() => {
+    const listener = timelineRef.current?.revert()
+    window.addEventListener("resize", () => listener)
+    return () => window.removeEventListener("resize", () => listener)
+  }, [])
 
-  return { toggle, close, isExpanded };
+  return { toggle, isExpanded };
 }

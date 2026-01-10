@@ -3,7 +3,7 @@ import { useGSAP } from "@gsap/react";
 import { useControls, folder } from "leva";
 import { Marquee } from "./Marquee.js";
 import type { ProjectData } from "../../App.js";
-import { useToggle, type AnimationControls } from "../../hooks/useAnimations.js";
+import { useAccordion, type AnimationControls } from "../../hooks/useAnimations.js";
 import gsap from "gsap";
 import data from "../../data/data.json" with { type: "json" };
 
@@ -86,14 +86,14 @@ export function Project(props: ProjectData) {
     { collapsed: true }
   ) as AnimationControls;
 
-  const { toggle, close, isExpanded } = useToggle(contextSafe, container, animationControls);
+  const { toggle, isExpanded } = useAccordion(contextSafe, container, animationControls);
 
   return (
     <>
       <div
   
         ref={container}
-        className="project container flex flex-col gap-3"
+        className="project flex flex-col gap-3"
       >
         <div
           onMouseEnter={() => setIsHovering(true)}
@@ -106,7 +106,7 @@ export function Project(props: ProjectData) {
           <DateIndex {...props} />
           <TitleDescription {...props} />
           <Thumbnail {...props} />
-          <CloseButton onClick={close} isHovering={isHovering} />
+          <CloseButton onClick={toggle} isHovering={isHovering} />
 
         </div>
 
@@ -143,10 +143,10 @@ export function TitleDescription(props: ProjectData) {
 
 export function Thumbnail(props: ProjectData) {
   const thumbnail = useRef(null);
-  // use animation here
 
   return (
     <div className="thumbnail min-w-full h-full lg:min-w-40 relative">
+      
       {/* Thumnail */}
       <img
         ref={thumbnail}
@@ -154,7 +154,6 @@ export function Thumbnail(props: ProjectData) {
         src={props.thumbnail}
         loading="lazy"
       />
-
 
       {/* Title and category - separate from thumbnail animation */}
       <div className="mobile-title lg:hidden flex flex-col absolute p-3 bottom-0 left-0 text-grey-0">
