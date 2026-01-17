@@ -12,11 +12,23 @@ dist
 dist-ssr
 *.local
 
+# Original/uncompressed images
+public/**/originals/
+src/assets/originals/
+
+# Image processing scripts
+public/pillow.py
+
+# macOS
+.DS_Store
+
+# Claude Code
+.claude/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
