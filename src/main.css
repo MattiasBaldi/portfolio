@@ -96,6 +96,32 @@
 }
 
 @layer components {
+  /* Hide Leva debug controller */
+  #controller {
+    display: none !important;
+  }
+
+  /* Hide video controls and UI */
+  video {
+    pointer-events: none !important;
+  }
+
+  video::-webkit-media-controls {
+    display: none !important;
+  }
+
+  video::-webkit-media-controls-panel {
+    display: none !important;
+  }
+
+  video::-webkit-media-controls-play-button {
+    display: none !important;
+  }
+
+  video::-moz-media-controls {
+    display: none !important;
+  }
+
   h1 {
       font-size: 40px;
       font-weight: bold;
@@ -141,4 +167,11 @@
     width: 20px;
     height: 20px;
   }
+}
+
+
+#controller,
+.vsc-controller,
+vsc-controller {
+  display: none !important;
 }

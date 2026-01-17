@@ -1,266 +1,110 @@
 [
   {
     "id": 1,
-    "name": "Project Alpha",
-    "description": "A web application for managing tasks. A web application for managing tasks. A web application for managing tasks. A web application for managing tasks.",
-    "thumbnail": "./src/assets/simone-juice.png",
+    "name": "Spice My Way",
+    "description": "A web gl product customizer for mixing custom spices in real time, integerated on shopify to allow customers to pick mix their favourite spices in real time. ",
+    "thumbnail": "./spicemyway/experience/thumbnail.gif",
     "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
+      "./spicemyway/experience/1.webm",
+      "./spicemyway/experience/2.webp",
+      "./spicemyway/experience/3.webp",
+      "./spicemyway/experience/4.webp",
+      "./spicemyway/experience/5.webp",
+      "./spicemyway/experience/6.webp",
+      "./spicemyway/experience/proces/proces_1.webp",
+      "./spicemyway/experience/inspiration.webp",
+      "./spicemyway/experience/inspiration1.webp",
+      "./spicemyway/experience/inspiration2.webp"
     ],
-    "category": "Web",
-    "year": 2022
+    "category": "Web App",
+    "year": 2026
   },
   {
     "id": 2,
-    "name": "Project Beta",
-    "description": "A mobile app for tracking fitness activities.",
-    "thumbnail": "./src/assets/simone-juice.png",
+    "name": "Mb-Labs",
+    "description": "An interactive design showcase and portfolio.",
+    "thumbnail": "./labs-showroom/thumbnail.webp",
     "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
+      "./labs-showroom/1.webp",
+      "./labs-showroom/2.webm",
+      "./labs-showroom/2.webp",
+      "./labs-showroom/3.webp",
+      "./labs-showroom/5.webp"
     ],
-    "category": "Mobile",
-    "year": 2023
+    "category": "Webgl",
+    "year": 2025
   },
   {
     "id": 3,
-    "name": "Project Gamma",
-    "description": "An e-commerce platform for handmade goods.",
-    "thumbnail": "./src/assets/simone-juice.png",
+    "name": "Spice My Way",
+    "description": "A custom website for spice my way, made with shopify liquid. Client picked their own design",
+    "thumbnail": "./spicemyway/website/thumbnail.webp",
     "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
+      "./spicemyway/website/1.webp",
+      "./spicemyway/website/2.webp",
+      "./spicemyway/website/3.webp",
+      "./spicemyway/website/5.webp",
+      "./spicemyway/website/6.webp",
+      "./spicemyway/website/7.webp",
+      "./spicemyway/website/8.webp",
+      "./spicemyway/website/proces_1.webp",
+      "./spicemyway/website/proces_2.webp"
     ],
     "category": "E-commerce",
-    "year": 2021
+    "year": 2025
   },
   {
     "id": 4,
-    "name": "Project Delta",
+    "name": "Claes Peter",
     "description": "A cloud-based note-taking service.",
-    "thumbnail": "./src/assets/simone-juice.png",
+    "thumbnail": "./claes-peter/1.gif",
     "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
+      "./claes-peter/1.gif",
+      "./claes-peter/2.webp",
+      "./claes-peter/3.webp",
+      "./claes-peter/4.webp"
     ],
-    "category": "Cloud",
-    "year": 2022
+    "category": "Web design + development",
+    "year": 2024
   },
   {
     "id": 5,
-    "name": "Project Epsilon",
+    "name": "Virtuall Pro",
     "description": "A real-time chat application.",
-    "thumbnail": "./src/assets/simone-juice.png",
+    "thumbnail": "./virtuall-pro/thumbnail.gif",
     "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
+      "./virtuall-pro/1.webm",
+      "./virtuall-pro/2.webm",
+      "./virtuall-pro/3.webm",
+      "./virtuall-pro/4.webm",
+      "./virtuall-pro/6.webm",
+      "./virtuall-pro/proces.webm",
+      "./virtuall-pro/proces_1.webm",
+      "./virtuall-pro/proces_2.webm",
+      "./virtuall-pro/proces_3.webm",
+      "./virtuall-pro/AR.webm"
     ],
-    "category": "Communication",
+    "category": "3D + AR",
     "year": 2023
   },
   {
     "id": 6,
-    "name": "Project Zeta",
+    "name": "Simone Juice",
     "description": "A personal finance management tool.",
-    "thumbnail": "./src/assets/simone-juice.png",
+    "thumbnail": "./simone-juice/thumbnail.webp",
     "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
+      "./simone-juice/1.gif",
+      "./simone-juice/2.webp",
+      "./simone-juice/proces.webp",
+      "./simone-juice/proces_1.webp",
+      "./simone-juice/proces_2.webp",
+      "./simone-juice/proces_3.webp",
+      "./simone-juice/proces_4.webp",
+      "./simone-juice/proces_5.webp",
+      "./simone-juice/proces_7.webp",
+      "./simone-juice/proces_8.webp"
     ],
-    "category": "Finance",
-    "year": 2022
-  },
-  {
-    "id": 7,
-    "name": "Project Eta",
-    "description": "A travel itinerary planner.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Travel",
-    "year": 2021
-  },
-  {
-    "id": 8,
-    "name": "Project Theta",
-    "description": "A recipe sharing platform.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Food",
-    "year": 2023
-  },
-  {
-    "id": 9,
-    "name": "Project Iota",
-    "description": "A collaborative whiteboard tool.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Collaboration",
-    "year": 2022
-  },
-  {
-    "id": 10,
-    "name": "Project Kappa",
-    "description": "A language learning app.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Education",
-    "year": 2021
-  },
-  {
-    "id": 11,
-    "name": "Project Lambda",
-    "description": "A portfolio website builder.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png", 
-      "./src/assets/simone-juice.png", 
-          "./src/assets/simone-juice.png"
-    ],
-    "category": "Web",
-    "year": 2023
-  },
-  {
-    "id": 12,
-    "name": "Project Mu",
-    "description": "A music streaming service.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Music",
-    "year": 2022
-  },
-  {
-    "id": 13,
-    "name": "Project Nu",
-    "description": "A digital art gallery.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Art",
-    "year": 2021
-  },
-  {
-    "id": 14,
-    "name": "Project Xi",
-    "description": "A book recommendation engine.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Books",
-    "year": 2023
-  },
-  {
-    "id": 15,
-    "name": "Project Omicron",
-    "description": "A weather forecasting dashboard.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Weather",
-    "year": 2022
-  },
-  {
-    "id": 16,
-    "name": "Project Pi",
-    "description": "A productivity timer app.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Productivity",
-    "year": 2021
-  },
-  {
-    "id": 17,
-    "name": "Project Rho",
-    "description": "A virtual event platform.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Events",
-    "year": 2023
-  },
-  {
-    "id": 18,
-    "name": "Project Sigma",
-    "description": "A code snippet manager.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Development",
-    "year": 2022
-  },
-  {
-    "id": 19,
-    "name": "Project Tau",
-    "description": "A habit tracking application.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Health",
-    "year": 2021
-  },
-  {
-    "id": 20,
-    "name": "Project Upsilon",
-    "description": "A digital journal for daily reflections.",
-    "thumbnail": "./src/assets/simone-juice.png",
-    "media": [
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png",
-      "./src/assets/simone-juice.png"
-    ],
-    "category": "Lifestyle",
-    "year": 2023
+    "category": "Web design + dev",
+    "year": 2024
   }
 ]

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import { useControls, folder } from "leva";
 import { Marquee } from "./Marquee.js";
+import { Gallery } from "../Gallery.js";
 import type { ProjectData } from "../../App.js";
 import { useAccordion, type AnimationControls } from "../../hooks/useAnimations.js";
 import gsap from "gsap";
@@ -25,6 +26,8 @@ export function Project(props: ProjectData) {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [isHovering, setIsHovering] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [galleryIndex, setGalleryIndex] = useState(0);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -91,7 +94,7 @@ export function Project(props: ProjectData) {
   return (
     <>
       <div
-  
+
         ref={container}
         className="project flex flex-col gap-3"
       >
@@ -99,7 +102,7 @@ export function Project(props: ProjectData) {
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           onClick={() => toggle()}
-          className="preview cursor-pointer hover:cursor-pointer relative flex justify-between w-full h-40 overflow-hidden"
+          className="preview cursor-pointer hover:cursor-pointer relative flex justify-between w-full h-60 overflow-hidden"
           style={{ gap: isMobile ? `${controls.mobileGap}px` : `${controls.desktopGap}px` }}
         >
 
@@ -108,11 +111,31 @@ export function Project(props: ProjectData) {
           <Thumbnail {...props} />
           <CloseButton onClick={toggle} isHovering={isHovering} />
 
+          {/* Mobile title overlay - positioned relative to preview container */}
+          <div className="lg:hidden flex flex-col absolute p-3 bottom-0 left-0 text-white pointer-events-none" style={{ mixBlendMode: 'difference' }}>
+            <p className="h-fit font-bold truncate">{props.name}</p>
+            <p className="h-fit truncate">{props.category}</p>
+          </div>
+
         </div>
 
-        <Content {...props} />
+        <Content
+          {...props}
+          onMediaClick={(index) => {
+            setGalleryIndex(index);
+            setGalleryOpen(true);
+          }}
+        />
         <hr className="border-gray-500 -mx-[10px] md:-mx-[40px] xl:mx-0 w-[calc(100%+20px)] md:w-[calc(100%+80px)] xl:w-full" />
       </div>
+
+      {galleryOpen && (
+        <Gallery
+          media={props.media ?? []}
+          initialIndex={galleryIndex}
+          onClose={() => setGalleryOpen(false)}
+        />
+      )}
     </>
   );
 }
@@ -145,26 +168,24 @@ export function Thumbnail(props: ProjectData) {
   const thumbnail = useRef(null);
 
   return (
-    <div className="thumbnail min-w-full h-full lg:min-w-40 relative">
-      
+    <div className="thumbnail min-w-full h-full lg:min-w-40 relative overflow-hidden">
+
       {/* Thumnail */}
       <img
         ref={thumbnail}
-        className="thumbnail w-full lg:w-100"
+        className="thumbnail w-fit h-auto object-contain lg:object-cover lg:w-100"
         src={props.thumbnail}
         loading="lazy"
       />
-
-      {/* Title and category - separate from thumbnail animation */}
-      <div className="mobile-title lg:hidden flex flex-col absolute p-3 bottom-0 left-0 text-grey-0">
-        <p className="h-fit font-bold truncate">{props.name}</p>
-        <p className="h-fit truncate">{props.category}</p>
-      </div>
     </div>
   );
 }
 
-export function Content(props: ProjectData) {
+interface ContentProps extends ProjectData {
+  onMediaClick?: (index: number) => void;
+}
+
+export function Content(props: ContentProps) {
   const [viewMore, setViewMore] = useState<boolean>(false);
 
   const maxLength = 100;
@@ -174,13 +195,13 @@ export function Content(props: ProjectData) {
 
   return (
     <div className="content h-0 left-200 flex flex-col top-10 gap-10 overflow-hidden">
-      <Marquee media={props.media ?? []} />
+      <Marquee media={props.media ?? []} onMediaClick={props.onMediaClick} />
       <p>
         {viewMore || !isLong ? (
           description
         ) : (
           <>
-            {abbreviated}...{" "} 
+            {abbreviated}...{" "}
             <span
               onClick={(e) => {
                 e.stopPropagation();

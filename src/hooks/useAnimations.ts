@@ -234,7 +234,7 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
         .to(".title-description", { x: titleOffset, duration: controls.titleSpeed, ease: controls.titleEase }, "<")    // prettier-ignore
         .to(".thumbnail img", { y: controls.thumbnailY, opacity: controls.thumbnailOpacity, duration: controls.thumbnailSpeed, ease: controls.thumbnailEase },"<")      // prettier-ignore  
         .to(".preview", { height: controls.previewHeight, duration: controls.previewSpeed, ease: controls.previewEase }, "<") // prettier-ignore
-        .to(".content", { height: "100vh", duration: controls.contentSpeed, ease: controls.contentEase}, "<") // prettier-ignore
+        .to(".content", { height: "auto", duration: controls.contentSpeed, ease: controls.contentEase}, "<") // prettier-ignore
 
         // Ani 2
         .to(".close-button", { opacity: 0.5, pointerEvents: "auto", duration: 0.3, ease: "power2.out" }, ) // prettier-ignore

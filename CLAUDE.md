@@ -16,8 +16,9 @@ npm run preview  # Preview production build
 - **React 19** with TypeScript (strict mode enabled)
 - **Vite 7** for build tooling
 - **Tailwind CSS 4** (via @tailwindcss/vite plugin)
-- **GSAP** for animations (with Draggable and InertiaPlugin for marquee)
+- **GSAP** for animations (with Draggable, InertiaPlugin, ScrollToPlugin)
 - **React Three Fiber + Drei** for 3D/WebGL components
+- **React Router DOM** for routing
 - **Zustand** for state management
 - **Leva** for debug UI controls
 
@@ -39,7 +40,10 @@ npm run preview  # Preview production build
 ### State & Hooks
 - `src/stores/useStores.ts` - Zustand store (currently empty scaffold)
 - `src/hooks/useDebug.ts` - Enables debug mode via `#debug` URL hash
-- `src/hooks/useAnimations.ts` - `useToggle` hook with GSAP timeline for project expand/collapse animations
+- `src/hooks/useAnimations.ts` - `useAccordion` hook with GSAP timeline for project expand/collapse animations
+
+### Utilities
+- `src/utils/media.ts` - `getMedia()` helper for responsive breakpoints (mobile/desktop/touch/mouse/hover)
 
 ### Data
 - `src/data/data.json` - Project data array (id, name, description, thumbnail, media, category, year)
@@ -56,3 +60,10 @@ Uses strict TypeScript with additional checks:
 - `verbatimModuleSyntax`
 
 Module resolution is set to `bundler` mode for Vite compatibility.
+
+## Code Directives
+
+The codebase uses `@claude` comments to mark sections that should not be modified:
+```typescript
+// @claude dont touch this
+```

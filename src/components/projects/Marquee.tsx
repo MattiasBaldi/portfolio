@@ -8,10 +8,13 @@ gsap.registerPlugin(useGSAP, Draggable, InertiaPlugin);
 
 type MarqueeLoopProps = {
   media: string[];
+  onMediaClick?: (index: number) => void;
 };
 
-export function Marquee({ media }: MarqueeLoopProps) {
+export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isPaused, setIsPaused] = useState(false);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -35,25 +38,67 @@ export function Marquee({ media }: MarqueeLoopProps) {
   );
 
   const wrapper = useRef(null);
-  const images = useRef([]);
+  const images = useRef<HTMLDivElement[]>([]);
   const [ready, setReady] = useState(false);
 
-  // Wait for all images to load
+  // Wait for all media (including videos) to load metadata
   useEffect(() => {
-    const checkImages = () => {
-      if (images.current.length === media.length && images.current.every(img => img)) {
-        setReady(true);
+    if (images.current.length !== media.length) {
+      setReady(false);
+      return;
+    }
+
+    const checkReady = async () => {
+      // Find all video elements and wait for their metadata to load
+      const videos = images.current
+        .flatMap(div => Array.from(div.querySelectorAll('video')));
+
+      if (videos.length > 0) {
+        await Promise.all(
+          videos.map(video =>
+            new Promise<void>(resolve => {
+              if (video.readyState >= 1) { // HAVE_METADATA or higher
+                resolve();
+              } else {
+                video.addEventListener('loadedmetadata', () => resolve(), { once: true });
+              }
+            })
+          )
+        );
       }
+
+      // Ensure container divs match their content width exactly
+      await new Promise(resolve => requestAnimationFrame(resolve));
+      images.current.forEach(div => {
+        const mediaElement = div.querySelector('img, video') as HTMLElement;
+        if (mediaElement) {
+          const width = mediaElement.getBoundingClientRect().width;
+          div.style.width = `${width}px`;
+        }
+      });
+
+      // Small delay to ensure dimensions are applied
+      setTimeout(() => setReady(true), 100);
     };
-    // Small delay to ensure refs are set
-    const timer = setTimeout(checkImages, 100);
-    return () => clearTimeout(timer);
+
+    checkReady();
   }, [media]);
+
+  const togglePause = () => {
+    if (timelineRef.current) {
+      if (isPaused) {
+        timelineRef.current.play();
+      } else {
+        timelineRef.current.pause();
+      }
+      setIsPaused(!isPaused);
+    }
+  };
 
   useGSAP(
     () => {
       if (!ready || !images.current.length || !images.current[0]) return;
-      horizontalLoop(images.current, {
+      const tl = horizontalLoop(images.current, {
         repeat: controls.repeat,
         draggable: controls.draggable,
         dragSnap: controls.dragSnap,
@@ -66,29 +111,111 @@ export function Marquee({ media }: MarqueeLoopProps) {
         paused: false,
         speed: controls.speed,
         center: true,
+        paddingRight: 0,
+        snap: 5,
       });
+      if (tl) timelineRef.current = tl;
     },
 
     { scope: wrapper, dependencies: [ready, controls.repeat, controls.draggable, controls.dragSnap, controls.resistance, controls.minVelocity, controls.speed] }
   );
 
   return (
-    <div
-      ref={wrapper}
-      onClick={(e) => e.stopPropagation()}
-      className="wrapper flex overflow-hidden"
-    >
-      {media.map((v, i) => (
-        <img
-          ref={(el) => {
-            if (el) images.current[i] = el;
+    <div className="relative">
+      {/* Marquee */}
+      <div
+        ref={wrapper}
+        onClick={(e) => e.stopPropagation()}
+        className="wrapper flex overflow-hidden"
+        style={{ gap: 0, margin: 0, padding: 0, fontSize: 0, lineHeight: 0 }}
+      >
+        {media.map((v, i) => {
+          const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(v);
+          const mediaHeight = isMobile ? controls.mobileHeight : controls.desktopHeight;
+          const mediaStyle = {
+            height: mediaHeight,
+            width: 'auto',
+            margin: 0,
+            padding: 0,
+            display: 'block',
+            verticalAlign: 'top'
+          };
+
+          return (
+            <div
+              key={i}
+              ref={(el) => {
+                if (el) images.current[i] = el;
+              }}
+              className="relative flex-shrink-0"
+              style={{
+                height: mediaHeight,
+                width: 'auto',
+                margin: 0,
+                padding: 0
+              }}
+            >
+              {isVideo ? (
+                <video
+                  style={{...mediaStyle, imageRendering: 'crisp-edges'}}
+                  className="h-full w-auto block"
+                  muted
+                  autoPlay
+                  loop
+                  playsInline
+                  preload="auto"
+                >
+                  <source src={v} type="video/webm" />
+                </video>
+              ) : (
+                <img
+                  src={v}
+                  style={{...mediaStyle, imageRendering: 'crisp-edges'}}
+                  className="h-full w-auto block"
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Controls */}
+      <div className="absolute bottom-3 right-3 flex gap-1 items-center">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            togglePause();
           }}
-          key={i}
-          src={v}
-          style={{ height: isMobile ? controls.mobileHeight : controls.desktopHeight }}
-          className=" object-cover mx-0"
-        />
-      ))}
+          className="p-1.5 text-grey-500 hover:text-grey-900 transition-colors cursor-pointer"
+          aria-label={isPaused ? 'Play' : 'Pause'}
+        >
+          {isPaused ? (
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+              <path d="M2 1l8 5-8 5V1z" />
+            </svg>
+          ) : (
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+              <rect x="1" y="1" width="3" height="10" />
+              <rect x="8" y="1" width="3" height="10" />
+            </svg>
+          )}
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onMediaClick?.(0);
+          }}
+          className="p-1.5 text-grey-500 hover:text-grey-900 transition-colors cursor-pointer"
+          aria-label="View gallery"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <rect x="1" y="1" width="4" height="4" />
+            <rect x="7" y="1" width="4" height="4" />
+            <rect x="1" y="7" width="4" height="4" />
+            <rect x="7" y="7" width="4" height="4" />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 }
