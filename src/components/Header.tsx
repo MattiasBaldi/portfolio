@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, forwardRef } from "react";
 import type { ReactNode } from "react";
+import { CloseButton, TextLink } from "./ui";
 
 
 // ---------- Main Header ----------
@@ -64,7 +65,10 @@ export default function Header() {
             </div>
 
             {/* Close button */}
-            <button className="hover:cursor-pointer self-start mt-2 group-hover:underline" onClick={(e) => { e.stopPropagation(); setOpen(false)}}>Close</button>
+            <CloseButton
+              onClick={() => setOpen(false)}
+              className="self-start mt-2 group-hover:underline"
+            />
           </div>
         </div>
       </Accordion>
@@ -100,7 +104,7 @@ function Links() {
     <div className={`links flex flex-col gap-20 md:gap-20 lg:gap-30`}>
       <div className="flex flex-col gap-3">
         <TextLink url="https://github.com/MattiasBaldi" label="GITHUB" />
-        <TextLink url="https://www.instagram.com/mb_labs/?hl=da" label="INSTAGRAM" />
+        {/* <TextLink url="https://www.instagram.com/mb_labs/?hl=da" label="INSTAGRAM" /> */}
         <TextLink url="https://www.linkedin.com/in/mattias-baldi-6359b0168" label="LINKEDIN" />
       </div>
 
@@ -112,24 +116,3 @@ function Links() {
   );
 }
 
-// ---------- Reusable Link Components ----------
-interface TextLinkProps {
-  url: string;
-  label: string;
-}
-
-function TextLink({ url, label }: TextLinkProps) {
-  return (
-    <p>
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="font-semibold hover:underline"
-        onClick={(e) => e.stopPropagation()} // prevent parent toggle
-      >
-        {label}
-      </a>
-    </p>
-  );
-}

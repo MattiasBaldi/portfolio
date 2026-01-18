@@ -5,16 +5,13 @@
     "description": "A web gl product customizer for mixing custom spices in real time, integerated on shopify to allow customers to pick mix their favourite spices in real time. ",
     "thumbnail": "./spicemyway/experience/thumbnail.gif",
     "media": [
-      "./spicemyway/experience/1.webm",
-      "./spicemyway/experience/2.webp",
-      "./spicemyway/experience/3.webp",
-      "./spicemyway/experience/4.webp",
-      "./spicemyway/experience/5.webp",
-      "./spicemyway/experience/6.webp",
-      "./spicemyway/experience/proces/proces_1.webp",
-      "./spicemyway/experience/inspiration.webp",
-      "./spicemyway/experience/inspiration1.webp",
-      "./spicemyway/experience/inspiration2.webp"
+      { "src": "./spicemyway/experience/thumbnail.gif", "title": "Overview", "description": "" },
+      { "src": "./spicemyway/experience/1.webm", "title": "Demo", "description": "Real-time 3D customizer" },
+      { "src": "./spicemyway/experience/2.webp", "title": "UI Design", "description": "Custom controls interface" },
+      { "src": "./spicemyway/experience/3.webp", "title": "Product View", "description": "Final preview" },
+      { "src": "./spicemyway/experience/proces_1.webp", "title": "Process 1", "description": "Initial concepts" },
+      { "src": "./spicemyway/experience/proces_2.webp", "title": "Process 2", "description": "Design iteration" },
+      { "src": "./spicemyway/experience/proces_3.webp", "title": "Process 3", "description": "Final development" }
     ],
     "category": "Web App",
     "year": 2026
@@ -25,11 +22,11 @@
     "description": "An interactive design showcase and portfolio.",
     "thumbnail": "./labs-showroom/thumbnail.webp",
     "media": [
-      "./labs-showroom/1.webp",
-      "./labs-showroom/2.webm",
-      "./labs-showroom/2.webp",
-      "./labs-showroom/3.webp",
-      "./labs-showroom/5.webp"
+      { "src": "./labs-showroom/1.webp", "title": "Landing", "description": "" },
+      { "src": "./labs-showroom/2.webm", "title": "Animation", "description": "Interactive transitions" },
+      { "src": "./labs-showroom/2.webp", "title": "Gallery", "description": "Project showcase" },
+      { "src": "./labs-showroom/3.webp", "title": "Details", "description": "Project information" },
+      { "src": "./labs-showroom/5.webp", "title": "Portfolio", "description": "Work collection" }
     ],
     "category": "Webgl",
     "year": 2025
@@ -40,15 +37,19 @@
     "description": "A custom website for spice my way, made with shopify liquid. Client picked their own design",
     "thumbnail": "./spicemyway/website/thumbnail.webp",
     "media": [
-      "./spicemyway/website/1.webp",
-      "./spicemyway/website/2.webp",
-      "./spicemyway/website/3.webp",
-      "./spicemyway/website/5.webp",
-      "./spicemyway/website/6.webp",
-      "./spicemyway/website/7.webp",
-      "./spicemyway/website/8.webp",
-      "./spicemyway/website/proces_1.webp",
-      "./spicemyway/website/proces_2.webp"
+      { "src": "./spicemyway/website/1.webp", "title": "Homepage", "description": "" },
+      { "src": "./spicemyway/website/2.webp", "title": "Products", "description": "Product catalog" },
+      { "src": "./spicemyway/website/3.webp", "title": "Product Detail", "description": "Single product page" },
+      { "src": "./spicemyway/website/4.webp", "title": "Cart", "description": "Shopping cart" },
+      { "src": "./spicemyway/website/5.webp", "title": "Checkout", "description": "Checkout process" },
+      { "src": "./spicemyway/website/6.webp", "title": "About", "description": "Company page" },
+      { "src": "./spicemyway/website/7.webp", "title": "Footer", "description": "Contact section" },
+      { "src": "./spicemyway/website/proces_1.webp", "title": "Process 1", "description": "Wireframes" },
+      { "src": "./spicemyway/website/proces_2.webp", "title": "Process 2", "description": "Design mockups" },
+      { "src": "./spicemyway/website/proces_3.webp", "title": "Process 3", "description": "Revisions" },
+      { "src": "./spicemyway/website/proces_4.webp", "title": "Process 4", "description": "Development" },
+      { "src": "./spicemyway/website/proces_5.webp", "title": "Process 5", "description": "Testing" },
+      { "src": "./spicemyway/website/proces_6.webp", "title": "Process 6", "description": "Launch" }
     ],
     "category": "E-commerce",
     "year": 2025
@@ -59,10 +60,10 @@
     "description": "A cloud-based note-taking service.",
     "thumbnail": "./claes-peter/1.gif",
     "media": [
-      "./claes-peter/1.gif",
-      "./claes-peter/2.webp",
-      "./claes-peter/3.webp",
-      "./claes-peter/4.webp"
+      { "src": "./claes-peter/1.gif", "title": "Overview", "description": "" },
+      { "src": "./claes-peter/2.webp", "title": "Interface", "description": "Main dashboard" },
+      { "src": "./claes-peter/3.webp", "title": "Notes", "description": "Note editor" },
+      { "src": "./claes-peter/4.webp", "title": "Organization", "description": "Folder structure" }
     ],
     "category": "Web design + development",
     "year": 2024
@@ -73,16 +74,16 @@
     "description": "A real-time chat application.",
     "thumbnail": "./virtuall-pro/thumbnail.gif",
     "media": [
-      "./virtuall-pro/1.webm",
-      "./virtuall-pro/2.webm",
-      "./virtuall-pro/3.webm",
-      "./virtuall-pro/4.webm",
-      "./virtuall-pro/6.webm",
-      "./virtuall-pro/proces.webm",
-      "./virtuall-pro/proces_1.webm",
-      "./virtuall-pro/proces_2.webm",
-      "./virtuall-pro/proces_3.webm",
-      "./virtuall-pro/AR.webm"
+      { "src": "./virtuall-pro/1.webm", "title": "Chat", "description": "" },
+      { "src": "./virtuall-pro/2.webm", "title": "3D Space", "description": "Virtual environment" },
+      { "src": "./virtuall-pro/3.webm", "title": "Avatar", "description": "User avatars" },
+      { "src": "./virtuall-pro/4.webm", "title": "Interaction", "description": "User interactions" },
+      { "src": "./virtuall-pro/6.webm", "title": "Features", "description": "Chat features" },
+      { "src": "./virtuall-pro/proces.webm", "title": "Process", "description": "Development process" },
+      { "src": "./virtuall-pro/proces_1.webm", "title": "Phase 1", "description": "Planning" },
+      { "src": "./virtuall-pro/proces_2.webm", "title": "Phase 2", "description": "Design" },
+      { "src": "./virtuall-pro/proces_3.webm", "title": "Phase 3", "description": "Development" },
+      { "src": "./virtuall-pro/AR.webm", "title": "AR Mode", "description": "Augmented reality" }
     ],
     "category": "3D + AR",
     "year": 2023
@@ -93,16 +94,16 @@
     "description": "A personal finance management tool.",
     "thumbnail": "./simone-juice/thumbnail.webp",
     "media": [
-      "./simone-juice/1.gif",
-      "./simone-juice/2.webp",
-      "./simone-juice/proces.webp",
-      "./simone-juice/proces_1.webp",
-      "./simone-juice/proces_2.webp",
-      "./simone-juice/proces_3.webp",
-      "./simone-juice/proces_4.webp",
-      "./simone-juice/proces_5.webp",
-      "./simone-juice/proces_7.webp",
-      "./simone-juice/proces_8.webp"
+      { "src": "./simone-juice/1.gif", "title": "Overview", "description": "" },
+      { "src": "./simone-juice/2.webp", "title": "Dashboard", "description": "Main dashboard" },
+      { "src": "./simone-juice/proces.webp", "title": "Planning", "description": "Initial planning" },
+      { "src": "./simone-juice/proces_1.webp", "title": "Concepts", "description": "Design concepts" },
+      { "src": "./simone-juice/proces_2.webp", "title": "Wireframes", "description": "Page layouts" },
+      { "src": "./simone-juice/proces_3.webp", "title": "Design", "description": "Visual design" },
+      { "src": "./simone-juice/proces_4.webp", "title": "Refinement", "description": "Design refinement" },
+      { "src": "./simone-juice/proces_5.webp", "title": "Development", "description": "Frontend development" },
+      { "src": "./simone-juice/proces_7.webp", "title": "Integration", "description": "Backend integration" },
+      { "src": "./simone-juice/proces_8.webp", "title": "Launch", "description": "Final launch" }
     ],
     "category": "Web design + dev",
     "year": 2024

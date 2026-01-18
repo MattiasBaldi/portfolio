@@ -105,11 +105,11 @@ export interface AnimationControls {
   contentEase?: string;
   contentHeight?: number;
 }
-export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.RefObject<HTMLElement | null>, animationProps?: AnimationControls) {
+export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.RefObject<HTMLElement | null>) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
-  const levaControls = useControls(
+  const controls = useControls(
     "Animation",
     {
     scrollToView: { value: true, label: "Scroll on Expand" },
@@ -206,12 +206,11 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
       },
       { collapsed: true }
     ),
+
     },
     { collapsed: true }
   );
 
-  // Merge animation props with leva controls (props take precedence)
-  const controls = { ...levaControls, ...animationProps } as typeof levaControls; //prettier-ignore 
 
   const toggle = contextSafe(() => {
     if (!containerRef.current) return;
@@ -221,8 +220,9 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
     const titleOffset = getTitleOffset(container);
     const mobileTitleOffset = isMobile ? getMobileTitleOffset(container) : undefined;
 
-    // Scroll to container when expanding (only use one method)
-    // if (!isExpanded) scrollToElement(container, -100)
+
+    const preview = document.querySelector(".preview")
+    const mobileTitle = document.querySelector(".mobile-title")
 
     // Animation
     if (!timelineRef.current) {
@@ -235,13 +235,14 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
         .to(".thumbnail img", { y: controls.thumbnailY, opacity: controls.thumbnailOpacity, duration: controls.thumbnailSpeed, ease: controls.thumbnailEase },"<")      // prettier-ignore  
         .to(".preview", { height: controls.previewHeight, duration: controls.previewSpeed, ease: controls.previewEase }, "<") // prettier-ignore
         .to(".content", { height: "auto", duration: controls.contentSpeed, ease: controls.contentEase}, "<") // prettier-ignore
-
+        
         // Ani 2
         .to(".close-button", { opacity: 0.5, pointerEvents: "auto", duration: 0.3, ease: "power2.out" }, ) // prettier-ignore
-        .to(".mobile-title", { x: -100, duration: 0.3, ease: "power2.out" }, ) // prettier-ignore        
+        .to(".mobile-title", { y: mobileTitleOffset?.y, duration: 0.3, ease: "power2.out" }, ) // prettier-ignore        
 
         timelineRef.current = tl;
     } 
+
 
     else {
       // Update offsets if timeline already exists

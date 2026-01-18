@@ -4,15 +4,21 @@ import {Projects} from "./components/projects/Project.jsx";
 import { Leva, useControls } from "leva";
 import { useDebug } from "./hooks/useDebug.js";
 
+export type MediaItem = {
+  src: string;
+  title: string;
+  description: string;
+};
+
 export type ProjectData = {
-id?: number;
-name?: string;
-description?: string;
-thumbnail?: string;
-media?: string[]
-category?: string;
-year?: number
-}
+  id?: number;
+  name?: string;
+  description?: string;
+  thumbnail?: string;
+  media?: MediaItem[];
+  category?: string;
+  year?: number;
+};
 
 export type Data = ProjectData[]
 
@@ -41,7 +47,7 @@ export default function App() {
 
   return (
     <>
-      <div className="flex container flex-col gap-20 justify-center overflow-auto">
+      <div className="flex container flex-col gap-20 justify-center overflow-auto overflow-x-hidden">
         <Header />
           <hr className="w-[200vw] relative left-[-50vw] lg:w-full lg:left-0" />
         <Projects /> 

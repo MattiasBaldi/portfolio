@@ -1,0 +1,7 @@
+public/labs-showroom/originals/
+public/simone-juice/originals/
+public/spicemyway/experience/originals/
+public/spicemyway/website/originals/
+public/virtuall-pro/originals/
+src/assets/originals/
+public/pillow.py

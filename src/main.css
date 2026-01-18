@@ -71,6 +71,7 @@
   }
 
   body {
+    overflow-x: hidden;
     min-height: 100%;
     font-family: var(--ff-d);
     background-color: var(--color-grey-100);

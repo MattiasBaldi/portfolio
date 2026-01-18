@@ -4,10 +4,12 @@ import { useRef, useState, useEffect } from "react";
 import Draggable from "gsap/Draggable";
 import InertiaPlugin from "gsap/InertiaPlugin";
 import { useControls } from "leva";
+import { ArrowsOutSimpleIcon, InfoIcon } from '@phosphor-icons/react'
+import type { MediaItem } from "../../App.js";
 gsap.registerPlugin(useGSAP, Draggable, InertiaPlugin);
 
 type MarqueeLoopProps = {
-  media: string[];
+  media: MediaItem[];
   onMediaClick?: (index: number) => void;
 };
 
@@ -30,7 +32,8 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
       speed: { value: 0.5, min: 0, max: 5, step: 0.1, label: "Speed" },
       resistance: { value: 10, min: 1, max: 50, step: 1, label: "Drag Resistance" },
       minVelocity: { value: 50, min: 0, max: 200, step: 10, label: "Min Velocity" },
-      repeat: { value: 2, min: 0, max: 10, step: 1, label: "Repeat" },
+      repeat: { value: 5, min: 0, max: 20, step: 1, label: "Repeat" },
+      gap: { value: 0, min: -20, max: 20, step: 1, label: "Gap" },
       draggable: { value: true, label: "Draggable" },
       dragSnap: { value: true, label: "Drag Snap" },
     },
@@ -50,8 +53,7 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
 
     const checkReady = async () => {
       // Find all video elements and wait for their metadata to load
-      const videos = images.current
-        .flatMap(div => Array.from(div.querySelectorAll('video')));
+      const videos = images.current.flatMap(div => Array.from(div.querySelectorAll('video')));
 
       if (videos.length > 0) {
         await Promise.all(
@@ -67,12 +69,30 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
         );
       }
 
-      // Ensure container divs match their content width exactly
+      // Find all image elements (including GIFs) and wait for them to load
+      const imgs = images.current.flatMap(div => Array.from(div.querySelectorAll('img')));
+
+      if (imgs.length > 0) {
+        await Promise.all(
+          imgs.map(img =>
+            new Promise<void>(resolve => {
+              if (img.complete && img.naturalWidth > 0) {
+                resolve();
+              } else {
+                img.addEventListener('load', () => resolve(), { once: true });
+                img.addEventListener('error', () => resolve(), { once: true });
+              }
+            })
+          )
+        );
+      }
+
+      // Ensure container divs match their content width exactly (rounded to whole pixels)
       await new Promise(resolve => requestAnimationFrame(resolve));
       images.current.forEach(div => {
         const mediaElement = div.querySelector('img, video') as HTMLElement;
         if (mediaElement) {
-          const width = mediaElement.getBoundingClientRect().width;
+          const width = Math.round(mediaElement.getBoundingClientRect().width);
           div.style.width = `${width}px`;
         }
       });
@@ -95,9 +115,13 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
     }
   };
 
+  // Create timeline once when ready, recreate when draggable or gap changes
+  // Gap affects layout calculations, so timeline needs to be recreated
+  // Other controls (repeat, resistance, etc.) are set at creation time
   useGSAP(
     () => {
       if (!ready || !images.current.length || !images.current[0]) return;
+
       const tl = horizontalLoop(images.current, {
         repeat: controls.repeat,
         draggable: controls.draggable,
@@ -112,13 +136,20 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
         speed: controls.speed,
         center: true,
         paddingRight: 0,
-        snap: 5,
+        snap: false, // Disable snap to prevent gaps at loop point
       });
+
       if (tl) timelineRef.current = tl;
     },
-
-    { scope: wrapper, dependencies: [ready, controls.repeat, controls.draggable, controls.dragSnap, controls.resistance, controls.minVelocity, controls.speed] }
+    { scope: wrapper, dependencies: [ready, controls.draggable, controls.gap] }
   );
+
+  // Update speed dynamically without recreating timeline (smooth animation)
+  useEffect(() => {
+    if (timelineRef.current && controls.speed) {
+      timelineRef.current.timeScale(controls.speed);
+    }
+  }, [controls.speed]);
 
   return (
     <div className="relative">
@@ -127,10 +158,20 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
         ref={wrapper}
         onClick={(e) => e.stopPropagation()}
         className="wrapper flex overflow-hidden"
-        style={{ gap: 0, margin: 0, padding: 0, fontSize: 0, lineHeight: 0 }}
+        style={{
+          gap: `${controls.gap}px`,
+          margin: 0,
+          padding: 0,
+          fontSize: 0,
+          lineHeight: 0,
+          WebkitFontSmoothing: 'antialiased',
+          transform: 'translateZ(0)', // Force GPU acceleration for smoother rendering
+          transformStyle: 'preserve-3d',
+          backfaceVisibility: 'hidden',
+        }}
       >
-        {media.map((v, i) => {
-          const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(v);
+        {media.map((mediaItem, i) => {
+          const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(mediaItem.src);
           const mediaHeight = isMobile ? controls.mobileHeight : controls.desktopHeight;
           const mediaStyle = {
             height: mediaHeight,
@@ -138,7 +179,9 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
             margin: 0,
             padding: 0,
             display: 'block',
-            verticalAlign: 'top'
+            verticalAlign: 'top',
+            imageRendering: 'crisp-edges' as const,
+            backfaceVisibility: 'hidden' as const,
           };
 
           return (
@@ -147,40 +190,61 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
               ref={(el) => {
                 if (el) images.current[i] = el;
               }}
-              className="relative flex-shrink-0"
+              className="relative flex-shrink-0 group"
               style={{
                 height: mediaHeight,
                 width: 'auto',
                 margin: 0,
-                padding: 0
+                padding: 0,
+                backfaceVisibility: 'hidden',
+                willChange: 'transform',
               }}
             >
               {isVideo ? (
-                <video
-                  style={{...mediaStyle, imageRendering: 'crisp-edges'}}
-                  className="h-full w-auto block"
-                  muted
-                  autoPlay
-                  loop
-                  playsInline
-                  preload="auto"
-                >
-                  <source src={v} type="video/webm" />
-                </video>
+                <>
+                  <video
+                    style={mediaStyle}
+                    className="h-full w-auto block"
+                    muted
+                    autoPlay
+                    loop
+                    playsInline
+                    preload="auto"
+                  >
+                    <source src={mediaItem.src} type="video/webm" />
+                  </video>
+                
+                </>
               ) : (
                 <img
-                  src={v}
-                  style={{...mediaStyle, imageRendering: 'crisp-edges'}}
+                  src={mediaItem.src}
+                  style={mediaStyle}
                   className="h-full w-auto block"
                 />
               )}
+
+              {/* Lightbox button - shows on hover */}
+  
+              
+    <InfoIcon
+  onClick={(e) => { e.stopPropagation(); onMediaClick?.(i); }}
+  size={32}
+  className="
+    absolute top-2 right-2 p-1 rounded
+    opacity-100 md:opacity-0 md:group-hover:opacity-100
+    transition-opacity cursor-pointer
+    text-white mix-blend-difference
+  "
+/>
+
+
             </div>
           );
         })}
       </div>
 
       {/* Controls */}
-      <div className="absolute bottom-3 right-3 flex gap-1 items-center">
+      <div className="absolute bottom-3 left-3 flex gap-1 items-center">
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -345,11 +409,21 @@ function horizontalLoop(items: HTMLElement[], config: Record<string, unknown>): 
           distanceToStart = item.offsetLeft + curX - startX + spaceBefore[0];
           distanceToLoop =
             distanceToStart + widths[i] * gsap.getProperty(item, "scaleX");
+
+          // Capture width in closure for modifiers
+          const itemWidth = widths[i];
+
           tl.to(
             item,
             {
               xPercent: snap(((curX - distanceToLoop) / widths[i]) * 100),
               duration: distanceToLoop / pixelsPerSecond,
+              modifiers: {
+                xPercent: (xPercent) => {
+                  const xPixels = (parseFloat(xPercent) / 100) * itemWidth;
+                  return (Math.round(xPixels) / itemWidth) * 100;
+                }
+              }
             },
             0
           )
@@ -365,6 +439,12 @@ function horizontalLoop(items: HTMLElement[], config: Record<string, unknown>): 
                 duration:
                   (curX - distanceToLoop + totalWidth - curX) / pixelsPerSecond,
                 immediateRender: false,
+                modifiers: {
+                  xPercent: (xPercent) => {
+                    const xPixels = (parseFloat(xPercent) / 100) * itemWidth;
+                    return (Math.round(xPixels) / itemWidth) * 100;
+                  }
+                }
               },
               distanceToLoop / pixelsPerSecond
             )
