@@ -75,7 +75,7 @@
     min-height: 100%;
     font-family: var(--ff-d);
     background-color: var(--color-grey-100);
-    color: var(--grey-900);
+    color: var(--color-grey-900);
   }
 }
 

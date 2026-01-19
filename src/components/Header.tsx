@@ -33,7 +33,7 @@ export default function Header() {
         <span className="text-xl font-normal">/</span>
         <span
           className={`text-xl group-hover:underline ${
-            open ? "opacity-[1] font-bold  " : " font-normal  opacity-[0.5]"
+            open ? "opacity-100 font-bold" : "font-normal opacity-50"
           }`}
         >
           info
@@ -49,21 +49,21 @@ export default function Header() {
 
 
           {/* all */}
-          <div className={`flex flex-col justify-start items-start pt-0 md:pt-0 lg:pt-20 gap-10 md:gap-20 lg:gap-30 `}>
-            <div className={`flex flex-col md:flex-row-reverse gap-10 md:gap-20 lg:gap-100 `}>
+          <div className="flex flex-col justify-start items-start pt-0 md:pt-0 lg:pt-20 gap-10 md:gap-20">
+            <div className="flex flex-col md:flex-row-reverse gap-10 md:gap-20 lg:gap-40">
 
               {/* text */}
          <div className="flex flex-col gap-10 max-w-175">
             <p className="py-2 h-fit">
-              I create immersive digital experiences that deliver real impact for brands and businesses. I have a background in design and technology from Copenhagen School of Design and Technology and skills across many domains in the digital world, though I specialize in 3D web experiences using WebGL, WebGPU, and Three.js.
+              I create immersive digital experiences that deliver real impact for brands and businesses. With a background in design and technology from Copenhagen School of Design and Technology, I work across many domains in the digital world, specializing in 3D web experiences using WebGL, WebGPU, and Three.js.
             </p>
 
             <p>
-              As a developer, I’ve worked across most popular web stacks, and it would be easier to list the ones I haven’t. I emphasize clean software design and choose frameworks, languages, and architectures based on the assignment, always grounded in solid CS and SWE principles. My main tools are TypeScript, Three.js, React, and React Three Fiber.
+              I've worked with most popular web stacks and emphasize clean software design, choosing frameworks, languages, and architectures based on each project's needs—always grounded in solid computer science and software engineering principles. My primary tools are TypeScript, Three.js, React, and React Three Fiber.
             </p>
 
             <p>
-              I’m also familiar with most LLM and assistant AI programming and use Claude Code in my everyday work—as an assistant, never for unauthorized or “vibe” coding.
+              I'm also experienced with LLM and AI-assisted development, using Claude Code in my daily work as an intelligent assistant for thoughtful problem-solving and architectural decisions.
             </p>
           </div>
 
@@ -108,7 +108,7 @@ Accordion.displayName = "Accordion";
 // ---------- Links Component ----------
 function Links() {
   return (
-    <div className={`links flex flex-col gap-20 md:gap-20 lg:gap-30`}>
+    <div className="links flex flex-col gap-20">
       <div className="flex flex-col gap-3">
         <TextLink url="https://github.com/MattiasBaldi" label="GITHUB" />
         {/* <TextLink url="https://www.instagram.com/mb_labs/?hl=da" label="INSTAGRAM" /> */}

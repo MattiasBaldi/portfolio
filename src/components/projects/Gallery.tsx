@@ -36,6 +36,14 @@ export function Gallery({ media, initialIndex = 0, onClose }: GalleryProps) {
 
   const currentMedia = media[currentIndex] ?? { src: "", title: "", description: "" };
 
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev === 0 ? media.length - 1 : prev - 1));
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev === media.length - 1 ? 0 : prev + 1));
+  };
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -49,15 +57,7 @@ export function Gallery({ media, initialIndex = 0, onClose }: GalleryProps) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [media.length, onClose]);
-
-  const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? media.length - 1 : prev - 1));
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev === media.length - 1 ? 0 : prev + 1));
-  };
+  }, [goToPrevious, goToNext, onClose]);
 
   return (
     <div
@@ -97,14 +97,11 @@ function GalleryHeader({ currentIndex, mediaItem, total, onClose }: GalleryHeade
         {currentIndex + 1} / {total}
       </span>
 
-   {(mediaItem.description) && (
+      {mediaItem.description && (
         <div className="text-center py-2 w-fit max-w-2xl">
-          {mediaItem.description && (
-            <p className="text-sm text-grey-500 mt-1">{mediaItem.description}</p>
-          )}
+          <p className="text-sm text-grey-500 mt-1">{mediaItem.description}</p>
         </div>
       )}
- 
 
       <button
         onClick={onClose}
@@ -118,9 +115,14 @@ function GalleryHeader({ currentIndex, mediaItem, total, onClose }: GalleryHeade
 }
 
 function Lightbox({ mediaItem, onPrevious, onNext }: LightboxProps) {
-  // Use lightbox version for higher quality
-  const lightboxSrc = getLightboxSrc(mediaItem.src);
-  const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(lightboxSrc);
+  const [currentSrc, setCurrentSrc] = useState<string>(() => getLightboxSrc(mediaItem.src));
+
+  // Reset to lightbox src when mediaItem changes
+  useEffect(() => {
+    setCurrentSrc(getLightboxSrc(mediaItem.src));
+  }, [mediaItem.src]);
+
+  const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(currentSrc);
 
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
@@ -135,31 +137,38 @@ function Lightbox({ mediaItem, onPrevious, onNext }: LightboxProps) {
     }
   };
 
+  const handleError = () => {
+    // Fallback to marquee version if lightbox fails
+    setCurrentSrc(mediaItem.src);
+  };
+
   return (
     <div className="flex flex-col max-h-[90vh] items-start justify-center min-w-0 min-h-0 flex-1 w-full gap-3">
 
       <div
-        className="flex items-center justify-center min-w-0 min-h-0 max-h-[80vh] padding-10 flex-1 overflow-auto cursor-pointer select-none w-full"
+        className="flex items-center justify-center min-w-0 min-h-0 max-h-[80vh] p-10 flex-1 overflow-auto cursor-pointer select-none w-full"
         onClick={handleContainerClick}
       >
 
         {isVideo ? (
           <video
-            key={lightboxSrc}
-            src={lightboxSrc}
+            key={currentSrc}
+            src={currentSrc}
             controls
             autoPlay
             className="max-w-full max-h-full pointer-events-none select-none"
             onClick={(e) => e.stopPropagation()}
+            onError={handleError}
           />
         ) : (
           <img
-            key={lightboxSrc}
-            src={lightboxSrc}
+            key={currentSrc}
+            src={currentSrc}
             alt={mediaItem.title}
             className="max-w-full max-h-full pointer-events-none select-none drag-none"
             onClick={(e) => e.stopPropagation()}
             draggable={false}
+            onError={handleError}
           />
         )}
       </div>

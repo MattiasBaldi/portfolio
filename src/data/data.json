@@ -2,8 +2,8 @@
   {
     "id": 1,
     "name": "Spice My Way",
-    "description": "A web gl product customizer for mixing custom spices in real time, integerated on shopify to allow customers to pick mix their favourite spices in real time. Uses manual allocation and deallocation of texture 2darrays in the shader to save bandwidth and optimize performance, as opposed to sending manual textures, also a large bottleneck as mobile users tend to be capped at 8-16 textures per gpu in webgl2.",
-    "disclaimer": "This project is currently under NDA and therefore has limited access to sharing resources. Some images may be lacking as the project is in progress.",
+    "description": "A WebGL product customizer that lets customers mix custom spice blends in real-time, integrated directly into Shopify. Built with performance-critical shader optimization using manual texture 2D array allocation and deallocation to minimize bandwidth—crucial for mobile devices typically limited to 8-16 textures per GPU in WebGL2.",
+    "disclaimer": "This project is currently under NDA with limited available resources. Some visuals may be incomplete as development is ongoing.",
     "thumbnail": "./spicemyway/experience/thumbnail.webp",
     "thumbnailPosition": "center center",
     "media": [
@@ -22,7 +22,7 @@
   {
     "id": 2,
     "name": "Mb-Labs",
-    "description": "A personal discovery of interactive showrooms in webgl, the research, experiment and study resolved in an interactive experience that utilizes many aspects of modern graphics programming, instancing, LOD's, shader manipulation etc.",
+    "description": "A personal exploration of interactive WebGL showrooms, combining research and experimentation into an immersive experience. Features advanced graphics programming techniques including instancing, level-of-detail (LOD) systems, and custom shader manipulation to achieve high-performance 3D rendering.",
     "links": [
       { "label": "Live Demo (Desktop only)", "url": "https://showroom-prototype.pages.dev/" }
     ],
@@ -44,15 +44,15 @@
   {
     "id": 3,
     "name": "Spice My Way",
-    "description": "A custom website for spice my way, made with shopify liquid. Client picked their own design. Set up with a custom blogging system using shopify's built in blogging and connected it with a custom liquid setup, allowing client to blog and edit specific section in stylizing their page.",
-    "disclaimer": "Under NDA and some parts of the website are still under development so it can't be linked yet.",
+    "description": "A custom e-commerce website built with Shopify Liquid, following the client's design vision. Features a tailored blogging system that extends Shopify's built-in functionality with custom Liquid templates, giving the client full control over content management and page styling.",
+    "disclaimer": "This project is under NDA. Some parts of the website are still in development and cannot be publicly linked yet.",
     "thumbnail": "./spicemyway/website/thumbnail.webp",
     "thumbnailPosition": "left center",
     "media": [
       { "src": "./spicemyway/website/marquee/1.webp", "description": "Home landing page" },
       { "src": "./spicemyway/website/marquee/2.webp", "description": "Product catalog" },
       { "src": "./spicemyway/website/marquee/3.webp", "description": "Information page design and test" },
-      { "src": "./spicemyway/website/marquee/4.webp", "description": "Ccustom blog page " },
+      { "src": "./spicemyway/website/marquee/4.webp", "description": "Custom blog page" },
       { "src": "./spicemyway/website/marquee/5.webp", "description": "Shopping cart" },
       { "src": "./spicemyway/website/marquee/7.webp", "description": "Individual food item mobile" },
       { "src": "./spicemyway/website/marquee/proces_1.webp", "description": "Color selection" },
@@ -67,7 +67,7 @@
   {
     "id": 4,
     "name": "Claes Peter",
-    "description": "Web design and development of website for Claes Peter design studio with primary focus on design and a minimalistic website",
+    "description": "Web design and development for Claes Peter design studio, with a strong emphasis on minimalism and visual refinement. The site prioritizes clean aesthetics and intuitive navigation to showcase the studio's work.",
     "thumbnail": "./claes-peter/1.gif",
     "thumbnailPosition": "center center",
     "media": [
@@ -82,7 +82,7 @@
   {
     "id": 5,
     "name": "Virtuall Pro",
-    "description": "A marketing assignment for virtuall pro, the pitch was to create 3 distinct jackets to appeal in a viral marketing advert, and later to be displayed on social media using Augmented Reality.",
+    "description": "A marketing campaign for Virtuall Pro featuring three distinctive jacket designs created for viral social media advertising. The 3D models were optimized for both promotional content and augmented reality experiences, allowing users to view the jackets in AR on their devices.",
     "thumbnail": "./virtuall-pro/thumbnail.gif",
     "thumbnailPosition": "center center",
     "media": [
@@ -102,11 +102,11 @@
   {
     "id": 6,
     "name": "Simone Juice",
-    "description": "Personal website for photographer Simone Juice ",
+    "description": "A personal portfolio website for photographer Simone Juice, designed to elegantly showcase their photography work with a focus on visual storytelling and seamless image presentation.",
     "thumbnail": "./simone-juice/thumbnail.webp",
     "thumbnailPosition": "center center",
     "media": [
-      { "src": "./simone-juice/marquee/1.webm", "description": "null" },
+      { "src": "./simone-juice/marquee/1.webm", "description": "" },
       { "src": "./simone-juice/marquee/2.webp", "description": "Main page" },
       { "src": "./simone-juice/marquee/proces.webp", "description": "Tablet" },
       { "src": "./simone-juice/marquee/proces_2.webp", "description": "Menu" },
