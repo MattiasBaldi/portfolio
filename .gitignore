@@ -12,9 +12,19 @@ dist
 dist-ssr
 *.local
 
-# Original/uncompressed images
+# Original/uncompressed media
 public/**/originals/
+public/**/lightbox/
 src/assets/originals/
+
+# Large root media files (use marquee/ versions instead)
+public/**/*.webm
+public/**/*.mov
+public/**/*.mp4
+!public/**/marquee/*.webm
+!public/**/marquee/*.mov
+!public/**/marquee/*.mp4
+!public/**/thumbnail.*
 
 # Image processing scripts
 public/pillow.py
