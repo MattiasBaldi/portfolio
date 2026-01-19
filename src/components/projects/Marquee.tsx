@@ -231,9 +231,10 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
   size={32}
   className="
     absolute top-2 right-2 p-1 rounded
-    opacity-100 md:opacity-0 md:group-hover:opacity-100
+    opacity-100 lg:opacity-0 lg:group-hover:opacity-100
     transition-opacity cursor-pointer
     text-white mix-blend-difference
+    hidden lg:flex
   "
 />
 

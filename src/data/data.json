@@ -2,17 +2,19 @@
   {
     "id": 1,
     "name": "Spice My Way",
-    "description": "A web gl product customizer for mixing custom spices in real time, integerated on shopify to allow customers to pick mix their favourite spices in real time. ",
-    "thumbnail": "./spicemyway/experience/thumbnail.gif",
+    "description": "A web gl product customizer for mixing custom spices in real time, integerated on shopify to allow customers to pick mix their favourite spices in real time. Uses manual allocation and deallocation of texture 2darrays in the shader to save bandwidth and optimize performance, as opposed to sending manual textures, also a large bottleneck as mobile users tend to be capped at 8-16 textures per gpu in webgl2.",
+    "disclaimer": "This project is currently under NDA and therefore has limited access to sharing resources. Some images may be lacking as the project is in progress.",
+    "thumbnail": "./spicemyway/experience/thumbnail.webp",
     "thumbnailPosition": "center center",
     "media": [
-      { "src": "./spicemyway/experience/thumbnail.gif", "title": "Overview", "description": "" },
-      { "src": "./spicemyway/experience/1.webm", "title": "Demo", "description": "Real-time 3D customizer" },
-      { "src": "./spicemyway/experience/2.webp", "title": "UI Design", "description": "Custom controls interface" },
-      { "src": "./spicemyway/experience/3.webp", "title": "Product View", "description": "Final preview" },
-      { "src": "./spicemyway/experience/proces_1.webp", "title": "Process 1", "description": "Initial concepts" },
-      { "src": "./spicemyway/experience/proces_2.webp", "title": "Process 2", "description": "Design iteration" },
-      { "src": "./spicemyway/experience/proces_3.webp", "title": "Process 3", "description": "Final development" }
+      { "src": "./spicemyway/experience/marquee/intro.webp", "description": "Low fidelity client preview" },
+      { "src": "./spicemyway/experience/marquee/3.webp", "description": "Final preview" },
+      { "src": "./spicemyway/experience/marquee/1.webm", "description": "Beta version" },
+      { "src": "./spicemyway/experience/marquee/proces_2.webp", "description": "Diagrams" },
+      { "src": "./spicemyway/experience/marquee/2.webp", "description": "Fetching API nutrition info from fdc matching spices" },
+      { "src": "./spicemyway/experience/marquee/proces_1.webp", "description": "Diagrams" },
+      { "src": "./spicemyway/experience/marquee/inspiration.webp", "description": "Moodboard" },
+      { "src": "./spicemyway/experience/marquee/proces_3.webp", "description": "Diagrams dataflow" }
     ],
     "category": "Web App",
     "year": 2026
@@ -20,15 +22,21 @@
   {
     "id": 2,
     "name": "Mb-Labs",
-    "description": "An interactive design showcase and portfolio.",
+    "description": "A personal discovery of interactive showrooms in webgl, the research, experiment and study resolved in an interactive experience that utilizes many aspects of modern graphics programming, instancing, LOD's, shader manipulation etc.",
+    "links": [
+      { "label": "Live Demo (Desktop only)", "url": "https://showroom-prototype.pages.dev/" }
+    ],
     "thumbnail": "./labs-showroom/thumbnail.webp",
-    "thumbnailPosition": "left top",
+    "thumbnailPosition": "left center",
     "media": [
-      { "src": "./labs-showroom/1.webp", "title": "Landing", "description": "" },
-      { "src": "./labs-showroom/2.webm", "title": "Animation", "description": "Interactive transitions" },
-      { "src": "./labs-showroom/2.webp", "title": "Gallery", "description": "Project showcase" },
-      { "src": "./labs-showroom/3.webp", "title": "Details", "description": "Project information" },
-      { "src": "./labs-showroom/5.webp", "title": "Portfolio", "description": "Work collection" }
+      { "src": "./labs-showroom/marquee/1.webp", "description": "Gamificated teaser of intro screen" },
+      { "src": "./labs-showroom/marquee/2.webm", "description": "Experience" },
+      { "src": "./labs-showroom/marquee/2.webp", "description": "Stills - selective bloom and live shadow maps" },
+      { "src": "./labs-showroom/marquee/proces_4.webp", "description": "Modelling iterations" },
+      { "src": "./labs-showroom/marquee/proces_18.webp", "description": "Performance proces" },
+      { "src": "./labs-showroom/marquee/proces_38.webp", "description": "Performance proces" },
+      { "src": "./labs-showroom/marquee/3.webp", "description": "3D modeling" },
+      { "src": "./labs-showroom/marquee/5.webp", "description": "Stills - selective bloom" }
     ],
     "category": "Webgl",
     "year": 2025
@@ -36,23 +44,22 @@
   {
     "id": 3,
     "name": "Spice My Way",
-    "description": "A custom website for spice my way, made with shopify liquid. Client picked their own design",
+    "description": "A custom website for spice my way, made with shopify liquid. Client picked their own design. Set up with a custom blogging system using shopify's built in blogging and connected it with a custom liquid setup, allowing client to blog and edit specific section in stylizing their page.",
+    "disclaimer": "Under NDA and some parts of the website are still under development so it can't be linked yet.",
     "thumbnail": "./spicemyway/website/thumbnail.webp",
     "thumbnailPosition": "left center",
     "media": [
-      { "src": "./spicemyway/website/1.webp", "title": "Homepage", "description": "" },
-      { "src": "./spicemyway/website/2.webp", "title": "Products", "description": "Product catalog" },
-      { "src": "./spicemyway/website/3.webp", "title": "Product Detail", "description": "Single product page" },
-      { "src": "./spicemyway/website/4.webp", "title": "Cart", "description": "Shopping cart" },
-      { "src": "./spicemyway/website/5.webp", "title": "Checkout", "description": "Checkout process" },
-      { "src": "./spicemyway/website/6.webp", "title": "About", "description": "Company page" },
-      { "src": "./spicemyway/website/7.webp", "title": "Footer", "description": "Contact section" },
-      { "src": "./spicemyway/website/proces_1.webp", "title": "Process 1", "description": "Wireframes" },
-      { "src": "./spicemyway/website/proces_2.webp", "title": "Process 2", "description": "Design mockups" },
-      { "src": "./spicemyway/website/proces_3.webp", "title": "Process 3", "description": "Revisions" },
-      { "src": "./spicemyway/website/proces_4.webp", "title": "Process 4", "description": "Development" },
-      { "src": "./spicemyway/website/proces_5.webp", "title": "Process 5", "description": "Testing" },
-      { "src": "./spicemyway/website/proces_6.webp", "title": "Process 6", "description": "Launch" }
+      { "src": "./spicemyway/website/marquee/1.webp", "description": "Home landing page" },
+      { "src": "./spicemyway/website/marquee/2.webp", "description": "Product catalog" },
+      { "src": "./spicemyway/website/marquee/3.webp", "description": "Information page design and test" },
+      { "src": "./spicemyway/website/marquee/4.webp", "description": "Ccustom blog page " },
+      { "src": "./spicemyway/website/marquee/5.webp", "description": "Shopping cart" },
+      { "src": "./spicemyway/website/marquee/7.webp", "description": "Individual food item mobile" },
+      { "src": "./spicemyway/website/marquee/proces_1.webp", "description": "Color selection" },
+      { "src": "./spicemyway/website/marquee/proces_2.webp", "description": "Design mockups" },
+      { "src": "./spicemyway/website/marquee/proces_3.webp", "description": "Font selection" },
+      { "src": "./spicemyway/website/marquee/proces_4.webp", "description": "Moodboard" },
+      { "src": "./spicemyway/website/marquee/proces_5.webp", "description": "Testing assumptions" }
     ],
     "category": "E-commerce",
     "year": 2025
@@ -60,14 +67,14 @@
   {
     "id": 4,
     "name": "Claes Peter",
-    "description": "A cloud-based note-taking service.",
+    "description": "Web design and development of website for Claes Peter design studio with primary focus on design and a minimalistic website",
     "thumbnail": "./claes-peter/1.gif",
     "thumbnailPosition": "center center",
     "media": [
-      { "src": "./claes-peter/1.gif", "title": "Overview", "description": "" },
-      { "src": "./claes-peter/2.webp", "title": "Interface", "description": "Main dashboard" },
-      { "src": "./claes-peter/3.webp", "title": "Notes", "description": "Note editor" },
-      { "src": "./claes-peter/4.webp", "title": "Organization", "description": "Folder structure" }
+      { "src": "./claes-peter/marquee/1.webm", "description": "Landing page" },
+      { "src": "./claes-peter/marquee/2.webp", "description": "Marquee proces" },
+      { "src": "./claes-peter/marquee/3.webp", "description": "Moodboard" },
+      { "src": "./claes-peter/marquee/4.webp", "description": "Design feedback" }
     ],
     "category": "Web design + development",
     "year": 2024
@@ -75,20 +82,19 @@
   {
     "id": 5,
     "name": "Virtuall Pro",
-    "description": "A real-time chat application.",
+    "description": "A marketing assignment for virtuall pro, the pitch was to create 3 distinct jackets to appeal in a viral marketing advert, and later to be displayed on social media using Augmented Reality.",
     "thumbnail": "./virtuall-pro/thumbnail.gif",
     "thumbnailPosition": "center center",
     "media": [
-      { "src": "./virtuall-pro/1.webm", "title": "Chat", "description": "" },
-      { "src": "./virtuall-pro/2.webm", "title": "3D Space", "description": "Virtual environment" },
-      { "src": "./virtuall-pro/3.webm", "title": "Avatar", "description": "User avatars" },
-      { "src": "./virtuall-pro/4.webm", "title": "Interaction", "description": "User interactions" },
-      { "src": "./virtuall-pro/6.webm", "title": "Features", "description": "Chat features" },
-      { "src": "./virtuall-pro/proces.webm", "title": "Process", "description": "Development process" },
-      { "src": "./virtuall-pro/proces_1.webm", "title": "Phase 1", "description": "Planning" },
-      { "src": "./virtuall-pro/proces_2.webm", "title": "Phase 2", "description": "Design" },
-      { "src": "./virtuall-pro/proces_3.webm", "title": "Phase 3", "description": "Development" },
-      { "src": "./virtuall-pro/AR.webm", "title": "AR Mode", "description": "Augmented reality" }
+      { "src": "./virtuall-pro/marquee/1.webm", "description": "Jacket 1/3" },
+      { "src": "./virtuall-pro/marquee/2.webm", "description": "Jacket 2/3" },
+      { "src": "./virtuall-pro/marquee/3.webm", "description": "Jacket 3/3" },
+      { "src": "./virtuall-pro/marquee/4.webm", "description": "Augmented reality" },
+      { "src": "./virtuall-pro/marquee/6.webm", "description": "Lava jacket realtime render" },
+      { "src": "./virtuall-pro/marquee/proces.webm", "description": "Development process" },
+      { "src": "./virtuall-pro/marquee/proces_1.webm", "description": "Development process" },
+      { "src": "./virtuall-pro/marquee/proces_2.webm", "description": "Development process" },
+      { "src": "./virtuall-pro/marquee/proces_3.webm", "description": "Development process" }
     ],
     "category": "3D + AR",
     "year": 2023
@@ -96,20 +102,17 @@
   {
     "id": 6,
     "name": "Simone Juice",
-    "description": "A personal finance management tool.",
+    "description": "Personal website for photographer Simone Juice ",
     "thumbnail": "./simone-juice/thumbnail.webp",
     "thumbnailPosition": "center center",
     "media": [
-      { "src": "./simone-juice/1.gif", "title": "Overview", "description": "" },
-      { "src": "./simone-juice/2.webp", "title": "Dashboard", "description": "Main dashboard" },
-      { "src": "./simone-juice/proces.webp", "title": "Planning", "description": "Initial planning" },
-      { "src": "./simone-juice/proces_1.webp", "title": "Concepts", "description": "Design concepts" },
-      { "src": "./simone-juice/proces_2.webp", "title": "Wireframes", "description": "Page layouts" },
-      { "src": "./simone-juice/proces_3.webp", "title": "Design", "description": "Visual design" },
-      { "src": "./simone-juice/proces_4.webp", "title": "Refinement", "description": "Design refinement" },
-      { "src": "./simone-juice/proces_5.webp", "title": "Development", "description": "Frontend development" },
-      { "src": "./simone-juice/proces_7.webp", "title": "Integration", "description": "Backend integration" },
-      { "src": "./simone-juice/proces_8.webp", "title": "Launch", "description": "Final launch" }
+      { "src": "./simone-juice/marquee/1.webm", "description": "null" },
+      { "src": "./simone-juice/marquee/2.webp", "description": "Main page" },
+      { "src": "./simone-juice/marquee/proces.webp", "description": "Tablet" },
+      { "src": "./simone-juice/marquee/proces_2.webp", "description": "Menu" },
+      { "src": "./simone-juice/marquee/proces_3.webp", "description": "Menu mobile" },
+      { "src": "./simone-juice/marquee/proces_4.webp", "description": "Wireframes" },
+      { "src": "./simone-juice/marquee/proces_5.webp", "description": "Moodboard" }
     ],
     "category": "Web design + dev",
     "year": 2024

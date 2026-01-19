@@ -14,6 +14,8 @@ export type ProjectData = {
   id?: number;
   name?: string;
   description?: string;
+  disclaimer?: string;
+  links?: Array<{ label: string; url: string }>;
   thumbnail?: string;
   thumbnailPosition?: string;
   media?: MediaItem[];

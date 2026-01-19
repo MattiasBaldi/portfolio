@@ -139,8 +139,8 @@ export function Thumbnail(props: ProjectData) {
       {/* Thumnail */}
       <img
         ref={thumbnail}
-        className="thumbnail h-full w-full object-cover  lg:h-auto xl:w-100"
-        style={{ objectPosition: props.thumbnailPosition ?? 'center' }}
+        className="thumbnail h-full w-full object-cover"
+        style={{ objectPosition: props.thumbnailPosition ?? 'top' }}
         src={props.thumbnail}
         loading="lazy"
       />
@@ -165,30 +165,55 @@ export function Content(props: ContentProps) {
 
   return (
     <div
-      className="content h-0 left-200 flex flex-col top-10 overflow-hidden gap-5 lg:gap-15"
+      className="content h-0 left-200 flex flex-col top-10 overflow-hidden gap-5 lg:gap-10"
     >
       <Marquee
         media={props.media ?? []}
         {...(props.onMediaClick && { onMediaClick: props.onMediaClick })}
       />
-      <p>
-        {viewMore || !isLong ? (
-          description
-        ) : (
-          <>
-            {abbreviated}...{" "}
-            <span
-              onClick={(e) => {
-                e.stopPropagation();
-                setViewMore(true);
-              }}
-              className="underline cursor-pointer"
-            >
-              view more
-            </span>
-          </>
+      <div className="flex flex-col gap-3">
+        <p>
+          {viewMore || !isLong ? (
+            description
+          ) : (
+            <>
+              {abbreviated}...{" "}
+              <span
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setViewMore(true);
+                }}
+                className="underline cursor-pointer"
+              >
+                view more
+              </span>
+            </>
+          )}
+        </p>
+
+        {props.disclaimer && (
+          <p className="text-gray-400 italic text-sm">
+            {props.disclaimer}
+          </p>
         )}
-      </p>
+
+        {props.links && props.links.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {props.links.map((link, index) => (
+              <a
+                key={index}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="underline hover:text-gray-400 transition-colors"
+              >
+                {link.label} →
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

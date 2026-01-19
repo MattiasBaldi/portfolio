@@ -49,17 +49,24 @@ export default function Header() {
 
 
           {/* all */}
-          <div className={`flex flex-col justify-start items-start pt-0 md:pt-0 lg:pt-20 gap-10 md:gap-20 lg:gap-30`}>
+          <div className={`flex flex-col justify-start items-start pt-0 md:pt-0 lg:pt-20 gap-10 md:gap-20 lg:gap-30 `}>
             <div className={`flex flex-col md:flex-row-reverse gap-10 md:gap-20 lg:gap-100 `}>
 
               {/* text */}
-              <p className="py-2 max-w-100 sm:max-w-150 md:max-w-150 lg:max-w-200 h-fit ">
-                I create immersive digital experiences that deliver real impact
-                for brands and businesses. I have a background in design &
-                technology from the Copenhagen School of Design and Technology,
-                I specialize in experiences for the 3d web particularly related to WebGL and
-                Three.js.
-              </p>
+         <div className="flex flex-col gap-10 max-w-175">
+            <p className="py-2 h-fit">
+              I create immersive digital experiences that deliver real impact for brands and businesses. I have a background in design and technology from Copenhagen School of Design and Technology and skills across many domains in the digital world, though I specialize in 3D web experiences using WebGL, WebGPU, and Three.js.
+            </p>
+
+            <p>
+              As a developer, I’ve worked across most popular web stacks, and it would be easier to list the ones I haven’t. I emphasize clean software design and choose frameworks, languages, and architectures based on the assignment, always grounded in solid CS and SWE principles. My main tools are TypeScript, Three.js, React, and React Three Fiber.
+            </p>
+
+            <p>
+              I’m also familiar with most LLM and assistant AI programming and use Claude Code in my everyday work—as an assistant, never for unauthorized or “vibe” coding.
+            </p>
+          </div>
+
 
               <Links />
             </div>

@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import type { MediaItem } from "../../App.js";
 
+// Convert marquee path to lightbox path for higher quality version
+function getLightboxSrc(marqueeSrc: string): string {
+  return marqueeSrc.replace('/marquee/', '/lightbox/');
+}
+
 interface GalleryProps {
   media: MediaItem[];
   initialIndex?: number;
@@ -16,6 +21,7 @@ interface LightboxProps {
 interface GalleryHeaderProps {
   currentIndex: number;
   total: number;
+  mediaItem: MediaItem;
   onClose: () => void;
 }
 
@@ -112,7 +118,9 @@ function GalleryHeader({ currentIndex, mediaItem, total, onClose }: GalleryHeade
 }
 
 function Lightbox({ mediaItem, onPrevious, onNext }: LightboxProps) {
-  const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(mediaItem.src);
+  // Use lightbox version for higher quality
+  const lightboxSrc = getLightboxSrc(mediaItem.src);
+  const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(lightboxSrc);
 
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
@@ -129,7 +137,7 @@ function Lightbox({ mediaItem, onPrevious, onNext }: LightboxProps) {
 
   return (
     <div className="flex flex-col max-h-[90vh] items-start justify-center min-w-0 min-h-0 flex-1 w-full gap-3">
-      
+
       <div
         className="flex items-center justify-center min-w-0 min-h-0 max-h-[80vh] padding-10 flex-1 overflow-auto cursor-pointer select-none w-full"
         onClick={handleContainerClick}
@@ -137,8 +145,8 @@ function Lightbox({ mediaItem, onPrevious, onNext }: LightboxProps) {
 
         {isVideo ? (
           <video
-            key={mediaItem.src}
-            src={mediaItem.src}
+            key={lightboxSrc}
+            src={lightboxSrc}
             controls
             autoPlay
             className="max-w-full max-h-full pointer-events-none select-none"
@@ -146,8 +154,8 @@ function Lightbox({ mediaItem, onPrevious, onNext }: LightboxProps) {
           />
         ) : (
           <img
-            key={mediaItem.src}
-            src={mediaItem.src}
+            key={lightboxSrc}
+            src={lightboxSrc}
             alt={mediaItem.title}
             className="max-w-full max-h-full pointer-events-none select-none drag-none"
             onClick={(e) => e.stopPropagation()}

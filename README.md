@@ -2,29 +2,31 @@
 
 # To-do
 
-## Mobile 
-- [ ] Ensure title don't overflow into thumbnail
-- [ ] Decide if title should be on top of thumbnail or next to it, and if it should be next to how much should it be truncated and how much should it display (it could also be on top and then just use a css indifferent filter to ensuren its readable), if its not above thumbnail, it needs to replace the id at least on mobile otherwise they will occupy the same spot
+## Media
+- [ ] Create Marquee subfolder for media and use the media (which isnt the originals originals) compress them by the following:
+    - [ ] Compress all marquee media to be max 500px in height and auto in width
+    - [ ] Compress marquee videos/gif to be max 7 seconds
 
+- [ ] Move the default images (the ones that are the originals but compressed) into a lightbox folder
+
+- There should be 3 folders, originals, lightbox and marquee + thumbnail (which isnt a folder just an image in the root of these)
 
 ## Resize / Responsive 
-- [ ] Ensure images / Marquee adapts and doesn't bug on resizes
+- [ ] Ensure images / Marquee adapts and doesn't bug on resizes as well as calculation and movement logic
 
-## Media
-- [ ] Optimize media, ensure no media is above 1mb, at least not when displayed in marquee
 
-## Marquee
-- [ ] Find the max resolution that is displayed in the marquee for any media anyway, and compress all media to not be above that
-<!-- this is 500px in height (meaning no reason to keep above 500px)-->
+<!-- # Sort images
+- [x] SpiceMyWay App
+- [x] Mb-labs
+- [x] SpiceMyWay Website -->
 
-- [ ] Make marquee sized resolution and also lightbox sized originals
-- [ ] Marquee controls seems a little awkward, think about a different position for them
+<!-- ## Marquee
+- [x] Make marquee sized resolution and also lightbox sized originals
+- [x] Marquee controls seems a little awkward, think about a different position for them
 
-# Sort images
-- [ ] SpiceMyWay App
-- [ ] Mb-labs
-- [ ] SpiceMyWay Website
-
+## Mobile 
+- [x] Ensure title don't overflow into thumbnail
+- [x] Decide if title should be on top of thumbnail or next to it, and if it should be next to how much should it be truncated and how much should it display (it could also be on top and then just use a css indifferent filter to ensuren its readable), if its not above thumbnail, it needs to replace the id at least on mobile otherwise they will occupy the same spot -->
 
 <!-- - [x] Fix gaps between end of marquee and beginning of marquee media
 - [x] Videos media should have a little video button in the bottom right corner with rounded corners and a play icon to indicate its a video, and open that inlightbox
@@ -33,7 +35,6 @@
 
 <!-- ## Project
 - [x] Consistent spacing between title, marquee and description inside of project content -->
-
 
 <!-- ## Lightbox
 - [x] Display originals, or perhaps not originals, (show the same just ensure the width takes up x space) -->
