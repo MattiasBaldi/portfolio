@@ -36,11 +36,11 @@ export function Project(props: ProjectData) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const controls = useControls("Project Layout", {
+  const controls = useControls("Project", {
     mobileGap: { value: 2, min: 0, max: 80, step: 4, label: "Mobile Gap (px)" },
     desktopGap: { value: 40, min: 0, max: 80, step: 4, label: "Desktop Gap (px)" },
     contentGap: { value: 40, min: 0, max: 80, step: 4, label: "Content Gap (px)" },
-  });
+  }, {collapsed: false});
   
   const { toggle, isExpanded } = useAccordion(contextSafe, container);
 
@@ -51,14 +51,11 @@ export function Project(props: ProjectData) {
         className="project flex flex-col gap-3"
       >
 
-
-       
-        
         <div
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           onClick={() => toggle()}
-          className="preview cursor-pointer hover:cursor-pointer relative flex justify-between w-full h-60 overflow-hidden"
+          className="preview cursor-pointer hover:cursor-pointer relative flex justify-between w-full h-75 md:h-125 lg:h-50 overflow-hidden"
           style={{ gap: isMobile ? `${controls.mobileGap}px` : `${controls.desktopGap}px` }}
         >
 
@@ -71,7 +68,7 @@ export function Project(props: ProjectData) {
             className="absolute right-0 top-0 p-3 opacity-0 z-10 pointer-events-none"
           />
 
-        
+
         </div>
 
 
@@ -102,7 +99,7 @@ export function Project(props: ProjectData) {
 
 export function DateIndex(props: ProjectData) {
   return (
-    <div className="date-index  flex w-">
+    <div className="date-index flex w-">
       <div
         //   ref={dateIndex}
         className="flex flex-col min-h-full h-full w-20 pr-5 justify-between items-stretch border-gray-200 border-l"
@@ -129,23 +126,21 @@ export function Thumbnail(props: ProjectData) {
 
   return (
 
-    <div className="w-full lg:w-100 px-4">
+    <div className="w-full flex flex-col gap-4 justify-between lg:w-100 px-4">
 
     {/* Mobile title overlay - positioned relative to preview container */}
-        <div className="mobile-title w-full justify-between flex lg:hidden p-0 bottom-0 left-0 right-0 text-white pointer-events-none max-w-full" style={{ mixBlendMode: 'difference' }}>
-          <p className="h-fit font-bold truncate max-w-full pr-4">{props.name}</p>
-          <p className="h-fit truncate max-w-full pr-4">{props.category}</p>
-        </div>
+    <div className="mobile-title w-full justify-between flex flex-col lg:hidden p-0 bottom-0 left-0 right-0 text-white pointer-events-none max-w-full" style={{ mixBlendMode: 'difference' }}>
+      <p className="h-fit font-bold truncate max-w-full pr-4">{props.name}</p>
+      <p className="h-fit truncate max-w-full pr-4">{props.category}</p>
+    </div>
 
-    <div className="thumbnail flex items-center justify-center min-w-full h-full lg:min-w-40 relative overflow-hidden">
-
-
-    
+    <div className="thumbnail flex items-end justify-end min-w-full h-full lg:min-w-40 relative overflow-hidden">
 
       {/* Thumnail */}
       <img
         ref={thumbnail}
-        className="thumbnail h-full w-auto object-contain lg:object-cover md:w-fit md:h-auto lg:w-100"
+        className="thumbnail h-full w-full object-cover  lg:h-auto xl:w-100"
+        style={{ objectPosition: props.thumbnailPosition ?? 'center' }}
         src={props.thumbnail}
         loading="lazy"
       />
@@ -170,8 +165,7 @@ export function Content(props: ContentProps) {
 
   return (
     <div
-      className="content h-0 left-200 flex flex-col top-10 overflow-hidden"
-      style={{ gap: `${props.contentGap ?? 40}px` }}
+      className="content h-0 left-200 flex flex-col top-10 overflow-hidden gap-5 lg:gap-15"
     >
       <Marquee
         media={props.media ?? []}

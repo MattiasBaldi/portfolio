@@ -4,6 +4,7 @@
     "name": "Spice My Way",
     "description": "A web gl product customizer for mixing custom spices in real time, integerated on shopify to allow customers to pick mix their favourite spices in real time. ",
     "thumbnail": "./spicemyway/experience/thumbnail.gif",
+    "thumbnailPosition": "center center",
     "media": [
       { "src": "./spicemyway/experience/thumbnail.gif", "title": "Overview", "description": "" },
       { "src": "./spicemyway/experience/1.webm", "title": "Demo", "description": "Real-time 3D customizer" },
@@ -21,6 +22,7 @@
     "name": "Mb-Labs",
     "description": "An interactive design showcase and portfolio.",
     "thumbnail": "./labs-showroom/thumbnail.webp",
+    "thumbnailPosition": "left top",
     "media": [
       { "src": "./labs-showroom/1.webp", "title": "Landing", "description": "" },
       { "src": "./labs-showroom/2.webm", "title": "Animation", "description": "Interactive transitions" },
@@ -36,6 +38,7 @@
     "name": "Spice My Way",
     "description": "A custom website for spice my way, made with shopify liquid. Client picked their own design",
     "thumbnail": "./spicemyway/website/thumbnail.webp",
+    "thumbnailPosition": "left center",
     "media": [
       { "src": "./spicemyway/website/1.webp", "title": "Homepage", "description": "" },
       { "src": "./spicemyway/website/2.webp", "title": "Products", "description": "Product catalog" },
@@ -59,6 +62,7 @@
     "name": "Claes Peter",
     "description": "A cloud-based note-taking service.",
     "thumbnail": "./claes-peter/1.gif",
+    "thumbnailPosition": "center center",
     "media": [
       { "src": "./claes-peter/1.gif", "title": "Overview", "description": "" },
       { "src": "./claes-peter/2.webp", "title": "Interface", "description": "Main dashboard" },
@@ -73,6 +77,7 @@
     "name": "Virtuall Pro",
     "description": "A real-time chat application.",
     "thumbnail": "./virtuall-pro/thumbnail.gif",
+    "thumbnailPosition": "center center",
     "media": [
       { "src": "./virtuall-pro/1.webm", "title": "Chat", "description": "" },
       { "src": "./virtuall-pro/2.webm", "title": "3D Space", "description": "Virtual environment" },
@@ -93,6 +98,7 @@
     "name": "Simone Juice",
     "description": "A personal finance management tool.",
     "thumbnail": "./simone-juice/thumbnail.webp",
+    "thumbnailPosition": "center center",
     "media": [
       { "src": "./simone-juice/1.gif", "title": "Overview", "description": "" },
       { "src": "./simone-juice/2.webp", "title": "Dashboard", "description": "Main dashboard" },

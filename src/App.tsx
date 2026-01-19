@@ -15,6 +15,7 @@ export type ProjectData = {
   name?: string;
   description?: string;
   thumbnail?: string;
+  thumbnailPosition?: string;
   media?: MediaItem[];
   category?: string;
   year?: number;
@@ -34,9 +35,9 @@ export default function App() {
         value: false,
         onChange: (v) => {
           v
-            ? (dStyles.textContent = "* { border: 1px solid red; }")
+            ? (dStyles.textContent = "*:not([class*='leva']):not([class*='leva'] *) { border: 1px solid red; }")
             : (dStyles.textContent = dStyles.textContent.replace(
-                "* { border: 1px solid red; }",
+                "*:not([class*='leva']):not([class*='leva'] *) { border: 1px solid red; }",
                 ""
               )); //
         },
@@ -47,7 +48,7 @@ export default function App() {
 
   return (
     <>
-      <div className="flex container flex-col gap-20 justify-center overflow-auto overflow-x-hidden">
+      <div className="flex container flex-col gap-5 lg:gap-20 justify-center overflow-auto overflow-x-hidden">
         <Header />
           <hr className="w-[200vw] relative left-[-50vw] lg:w-full lg:left-0" />
         <Projects /> 

@@ -110,105 +110,120 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
   const controls = useControls(
-    "Animation",
+    "Project",
     {
-    scrollToView: { value: true, label: "Scroll on Expand" },
-    scrollOffset: { value: 0, min: -200, max: 200, step: 10, label: "Scroll Offset" },
-    "Date Index": folder(
-      {
-        dateSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
-        dateEase: { value: "power2.inOut", options: EASE_OPTIONS, label: "Ease" },
-        dateY: { value: 100, min: -500, max: 500, step: 1, label: "Y Offset" },
-        dateOpacity: { value: 0, min: 0, max: 1, step: 0.01, label: "Opacity" },
-      },
-      { collapsed: true }
-    ),
 
-    "Title Description": folder(
-      {
-        titleSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
-        titleEase: {
-          value: "power2.inOut",
-          options: EASE_OPTIONS,
-          label: "Ease",
-        },
-        titleX: {
-          value: -600,
-          min: -1000,
-          max: 1000,
-          step: 1,
-          label: "X Offset",
-        },
-      },
-      { collapsed: true }
-    ),
 
-    Thumbnail: folder(
-      {
-        thumbnailSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
-        thumbnailEase: {
-          value: "power2.inOut",
-          options: EASE_OPTIONS,
-          label: "Ease",
+      animation: folder({
+      scrollToView: { value: true, label: "Scroll on Expand" },
+      scrollOffset: { value: 0, min: -200, max: 200, step: 10, label: "Scroll Offset" },
+      "Date Index": folder(
+        {
+          dateSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
+          dateEase: { value: "power2.inOut", options: EASE_OPTIONS, label: "Ease" },
+          dateY: { value: 100, min: -500, max: 500, step: 1, label: "Y Offset" },
+          dateOpacity: { value: 0, min: 0, max: 1, step: 0.01, label: "Opacity" },
         },
-        thumbnailY: {
-          value: 100,
-          min: -500,
-          max: 500,
-          step: 1,
-          label: "Y Offset",
-        },
-        thumbnailOpacity: {
-          value: 0,
-          min: 0,
-          max: 1,
-          step: 0.01,
-          label: "Opacity",
-        },
-      },
-      { collapsed: true }
-    ),
+        { collapsed: true }
+      ),
 
-    Preview: folder(
-      {
-        previewSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
-        previewEase: {
-          value: "power2.inOut",
-          options: EASE_OPTIONS,
-          label: "Ease",
+      "Title Description": folder(
+        {
+          titleSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
+          titleEase: {
+            value: "power2.inOut",
+            options: EASE_OPTIONS,
+            label: "Ease",
+          },
+          titleX: {
+            value: -600,
+            min: -1000,
+            max: 1000,
+            step: 1,
+            label: "X Offset",
+          },
         },
-        previewHeight: {
-          value: 100,
-          min: 0,
-          max: 1000,
-          step: 0.01,
-          label: "Height",
-        },
-      },
-      { collapsed: true }
-    ),
+        { collapsed: true }
+      ),
 
-    Content: folder(
-      {
-        contentSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
-        contentEase: {
-          value: "power2.inOut",
-          options: EASE_OPTIONS,
-          label: "Ease",
+      "Mobile Title": folder(
+        {
+          mobileTitleSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
+          titleEase: {
+            value: "power2.inOut",
+            options: EASE_OPTIONS,
+            label: "Ease",
+          },
         },
-        contentHeight: {
-          value: 400,
-          min: 0,
-          max: 1000,
-          step: 0.01,
-          label: "Height",
-        },
-      },
-      { collapsed: true }
-    ),
+        { collapsed: true }
+      ),
 
-    },
-    { collapsed: true }
+
+      Thumbnail: folder(
+        {
+          thumbnailSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
+          thumbnailEase: {
+            value: "power2.inOut",
+            options: EASE_OPTIONS,
+            label: "Ease",
+          },
+          thumbnailY: {
+            value: 100,
+            min: -500,
+            max: 500,
+            step: 1,
+            label: "Y Offset",
+          },
+          thumbnailOpacity: {
+            value: 0,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            label: "Opacity",
+          },
+        },
+        { collapsed: true }
+      ),
+
+      Preview: folder(
+        {
+          previewSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
+          previewEase: {
+            value: "power2.inOut",
+            options: EASE_OPTIONS,
+            label: "Ease",
+          },
+          previewHeight: {
+            value: 100,
+            min: 0,
+            max: 1000,
+            step: 0.01,
+            label: "Height",
+          },
+        },
+        { collapsed: true }
+      ),
+
+      Content: folder(
+        {
+          contentSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
+          contentEase: {
+            value: "power2.inOut",
+            options: EASE_OPTIONS,
+            label: "Ease",
+          },
+          contentHeight: {
+            value: 400,
+            min: 0,
+            max: 1000,
+            step: 0.01,
+            label: "Height",
+          },
+        },
+        { collapsed: true }
+      ),
+    })
+    }
   );
 
 
@@ -220,38 +235,37 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
     const titleOffset = getTitleOffset(container);
     const mobileTitleOffset = isMobile ? getMobileTitleOffset(container) : undefined;
 
-
-    const preview = document.querySelector(".preview")
-    const mobileTitle = document.querySelector(".mobile-title")
-
     // Animation
     if (!timelineRef.current) {
       const tl = gsap.timeline();
 
+      // Common animations
       tl
-        // Ani 1
         .to(".date-index", {  x: -100, opacity: controls.dateOpacity, duration: controls.dateSpeed, ease: controls.dateEase }, "<")      // prettier-ignore
-        .to(".title-description", { x: titleOffset, duration: controls.titleSpeed, ease: controls.titleEase }, "<")    // prettier-ignore
-        .to(".thumbnail img", { y: controls.thumbnailY, opacity: controls.thumbnailOpacity, duration: controls.thumbnailSpeed, ease: controls.thumbnailEase },"<")      // prettier-ignore  
+        .to(".title-description", { x: titleOffset ?? controls.titleX, duration: controls.titleSpeed, ease: controls.titleEase }, "<")    // prettier-ignore
+        .to(".thumbnail img", { y: controls.thumbnailY, opacity: controls.thumbnailOpacity, duration: controls.thumbnailSpeed, ease: controls.thumbnailEase },"<")      // prettier-ignore
         .to(".preview", { height: controls.previewHeight, duration: controls.previewSpeed, ease: controls.previewEase }, "<") // prettier-ignore
-        .to(".content", { height: "auto", duration: controls.contentSpeed, ease: controls.contentEase}, "<") // prettier-ignore
-        
-        // Ani 2
-        .to(".close-button", { opacity: 0.5, pointerEvents: "auto", duration: 0.3, ease: "power2.out" }, ) // prettier-ignore
-        .to(".mobile-title", { y: mobileTitleOffset?.y, duration: 0.3, ease: "power2.out" }, ) // prettier-ignore        
+        .to(".content", { height: "auto", duration: controls.contentSpeed, ease: controls.contentEase}, "<"); // prettier-ignore
 
-        timelineRef.current = tl;
-    } 
+      // Conditional mobile animation
+      if (isMobile) {
+        tl.to(".mobile-title", { x: mobileTitleOffset?.x ?? 0, duration: controls.mobileTitleSpeed, ease: "power1.out" }, "<") // prettier-ignore
+        .to(".preview", { height: controls.previewHeight * .5, duration: controls.previewSpeed, ease: controls.previewEase }, "<") // prettier-ignore
+      }
 
+      // Final animations
+      tl.to(".close-button", { opacity: 0.5, pointerEvents: "auto", duration: 0.3, ease: "power2.out" }); // prettier-ignore
 
+      timelineRef.current = tl;
+    }
     else {
       // Update offsets if timeline already exists
       const children = timelineRef.current.getChildren();
       if (children[1] && titleOffset !== undefined) {
         children[1].vars.x = titleOffset;
       }
-      if (children[6] && mobileTitleOffset) {
-        children[6].vars.x = mobileTitleOffset.x;
+      if (children[5] && mobileTitleOffset) {
+        children[5].vars.x = mobileTitleOffset.x;
       }
     }
 
@@ -260,12 +274,19 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
     setIsExpanded(!isExpanded);
   });
 
-  // reset on resizing
+  // Reset timeline on resize to force recalculation of offsets
   useEffect(() => {
-    const listener = timelineRef.current?.revert()
-    window.addEventListener("resize", () => listener)
-    return () => window.removeEventListener("resize", () => listener)
-  }, [])
+    const handleResize = () => {
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+        timelineRef.current = null;
+        setIsExpanded(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return { toggle, isExpanded };
 }

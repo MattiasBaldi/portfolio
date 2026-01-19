@@ -115,8 +115,8 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
     }
   };
 
-  // Create timeline once when ready, recreate when draggable or gap changes
-  // Gap affects layout calculations, so timeline needs to be recreated
+  // Create timeline once when ready, recreate when draggable, gap, or mobile state changes
+  // Gap and isMobile affect layout calculations, so timeline needs to be recreated
   // Other controls (repeat, resistance, etc.) are set at creation time
   useGSAP(
     () => {
@@ -141,7 +141,7 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
 
       if (tl) timelineRef.current = tl;
     },
-    { scope: wrapper, dependencies: [ready, controls.draggable, controls.gap] }
+    { scope: wrapper, dependencies: [ready, controls.draggable, controls.gap, isMobile] }
   );
 
   // Update speed dynamically without recreating timeline (smooth animation)
