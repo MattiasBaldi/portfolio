@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import Draggable from "gsap/Draggable";
 import InertiaPlugin from "gsap/InertiaPlugin";
 import { useControls } from "leva";
-import { ArrowsOutSimpleIcon, InfoIcon } from '@phosphor-icons/react'
+import { InfoIcon } from '@phosphor-icons/react'
 import type { MediaItem } from "../../App.js";
 gsap.registerPlugin(useGSAP, Draggable, InertiaPlugin);
 
@@ -62,7 +62,14 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
               if (video.readyState >= 1) { // HAVE_METADATA or higher
                 resolve();
               } else {
-                video.addEventListener('loadedmetadata', () => resolve(), { once: true });
+                // Add timeout to prevent hanging on mobile (2s)
+                const timeout = setTimeout(() => resolve(), 2000);
+                video.addEventListener('loadedmetadata', () => {
+                  clearTimeout(timeout);
+                  resolve();
+                }, { once: true });
+                // Force load metadata
+                video.load();
               }
             })
           )
