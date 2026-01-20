@@ -10,6 +10,7 @@ export default defineConfig({
     allowedHosts: ['.trycloudflare.com'],
   },
   build: {
+    sourcemap: true,
     rollupOptions: {
       plugins: [
         visualizer({

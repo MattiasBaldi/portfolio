@@ -210,14 +210,16 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
                     loop
                     playsInline
                     preload="auto"
+                    aria-label={mediaItem.title || mediaItem.description || 'Project video'}
                   >
                     <source src={mediaItem.src} type="video/webm" />
                   </video>
-                
+
                 </>
               ) : (
                 <img
                   src={mediaItem.src}
+                  alt={mediaItem.title || mediaItem.description || 'Project media'}
                   style={mediaStyle}
                   className="h-full w-auto block"
                 />

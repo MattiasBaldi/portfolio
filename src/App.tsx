@@ -6,7 +6,7 @@ import { useDebug } from "./hooks/useDebug.js";
 
 export type MediaItem = {
   src: string;
-  title: string;
+  title?: string;
   description: string;
 };
 
@@ -50,11 +50,11 @@ export default function App() {
 
   return (
     <>
-      <div className="flex container flex-col gap-5 lg:gap-20 justify-center overflow-auto overflow-x-hidden">
+      <main className="flex container flex-col gap-5 lg:gap-20 justify-center overflow-auto overflow-x-hidden">
         <Header />
           <hr className="w-[200vw] relative left-[-50vw] lg:w-full lg:left-0" />
-        <Projects /> 
-      </div>
+        <Projects />
+      </main>
       <Leva hidden={!isDebug} collapsed={true}/>
     </>
   );

@@ -157,6 +157,7 @@ function Lightbox({ mediaItem, onPrevious, onNext }: LightboxProps) {
             controls
             autoPlay
             className="max-w-full max-h-full pointer-events-none select-none"
+            aria-label={mediaItem.title || mediaItem.description || 'Gallery video'}
             onClick={(e) => e.stopPropagation()}
             onError={handleError}
           />

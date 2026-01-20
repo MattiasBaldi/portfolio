@@ -1,13 +1,14 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, lazy, Suspense } from "react";
 import { useGSAP } from "@gsap/react";
 import { useControls, folder } from "leva";
 import { Marquee } from "./Marquee.js";
-import { Gallery } from "./Gallery.js";
 import { CloseButton } from "../ui/Button.js";
 import type { ProjectData } from "../../App.js";
 import { useAccordion, type AnimationControls } from "../../hooks/useAnimations.js";
 import gsap from "gsap";
 import data from "../../data/data.json" with { type: "json" };
+
+const Gallery = lazy(() => import("./Gallery.js").then(module => ({ default: module.Gallery })));
 
 gsap.registerPlugin(useGSAP);
 
@@ -87,11 +88,13 @@ export function Project(props: ProjectData) {
             
 
       {galleryOpen && (
-        <Gallery
-          media={props.media ?? []}
-          initialIndex={galleryIndex}
-          onClose={() => setGalleryOpen(false)}
-        />
+        <Suspense fallback={null}>
+          <Gallery
+            media={props.media ?? []}
+            initialIndex={galleryIndex}
+            onClose={() => setGalleryOpen(false)}
+          />
+        </Suspense>
       )}
     </>
   );
@@ -142,6 +145,7 @@ export function Thumbnail(props: ProjectData) {
         className="thumbnail h-full w-full object-cover"
         style={{ objectPosition: props.thumbnailPosition ?? 'top' }}
         src={props.thumbnail}
+        alt={props.name ?? 'Project thumbnail'}
         loading="lazy"
       />
     </div>
