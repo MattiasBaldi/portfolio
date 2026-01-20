@@ -94,6 +94,8 @@ export interface AnimationControls {
   titleSpeed?: number;
   titleEase?: string;
   titleX?: number;
+  mobileTitleSpeed?: number;
+  mobileTitleEase?: string;
   thumbnailSpeed?: number;
   thumbnailEase?: string;
   thumbnailY?: number;
@@ -149,7 +151,7 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
       "Mobile Title": folder(
         {
           mobileTitleSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
-          titleEase: {
+          mobileTitleEase: {
             value: "power2.inOut",
             options: EASE_OPTIONS,
             label: "Ease",
@@ -249,7 +251,7 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
 
       // Conditional mobile animation
       if (isMobile) {
-        tl.to(".mobile-title", { x: mobileTitleOffset?.x ?? 0, duration: controls.mobileTitleSpeed, ease: "power1.out" }, "<") // prettier-ignore
+        tl.to(".mobile-title", { x: mobileTitleOffset?.x ?? 0, duration: controls.mobileTitleSpeed, ease: controls.mobileTitleEase }, "<") // prettier-ignore
         .to(".preview", { height: controls.previewHeight * .5, duration: controls.previewSpeed, ease: controls.previewEase }, "<") // prettier-ignore
       }
 
