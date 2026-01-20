@@ -47,47 +47,59 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
   // Wait for all media (including videos) to load metadata
   useEffect(() => {
     if (images.current.length !== media.length) {
+       console.log("Not all images registered yet:", images.current.length, "/", media.length);
       setReady(false);
       return;
     }
 
     const checkReady = async () => {
+         console.log("Checking media readiness...");
+
+
       // Find all video elements and wait for their metadata to load
       const videos = images.current.flatMap(div => Array.from(div.querySelectorAll('video')));
+        console.log("Found videos:", videos.length);
 
-      if (videos.length > 0) {
-        await Promise.all(
-          videos.map(video =>
-            new Promise<void>(resolve => {
-              if (video.readyState >= 1) { // HAVE_METADATA or higher
-                resolve();
-              } else {
-                // Add timeout to prevent hanging on mobile (2s)
-                const timeout = setTimeout(() => resolve(), 2000);
-                video.addEventListener('loadedmetadata', () => {
-                  clearTimeout(timeout);
+        if (videos.length > 0) {
+          await Promise.all(
+            videos.map(video =>
+              new Promise<void>(resolve => {
+                // always mute on mobile
+                video.muted = true;
+                video.controls = false; 
+
+                if (video.readyState >= 1) {
+                  video.play().catch(err => console.log("iOS play failed:", err));
                   resolve();
-                }, { once: true });
-                // Force load metadata
-                video.load();
-              }
-            })
-          )
-        );
-      }
+                } else {
+                  const timeout = setTimeout(() => resolve(), 2000);
+                  video.addEventListener('loadedmetadata', () => {
+                    clearTimeout(timeout);
+                    video.play().catch(err => console.log("iOS play failed:", err));
+                    resolve();
+                  }, { once: true });
+                  video.load();
+                }
+              })
+            )
+          );
+        }
+
 
       // Find all image elements (including GIFs) and wait for them to load
       const imgs = images.current.flatMap(div => Array.from(div.querySelectorAll('img')));
+      console.log("Found images:", imgs.length);
 
       if (imgs.length > 0) {
         await Promise.all(
           imgs.map(img =>
             new Promise<void>(resolve => {
               if (img.complete && img.naturalWidth > 0) {
+                console.log("Image already loaded:", img.src);
                 resolve();
               } else {
-                img.addEventListener('load', () => resolve(), { once: true });
-                img.addEventListener('error', () => resolve(), { once: true });
+              img.addEventListener('load', () => { console.log("Image loaded:", img.src); resolve(); }, { once: true });
+              img.addEventListener('error', () => { console.log("Image failed to load:", img.src); resolve(); }, { once: true });
               }
             })
           )
@@ -95,21 +107,50 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
       }
 
       // Ensure container divs match their content width exactly (rounded to whole pixels)
-      await new Promise(resolve => requestAnimationFrame(resolve));
-      images.current.forEach(div => {
-        const mediaElement = div.querySelector('img, video') as HTMLElement;
-        if (mediaElement) {
-          const width = Math.round(mediaElement.getBoundingClientRect().width);
-          div.style.width = `${width}px`;
-        }
-      });
+     // Ensure container divs match their content width exactly (rounded to whole pixels)
+      // Wait a few frames or force reflow
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    await new Promise(resolve => requestAnimationFrame(resolve)); // 2 frames
+    images.current.forEach(div => {
+      const mediaElement = div.querySelector('img, video') as HTMLElement;
+      if (mediaElement) {
+        // Force reflow
+        mediaElement.offsetWidth; 
+        const width = Math.round(mediaElement.getBoundingClientRect().width);
+        div.style.width = `${width}px`;
+        console.log("Set div width:", width, "for", mediaElement.tagName);
+      }
+    });
+
+
 
       // Small delay to ensure dimensions are applied
       setTimeout(() => setReady(true), 100);
     };
 
+    const waitForWidths = () => {
+      return new Promise<void>((resolve) => {
+        const check = () => {
+          const allReady = images.current.every((div) => {
+            const mediaEl = div.querySelector('img, video') as HTMLElement;
+            return mediaEl && mediaEl.getBoundingClientRect().width > 0;
+          });
+
+          if (allReady) {
+            resolve();
+          } else {
+            requestAnimationFrame(check);
+          }
+        };
+        check();
+      });
+    };
+
+    console.log("is media ready:", checkReady) // check this goes through
+
     checkReady();
   }, [media]);
+
 
   const togglePause = () => {
     if (timelineRef.current) {
@@ -157,6 +198,7 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
       timelineRef.current.timeScale(controls.speed);
     }
   }, [controls.speed]);
+
 
   return (
     <div className="relative">
@@ -544,6 +586,7 @@ function horizontalLoop(items: HTMLElement[], config: Record<string, unknown>): 
         trigger: items[0].parentNode as HTMLElement,
         type: "x",
         onPressInit(this: Draggable) {
+            console.log("Drag started", { x: this.x, progress: tl.progress() });
           const x = this.x;
           gsap.killTweensOf(tl);
 
@@ -559,7 +602,7 @@ function horizontalLoop(items: HTMLElement[], config: Record<string, unknown>): 
           initChangeX = startProgress / -ratio - x;
           gsap.set(proxy, { x: startProgress / -ratio });
         },
-        onDrag: align,
+        onDrag: align, 
         onThrowUpdate: align,
         overshootTolerance: 0,
         snap: (value: number): number => {
@@ -577,6 +620,7 @@ function horizontalLoop(items: HTMLElement[], config: Record<string, unknown>): 
           return lastSnap;
         },
         onRelease(this: Draggable) {
+          console.log("Released", { isThrowing: this.isThrowing });
           syncIndex();
           this.isThrowing && (indexIsDirty = true);
         },
@@ -594,6 +638,6 @@ function horizontalLoop(items: HTMLElement[], config: Record<string, unknown>): 
     onChange && onChange(items[curIndex], curIndex);
     timeline = tl;
     return () => window.removeEventListener("resize", onResize); // cleanup
-  });
+  })
   return timeline;
 }
