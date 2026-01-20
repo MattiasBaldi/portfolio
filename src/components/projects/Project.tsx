@@ -51,7 +51,6 @@ export function Project(props: ProjectData) {
         ref={container}
         className="project flex flex-col gap-3"
       >
-
         <div
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
@@ -69,9 +68,7 @@ export function Project(props: ProjectData) {
             className="absolute right-0 top-0 p-3 opacity-0 z-10 pointer-events-none"
           />
 
-
         </div>
-
 
         <Content
           {...props}
@@ -83,9 +80,6 @@ export function Project(props: ProjectData) {
         />
         <hr className="border-gray-500 -mx-[10px] md:-mx-[40px] xl:mx-0 w-[calc(100%+20px)] md:w-[calc(100%+80px)] xl:w-full" />
       </div>
-
-
-            
 
       {galleryOpen && (
         <Suspense fallback={null}>

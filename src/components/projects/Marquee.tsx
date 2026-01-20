@@ -233,22 +233,18 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
                 />
               )}
 
-              {/* Lightbox button - shows on hover */}
-  
-              
-    <InfoIcon
-  onClick={(e) => { e.stopPropagation(); onMediaClick?.(i); }}
-  size={32}
-  className="
-    absolute top-2 right-2 p-1 rounded
-    opacity-100 lg:opacity-0 lg:group-hover:opacity-100
-    transition-opacity cursor-pointer
-    text-white mix-blend-difference
-    hidden lg:flex
-  "
-/>
-
-
+            {/* Lightbox button - shows on hover */}
+            <InfoIcon
+            onClick={(e) => { e.stopPropagation(); onMediaClick?.(i); }}
+            size={32}
+            className="
+              absolute top-2 right-2 p-1 rounded
+              opacity-100 lg:opacity-0 lg:group-hover:opacity-100
+              transition-opacity cursor-pointer
+              text-white mix-blend-difference
+              hidden lg:flex
+            "
+            />
             </div>
           );
         })}
