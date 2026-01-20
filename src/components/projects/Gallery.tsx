@@ -156,6 +156,7 @@ function Lightbox({ mediaItem, onPrevious, onNext }: LightboxProps) {
             src={currentSrc}
             controls
             autoPlay
+            preload="metadata"
             className="max-w-full max-h-full pointer-events-none select-none"
             aria-label={mediaItem.title || mediaItem.description || 'Gallery video'}
             onClick={(e) => e.stopPropagation()}
@@ -166,6 +167,7 @@ function Lightbox({ mediaItem, onPrevious, onNext }: LightboxProps) {
             key={currentSrc}
             src={currentSrc}
             alt={mediaItem.title}
+            loading="lazy"
             className="max-w-full max-h-full pointer-events-none select-none drag-none"
             onClick={(e) => e.stopPropagation()}
             draggable={false}

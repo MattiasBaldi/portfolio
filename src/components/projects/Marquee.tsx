@@ -209,7 +209,7 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
                     autoPlay
                     loop
                     playsInline
-                    preload="auto"
+                    preload="metadata"
                     aria-label={mediaItem.title || mediaItem.description || 'Project video'}
                   >
                     <source src={mediaItem.src} type="video/webm" />
@@ -222,6 +222,7 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
                   alt={mediaItem.title || mediaItem.description || 'Project media'}
                   style={mediaStyle}
                   className="h-full w-auto block"
+                  loading="lazy"
                 />
               )}
 
