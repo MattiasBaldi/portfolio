@@ -83,7 +83,7 @@
     "id": 5,
     "name": "Virtuall Pro",
     "description": "A marketing campaign for Virtuall Pro featuring three distinctive jacket designs created for viral social media advertising. The 3D models were optimized for both promotional content and augmented reality experiences, allowing users to view the jackets in AR on their devices.",
-    "thumbnail": "./virtuall-pro/thumbnail.gif",
+    "thumbnail": "./virtuall-pro/thumbnail.webp",
     "thumbnailPosition": "center center",
     "media": [
       { "src": "./virtuall-pro/marquee/1.webm", "description": "Jacket 1/3" },
