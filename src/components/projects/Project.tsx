@@ -4,13 +4,12 @@ import { useControls, folder } from "leva";
 import { Marquee } from "./Marquee.js";
 import { CloseButton } from "../ui/Button.js";
 import type { ProjectData } from "../../App.js";
-import { useAccordion, type AnimationControls } from "../../hooks/useAnimations.js";
+import { useAccordion } from "../../hooks/useAccordion.js";
 import gsap from "gsap";
 import data from "../../data/data.json" with { type: "json" };
 
-const Gallery = lazy(() => import("./Gallery.js").then(module => ({ default: module.Gallery })));
-
 gsap.registerPlugin(useGSAP);
+const Gallery = lazy(() => import("./Gallery.js").then(module => ({ default: module.Gallery })));
 
 export function Projects() {
   return (
@@ -25,25 +24,17 @@ export function Projects() {
 export function Project(props: ProjectData) {
   const container = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP({ scope: container });
-
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [isHovering, setIsHovering] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const controls = useControls("Project", {
     mobileGap: { value: 2, min: 0, max: 80, step: 4, label: "Mobile Gap (px)" },
     desktopGap: { value: 40, min: 0, max: 80, step: 4, label: "Desktop Gap (px)" },
     contentGap: { value: 40, min: 0, max: 80, step: 4, label: "Content Gap (px)" },
-  }, {collapsed: false});
+  }, {collapsed: true});
   
-  const { toggle, isExpanded } = useAccordion(contextSafe, container);
+  const { toggle, isExpanded } = useAccordion(container);
 
   return (
     <>
@@ -55,8 +46,7 @@ export function Project(props: ProjectData) {
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           onClick={() => toggle()}
-          className="preview cursor-pointer hover:cursor-pointer relative flex justify-between w-full h-75 md:h-125 lg:h-50 overflow-hidden"
-          style={{ gap: isMobile ? `${controls.mobileGap}px` : `${controls.desktopGap}px` }}
+          className="preview gap-5 lg:gap-20 cursor-pointer hover:cursor-pointer relative flex justify-between w-full h-75 md:h-125 lg:h-50 overflow-hidden"
         >
 
           <DateIndex {...props} />

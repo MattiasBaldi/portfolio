@@ -1,9 +1,8 @@
-import "./main.css";
+import "@/styles/main.css";
 import Header from "./components/Header.js";
 import {Projects} from "./components/projects/Project.jsx";
 import { Leva, useControls } from "leva";
 import { useDebug } from "./hooks/useDebug.js";
-import { enableNetworkLogging } from "./utils/networkLogger.js";
 import { useEffect } from "react";
 
 export type MediaItem = {
@@ -31,12 +30,6 @@ export default function App() {
   const isDebug = useDebug();
   let dStyles = document.head.appendChild(document.createElement("style"));
 
-  // Enable network logging when debug mode is active
-  useEffect(() => {
-    if (isDebug) {
-      enableNetworkLogging();
-    }
-  }, [isDebug]);
 
   // debug
   useControls(

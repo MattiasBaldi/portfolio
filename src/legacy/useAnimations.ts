@@ -94,8 +94,6 @@ export interface AnimationControls {
   titleSpeed?: number;
   titleEase?: string;
   titleX?: number;
-  mobileTitleSpeed?: number;
-  mobileTitleEase?: string;
   thumbnailSpeed?: number;
   thumbnailEase?: string;
   thumbnailY?: number;
@@ -151,7 +149,7 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
       "Mobile Title": folder(
         {
           mobileTitleSpeed: { value: 1, min: 0, max: 10, step: 0.01, label: "Speed" },
-          mobileTitleEase: {
+          titleEase: {
             value: "power2.inOut",
             options: EASE_OPTIONS,
             label: "Ease",
@@ -237,11 +235,8 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
     const titleOffset = getTitleOffset(container);
     const mobileTitleOffset = isMobile ? getMobileTitleOffset(container) : undefined;
 
-    console.log("Toggle clicked", { isExpanded, titleOffset, mobileTitleOffset, isMobile });
-
     // Animation
     if (!timelineRef.current) {
-      console.log("Creating new timeline");
       const tl = gsap.timeline();
 
       // Common animations
@@ -254,8 +249,7 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
 
       // Conditional mobile animation
       if (isMobile) {
-        console.log("Applying mobile offsets:", mobileTitleOffset);
-        tl.to(".mobile-title", { x: mobileTitleOffset?.x ?? 0, duration: controls.mobileTitleSpeed, ease: controls.mobileTitleEase }, "<") // prettier-ignore
+        tl.to(".mobile-title", { x: mobileTitleOffset?.x ?? 0, duration: controls.mobileTitleSpeed, ease: "power1.out" }, "<") // prettier-ignore
         .to(".preview", { height: controls.previewHeight * .5, duration: controls.previewSpeed, ease: controls.previewEase }, "<") // prettier-ignore
       }
 
@@ -265,21 +259,17 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
       timelineRef.current = tl;
     }
     else {
-      console.log("Updating existing timeline");
       // Update offsets if timeline already exists
       const children = timelineRef.current.getChildren();
       if (children[1] && titleOffset !== undefined) {
-        console.log("Updating title x offset to:", titleOffset);
         children[1].vars.x = titleOffset;
       }
       if (children[5] && mobileTitleOffset) {
-        console.log("Updating mobile title x offset to:", mobileTitleOffset.x);
         children[5].vars.x = mobileTitleOffset.x;
       }
     }
 
     // toggle forward/back
-    console.log("Reversing timeline, isExpanded =", isExpanded);
     isExpanded ? timelineRef.current.reversed(isExpanded).duration(0.75) : timelineRef.current.reversed(isExpanded)
     setIsExpanded(!isExpanded);
   });

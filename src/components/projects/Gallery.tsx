@@ -33,17 +33,11 @@ interface NavigationArrowsProps {
 
 export function Gallery({ media, initialIndex = 0, onClose }: GalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
-
   const currentMedia = media[currentIndex] ?? { src: "", title: "", description: "" };
+  const goToPrevious = () => setCurrentIndex((prev) => (prev === 0 ? media.length - 1 : prev - 1));
+  const goToNext = () => setCurrentIndex((prev) => (prev === media.length - 1 ? 0 : prev + 1));
 
-  const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? media.length - 1 : prev - 1));
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev === media.length - 1 ? 0 : prev + 1));
-  };
-
+  // keymap
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
