@@ -15,7 +15,10 @@ export function Projects() {
   return (
     <div className="overflow-x-hidden h-fit flex flex-col gap-3">
       {[...Array(data.length)].map((v, i) => (
+        <>
         <Project key={i} {...data[i]} />
+        <hr key={i + `border`} className="border-gray-500 -mx-[10px] md:-mx-[40px] xl:mx-0 w-[calc(100%+20px)] md:w-[calc(100%+80px)] xl:w-full" />
+        </>
       ))}
     </div>
   );
@@ -33,6 +36,7 @@ export function Project(props: ProjectData) {
     desktopGap: { value: 40, min: 0, max: 80, step: 4, label: "Desktop Gap (px)" },
     contentGap: { value: 40, min: 0, max: 80, step: 4, label: "Content Gap (px)" },
   }, {collapsed: true});
+
   
   const { toggle, isExpanded } = useAccordion(container);
 
@@ -40,7 +44,7 @@ export function Project(props: ProjectData) {
     <>
       <div
         ref={container}
-        className="project flex flex-col gap-3"
+        className="project flex flex-col project-gap"
       >
         <div
           onMouseEnter={() => setIsHovering(true)}
@@ -61,6 +65,7 @@ export function Project(props: ProjectData) {
         </div>
 
         <Content
+          show={isExpanded}
           {...props}
           contentGap={controls.contentGap}
           onMediaClick={(index) => {
@@ -68,7 +73,6 @@ export function Project(props: ProjectData) {
             setGalleryOpen(true);
           }}
         />
-        <hr className="border-gray-500 -mx-[10px] md:-mx-[40px] xl:mx-0 w-[calc(100%+20px)] md:w-[calc(100%+80px)] xl:w-full" />
       </div>
 
       {galleryOpen && (
@@ -100,7 +104,7 @@ export function DateIndex(props: ProjectData) {
 
 export function TitleDescription(props: ProjectData) {
   return (
-    <div className={`title-description hidden w-40 lg:flex flex-col p-0`}>
+    <div className={`title-description hidden w-40 h-fit lg:flex flex-col p-0`}>
       <p className="h-fit font-bold truncate">{props.name} </p>
       <p className="h-fit truncate">{props.category}</p>
     </div>
@@ -138,6 +142,7 @@ export function Thumbnail(props: ProjectData) {
 }
 
 interface ContentProps extends ProjectData {
+  show: boolean; 
   onMediaClick?: (index: number) => void;
   contentGap?: number;
 }
@@ -145,14 +150,14 @@ interface ContentProps extends ProjectData {
 export function Content(props: ContentProps) {
   const [viewMore, setViewMore] = useState<boolean>(false);
 
-  const maxLength = 100;
+  const maxLength = window.innerWidth < 500 ? 100 : window.innerWidth < 1024 ? 150 : 250; 
   const description = props.description ?? "";
   const isLong = description.length > maxLength;
   const abbreviated = description.slice(0, maxLength);
 
   return (
     <div
-      className="content h-0 left-200 flex flex-col top-10 overflow-hidden gap-5 lg:gap-10"
+    className={`content h-0 left-200 flex flex-col overflow-hidden ${props.show ? "content-gap" : "gap-0"}`}
     >
       <Marquee
         media={props.media ?? []}
@@ -204,4 +209,3 @@ export function Content(props: ContentProps) {
     </div>
   );
 }
-

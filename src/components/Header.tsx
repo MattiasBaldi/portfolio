@@ -12,8 +12,7 @@ export default function Header() {
   useEffect(() => {
     if (!accordionRef.current) return;
 
-    const updateHeight = () =>
-      setMaxHeight(open ? `${accordionRef.current!.scrollHeight}px` : "0px");
+    const updateHeight = () => setMaxHeight(open ? `${accordionRef.current!.scrollHeight}px` : "0px");
 
     updateHeight();
     const observer = new ResizeObserver(updateHeight);
@@ -23,7 +22,10 @@ export default function Header() {
   }, [open]);
 
   return (
-    <div className="group hover:cursor-pointer z-10 bg-grey-100 w-fit h-fit flex flex-col">
+    <div className={`group hover:cursor-pointer z-10 bg-grey-100 w-fit h-fit flex flex-col`}>
+
+
+      
       {/* Header */}
       <h1
         onClick={() => setOpen((prev) => !prev)}
@@ -45,26 +47,25 @@ export default function Header() {
         maxHeight={maxHeight}
         onClick={() => setOpen(false)}
       >
-        <div ref={accordionRef} className="overflow-hidden transition-all duration-500 ease-in-out" style={{ maxHeight }}>
+        <div ref={accordionRef} className="overflow-hidden transition-all duration-500 ease-in-out w-full" style={{ maxHeight }}>
 
 
           {/* all */}
-          <div className="flex flex-col justify-start items-start pt-0 md:pt-0 lg:pt-20 gap-10 md:gap-20">
-            <div className="flex flex-col md:flex-row-reverse gap-10 md:gap-20 lg:gap-40">
+          <div className={`flex flex-col justify-start items-start py-5 md:py-5 lg:pt-20 gap-10 w-full`}>
+            <div className="flex flex-col md:flex-row-reverse gap-10 md:gap-20 lg:gap-60 w-full">
 
               {/* text */}
          <div className="flex flex-col gap-10 max-w-175">
-            <p className="py-2 h-fit">
-              I create immersive digital experiences that deliver real impact for brands and businesses. With a background in design and technology from Copenhagen School of Design and Technology, I work across many domains in the digital world, specializing in 3D web experiences using WebGL, WebGPU, and Three.js.
+            <p >
+               I create immersive digital experiences that deliver real impact for brands and businesses. With a background in design and technology from Copenhagen School of Design and Technology, I work across the digital landscape, specializing in 3D web experiences with WebGL, WebGPU, and Three.js.
             </p>
 
             <p>
-              I've worked with most popular web stacks and emphasize clean software design, choosing frameworks, languages, and architectures based on each project's needs—always grounded in solid computer science and software engineering principles. My primary tools are TypeScript, Three.js, React, and React Three Fiber.
+            I’ve worked with most modern web stacks and focus on clean software design, selecting frameworks, languages, and architectures based on each project’s needs, grounded in solid computer science and software engineering. My primary tools are TypeScript, Three.js, React, and React Three Fiber, and I also use AI-assisted development (Claude Code) as an assitant and to optimize workflow.
             </p>
 
-            <p>
-              I'm also experienced with LLM and AI-assisted development, using Claude Code in my daily work as an intelligent assistant for thoughtful problem-solving and architectural decisions.
-            </p>
+
+
           </div>
 
 
@@ -122,4 +123,3 @@ function Links() {
     </div>
   );
 }
-

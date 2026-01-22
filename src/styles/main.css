@@ -123,6 +123,24 @@
     display: none !important;
   }
 
+  .project-gap {
+    gap: 0;
+  }
+
+  .content-gap {
+    gap: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .project-gap {
+      gap: 10px;
+    }
+
+    .content-gap {
+      gap: 10px;
+    }
+  }
+
   h1 {
       font-size: 40px;
       font-weight: bold;

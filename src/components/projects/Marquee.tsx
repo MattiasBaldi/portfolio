@@ -1,8 +1,7 @@
 import { useRef } from "react";
-import { InfoIcon, PlayIcon, PauseIcon, GridFourIcon } from '@phosphor-icons/react'
+import { InfoIcon, PlayIcon, PauseIcon, GridFourIcon, CornersOutIcon } from '@phosphor-icons/react'
 import type { MediaItem } from "../../App.js";
 import { useMarquee } from "@/hooks/useMarquee.js";
-import "@/styles/marquee.css"
 
 export type MarqueeLoopProps = {
   media: MediaItem[];
@@ -36,14 +35,11 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
           
           const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(mediaItem.src);
 
-          const mediaHeight = 200; 
-
           return (
             <div
               key={i}
-              className="relative flex-shrink-0 group"
+              className="relative flex-shrink-0 group h-50 md:h-75 lg:h-115"
               style={{
-                height: mediaHeight,
                 width: 'auto',
                 margin: 0,
                 padding: 0,
@@ -92,7 +88,18 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
       </div>
 
       {/* Controls */}
-      <div className="absolute bottom-3 left-3 flex gap-1 items-center">
+      <div className="absolute py-2 bottom-0 right-3 flex flex-col h-full justify-between">
+
+     <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onMediaClick?.(0);
+          }}
+          className="p-1.5 text-grey-500 hover:text-grey-900 transition-colors cursor-pointer"
+          aria-label="View gallery"
+        >
+          <CornersOutIcon className="w-6 md:w-7"/> 
+        </button>
 
         <button
           onClick={(e) => {
@@ -105,16 +112,7 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
           {isPaused ? <PlayIcon  className="w-6 md:w-7" />  : <PauseIcon className="w-6 md:w-7" />}
         </button>
 
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onMediaClick?.(0);
-          }}
-          className="p-1.5 text-grey-500 hover:text-grey-900 transition-colors cursor-pointer"
-          aria-label="View gallery"
-        >
-          <GridFourIcon className="w-6 md:w-7"/> 
-        </button>
+   
       </div>
     </div>
   );

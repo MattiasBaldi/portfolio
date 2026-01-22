@@ -1,10 +1,11 @@
 import { useGSAP, type ContextSafeFunc } from "@gsap/react";
 import { useControls, folder } from "leva";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import gsap from "gsap";
 import { getMedia } from "../utils/media";
 import { EASE_OPTIONS } from "../utils/gsap/ease";
+import { useResize } from "./useResize";
 gsap.registerPlugin(useGSAP);
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -35,6 +36,9 @@ export interface AnimationControls {
 export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const [titleOffset, setTitleOffset] = useState(null)
+  const [mobileTitleOffset, setMobileTitleOffset] = useState(null)
+  const resizeStrategy: "rebuild" = "rebuild"
 
   const controls = useControls(
     "Project",
@@ -150,50 +154,46 @@ export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) 
     })
     }
   );
+  const animation = (controls as { animation?: AnimationControls }).animation ?? controls
 
-  const { contextSafe, context } = useGSAP({ scope: containerRef });
+  const { contextSafe } = useGSAP({ scope: containerRef });
+
+  const buildTimeline = useCallback(() => {
+    if (!containerRef.current) return null
+    const q = gsap.utils.selector(containerRef)
+    const isMobile = getMedia("mobile") || getMedia("touch")
+    const nextTitleOffset = getTitleOffset(containerRef.current)
+    const nextMobileTitleOffset = isMobile ? getMobileTitleOffset(containerRef.current) : undefined
+    const mobileTitle = containerRef.current.querySelector(".mobile-title")
+    const title = containerRef.current.querySelector(".title-description")
+    const tl = gsap.timeline()
+
+    tl
+      .to(q(".date-index"), {  x: -100, opacity: animation.dateOpacity, duration: animation.dateSpeed, ease: animation.dateEase }, "<")      // prettier-ignore
+      .to(q(".title-description"), { x: nextTitleOffset ?? animation.titleX, duration: animation.titleSpeed, ease: animation.titleEase }, "<")    // prettier-ignore
+      .to(q(".thumbnail img"), { y: animation.thumbnailY, opacity: animation.thumbnailOpacity, duration: animation.thumbnailSpeed, ease: animation.thumbnailEase },"<")      // prettier-ignore
+      .to(q(".content"), { height: "auto", duration: animation.contentSpeed, ease: animation.contentEase}, "<") // prettier-ignore
+      .to(q(".preview"), { height: isMobile ? (mobileTitle?.getBoundingClientRect().height ?? 0) : (title && window.getComputedStyle(title).display !== "none" ? (title.getBoundingClientRect().height || animation.previewHeight) : animation.previewHeight), duration: animation.previewSpeed, ease: animation.previewEase }, "<") // prettier-ignore
+      .to(q(".mobile-title"), { x: nextMobileTitleOffset?.x ?? 0, duration: animation.mobileTitleSpeed, ease: animation.mobileTitleEase }, "<") // prettier-ignore
+      .to(q(".close-button"), { opacity: 0.5, pointerEvents: "auto", duration: 0.3, ease: "power2.out" }); // prettier-ignore
+  
+    return tl
+  }, [animation, containerRef, controls])
 
   const toggle = contextSafe(() => {
     if (!containerRef.current) return;
-
-    const container = containerRef.current;
-    const isMobile = getMedia("mobile") || getMedia("touch");
-    const titleOffset = getTitleOffset(container);
-    const mobileTitleOffset = isMobile ? getMobileTitleOffset(container) : undefined;
-
+    
     // Animation
     if (!timelineRef.current) {
-      const tl = gsap.timeline();
-
-      // Common animations
-      tl
-        .to(".date-index", {  x: -100, opacity: controls.dateOpacity, duration: controls.dateSpeed, ease: controls.dateEase }, "<")      // prettier-ignore
-        .to(".title-description", { x: titleOffset ?? controls.titleX, duration: controls.titleSpeed, ease: controls.titleEase }, "<")    // prettier-ignore
-        .to(".thumbnail img", { y: controls.thumbnailY, opacity: controls.thumbnailOpacity, duration: controls.thumbnailSpeed, ease: controls.thumbnailEase },"<")      // prettier-ignore
-        .to(".preview", { height: controls.previewHeight, duration: controls.previewSpeed, ease: controls.previewEase }, "<") // prettier-ignore
-        .to(".content", { height: "auto", duration: controls.contentSpeed, ease: controls.contentEase}, "<"); // prettier-ignore
-
-      // Conditional mobile animation
-      if (isMobile) {
-        tl.to(".mobile-title", { x: mobileTitleOffset?.x ?? 0, duration: controls.mobileTitleSpeed, ease: controls.mobileTitleEase }, "<") // prettier-ignore
-        .to(".preview", { height: controls.previewHeight * .5, duration: controls.previewSpeed, ease: controls.previewEase }, "<") // prettier-ignore
-      }
-
-      // Final animations
-      tl.to(".close-button", { opacity: 0.5, pointerEvents: "auto", duration: 0.3, ease: "power2.out" }); // prettier-ignore
-
-      timelineRef.current = tl;
+      timelineRef.current = buildTimeline()
     }
     
     // Dont recreate it otherwise
     else {
-      // Update offsets if timeline already exists
-      const children = timelineRef.current.getChildren();
-     
+      const children = timelineRef.current.getChildren();       // Update offsets if timeline already exists
       if (children[1] && titleOffset !== undefined) {
         children[1].vars.x = titleOffset;
       }
-     
       if (children[5] && mobileTitleOffset) {
         children[5].vars.x = mobileTitleOffset.x;
       }
@@ -205,6 +205,20 @@ export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) 
       return !prev
     })
   });
+
+  const handleResize = useCallback(() => {
+    if (!timelineRef.current || !containerRef.current) return
+    if (resizeStrategy === "rebuild") {
+      const progress = timelineRef.current.progress()
+      const reversed = timelineRef.current.reversed()
+      timelineRef.current.revert()
+      timelineRef.current = buildTimeline()
+      timelineRef.current?.progress(progress).reversed(reversed)
+      return
+    }
+  }, [buildTimeline, containerRef, resizeStrategy])
+
+  useResize(containerRef, handleResize, {delay: 5})
 
   return { toggle, isExpanded };
 }
