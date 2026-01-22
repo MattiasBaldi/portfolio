@@ -1,9 +1,7 @@
 // @ts-nocheck
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import Draggable from "gsap/Draggable";
 import InertiaPlugin from "gsap/InertiaPlugin";
-gsap.registerPlugin(useGSAP, Draggable, InertiaPlugin);
 
 
 /*

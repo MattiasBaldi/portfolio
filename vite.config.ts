@@ -12,7 +12,8 @@ export default defineConfig({
     tailwindcss(),
     {
       name: "cloudflared-tunnel",
-      apply: "serve",
+      apply: (_, env) =>
+        env.command === "serve" && process.env.npm_lifecycle_event === "dev",
       configureServer(server) {
         const tunnel: ChildProcessWithoutNullStreams = spawn(
           "cloudflared",
@@ -60,6 +61,7 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    exclude: ["src/_legacy/**"],
     setupFiles: ["src/tests/setup.ts"],
   },
 });

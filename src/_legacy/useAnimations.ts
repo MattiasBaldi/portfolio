@@ -1,10 +1,8 @@
 import type { ContextSafeFunc } from "@gsap/react";
 import { useControls, folder } from "leva";
 import { useEffect, useRef, useState } from "react";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import gsap from "gsap";
-import { getMedia } from "../utils/media";
-gsap.registerPlugin(ScrollToPlugin);
+import { useMedia } from "../hooks/useMedia";
 
 const EASE_OPTIONS = [
   "none",
@@ -108,6 +106,7 @@ export interface AnimationControls {
 export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.RefObject<HTMLElement | null>) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const { isMobile, isTouch } = useMedia()
 
   const controls = useControls(
     "Project",
@@ -231,9 +230,9 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
     if (!containerRef.current) return;
 
     const container = containerRef.current;
-    const isMobile = getMedia("mobile") || getMedia("touch");
+    const isMobileView = isMobile || isTouch;
     const titleOffset = getTitleOffset(container);
-    const mobileTitleOffset = isMobile ? getMobileTitleOffset(container) : undefined;
+    const mobileTitleOffset = isMobileView ? getMobileTitleOffset(container) : undefined;
 
     // Animation
     if (!timelineRef.current) {
@@ -248,7 +247,7 @@ export function useAccordion(contextSafe: ContextSafeFunc, containerRef: React.R
         .to(".content", { height: "auto", duration: controls.contentSpeed, ease: controls.contentEase}, "<"); // prettier-ignore
 
       // Conditional mobile animation
-      if (isMobile) {
+      if (isMobileView) {
         tl.to(".mobile-title", { x: mobileTitleOffset?.x ?? 0, duration: controls.mobileTitleSpeed, ease: "power1.out" }, "<") // prettier-ignore
         .to(".preview", { height: controls.previewHeight * .5, duration: controls.previewSpeed, ease: controls.previewEase }, "<") // prettier-ignore
       }

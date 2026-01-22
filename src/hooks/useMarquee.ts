@@ -2,7 +2,8 @@ import { useGSAP } from "@gsap/react"
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react"
 import { horizontalLoop } from "../utils/gsap/horizontalLoop"
 import { useControls } from "leva"
-import { checkReady, playVideosInBatches } from "../utils/marquee"
+import { checkReady, playVideosInBatches, sizeContainers } from "../utils/marquee"
+import { useResize } from "./useResize"
 
 type UseMarqueeOptions = {
   enabled?: boolean
@@ -27,7 +28,7 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>, options: U
             step: 0.1,
             transient: false, 
             label: "Speed",
-            onChange: (v: number) => console.log("test", v),
+            onChange: (v: number) => null,
           },
           resistance: { value: 10, min: 1, max: 50, step: 1, label: "Drag Resistance" },
           minVelocity: { value: 50, min: 0, max: 200, step: 10, label: "Min Velocity" },
@@ -115,6 +116,13 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>, options: U
         setIsPaused(!isPaused);
       }
   }, [enabled, isPaused])
+
+  // useResize(() => {
+  //   const containers = wrapper.current ? (Array.from(wrapper.current.children) as HTMLDivElement[]) : []
+  //   sizeContainers(containers)
+  //   timelineRef.current?.revert()
+  //   timelineRef.current?.play()
+  // }, {delay: 10})
 
   return { timeline: timelineRef.current, toggle, isPaused }
 }

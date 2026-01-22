@@ -5,20 +5,18 @@ import { Marquee } from "./Marquee.js";
 import { CloseButton } from "../ui/Button.js";
 import type { ProjectData } from "../../App.js";
 import { useAccordion } from "../../hooks/useAccordion.js";
-import gsap from "gsap";
 import data from "../../data/data.json" with { type: "json" };
 
-gsap.registerPlugin(useGSAP);
 const Gallery = lazy(() => import("./Gallery.js").then(module => ({ default: module.Gallery })));
 
 export function Projects() {
   return (
     <div className="overflow-x-hidden h-fit flex flex-col gap-3">
-      {[...Array(data.length)].map((v, i) => (
-        <>
-        <Project key={i} {...data[i]} />
-        <hr key={i + `border`} className="border-gray-500 -mx-[10px] md:-mx-[40px] xl:mx-0 w-[calc(100%+20px)] md:w-[calc(100%+80px)] xl:w-full" />
-        </>
+      {data.map((project) => (
+        <div key={project.id}>
+          <Project {...project} />
+          <hr className="border-gray-500 -mx-[10px] md:-mx-[40px] xl:mx-0 w-[calc(100%+20px)] md:w-[calc(100%+80px)] xl:w-full" />
+        </div>
       ))}
     </div>
   );

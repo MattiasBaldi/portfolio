@@ -1,46 +1,21 @@
 import { useGSAP, type ContextSafeFunc } from "@gsap/react";
 import { useControls, folder } from "leva";
 import { useCallback, useRef, useState } from "react";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import gsap from "gsap";
-import { getMedia } from "../utils/media";
+import { useMedia } from "./useMedia";
 import { EASE_OPTIONS } from "../utils/gsap/ease";
 import { useResize } from "./useResize";
-gsap.registerPlugin(useGSAP);
-gsap.registerPlugin(ScrollToPlugin);
-
-export interface AnimationControls {
-  scrollToView?: boolean;
-  scrollOffset?: number;
-  dateSpeed?: number;
-  dateEase?: string;
-  dateY?: number;
-  dateOpacity?: number;
-  titleSpeed?: number;
-  titleEase?: string;
-  titleX?: number;
-  mobileTitleSpeed?: number;
-  mobileTitleEase?: string;
-  thumbnailSpeed?: number;
-  thumbnailEase?: string;
-  thumbnailY?: number;
-  thumbnailOpacity?: number;
-  previewSpeed?: number;
-  previewEase?: string;
-  previewHeight?: number;
-  contentSpeed?: number;
-  contentEase?: string;
-  contentHeight?: number;
-}
+import { getMobileTitleOffset, getTitleOffset, getVisibleHeight } from "@/utils/accordion";
 
 export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const [titleOffset, setTitleOffset] = useState<number | undefined>(undefined)
   const [mobileTitleOffset, setMobileTitleOffset] = useState<{ x: number; y: number } | undefined>(undefined)
+  const { isMobile, isTablet } = useMedia()
   const resizeStrategy: "rebuild" = "rebuild"
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
-  const controls = useControls(
+  const anim = useControls(
     "Project",
     {
       animation: folder({
@@ -154,40 +129,46 @@ export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) 
     })
     }
   );
-  const animation = (controls as { animation?: AnimationControls }).animation ?? controls
-  const anim = {
-    dateOpacity: animation.dateOpacity ?? 0,
-    dateSpeed: animation.dateSpeed ?? 0,
-    dateEase: animation.dateEase ?? "none",
-    titleX: animation.titleX ?? 0,
-    titleSpeed: animation.titleSpeed ?? 0,
-    titleEase: animation.titleEase ?? "none",
-    thumbnailY: animation.thumbnailY ?? 0,
-    thumbnailOpacity: animation.thumbnailOpacity ?? 0,
-    thumbnailSpeed: animation.thumbnailSpeed ?? 0,
-    thumbnailEase: animation.thumbnailEase ?? "none",
-    contentSpeed: animation.contentSpeed ?? 0,
-    contentEase: animation.contentEase ?? "none",
-    previewHeight: animation.previewHeight ?? 0,
-    previewSpeed: animation.previewSpeed ?? 0,
-    previewEase: animation.previewEase ?? "none",
-    mobileTitleSpeed: animation.mobileTitleSpeed ?? 0,
-    mobileTitleEase: animation.mobileTitleEase ?? "none",
-  }
 
-  const { contextSafe } = useGSAP({ scope: containerRef });
+  const { contextSafe } = useGSAP(() => {
+
+    // if (!containerRef.current) return null
+    // const q = gsap.utils.selector(containerRef)
+    // const isMobileView = isMobile || isTablet
+    // const nextTitleOffset = getTitleOffset(containerRef.current)
+    // const nextMobileTitleOffset = isMobileView ? getMobileTitleOffset(containerRef.current) : undefined
+    // const mobileTitle = containerRef.current.querySelector(".mobile-title")
+    // const title = containerRef.current.querySelector(".title-description")
+    // const titleHeight = getVisibleHeight(title)
+    // const mobileTitleHeight = getVisibleHeight(mobileTitle)
+    // const previewHeight = (isMobileView ? mobileTitleHeight : titleHeight) ?? titleHeight ?? mobileTitleHeight ?? anim.previewHeight
+    // const tl = gsap.timeline()
+
+    // tl
+    //   .to(q(".date-index"), {  x: -100, opacity: anim.dateOpacity, duration: anim.dateSpeed, ease: anim.dateEase }, "<")      // prettier-ignore
+    //   .to(q(".title-description"), { x: nextTitleOffset ?? anim.titleX, duration: anim.titleSpeed, ease: anim.titleEase }, "<")    // prettier-ignore
+    //   .to(q(".thumbnail img"), { y: anim.thumbnailY, opacity: anim.thumbnailOpacity, duration: anim.thumbnailSpeed, ease: anim.thumbnailEase },"<")      // prettier-ignore
+    //   .to(q(".content"), { height: "auto", duration: anim.contentSpeed, ease: anim.contentEase}, "<") // prettier-ignore
+    //   .to(q(".preview"), { height: previewHeight, duration: anim.previewSpeed, ease: anim.previewEase }, "<") // prettier-ignore
+    //   .to(q(".mobile-title"), { x: nextMobileTitleOffset?.x ?? 0, duration: anim.mobileTitleSpeed, ease: anim.mobileTitleEase }, "<") // prettier-ignore
+    //   .to(q(".close-button"), { opacity: 0.5, pointerEvents: "auto", duration: 0.3, ease: "power2.out" }); // prettier-ignore
+  
+    // return tl
+
+
+  }, { scope: containerRef, dependencies: [] });
 
   const buildTimeline = useCallback(() => {
     if (!containerRef.current) return null
     const q = gsap.utils.selector(containerRef)
-    const isMobile = getMedia("mobile") || getMedia("touch")
+    const isMobileView = isMobile || isTablet
     const nextTitleOffset = getTitleOffset(containerRef.current)
-    const nextMobileTitleOffset = isMobile ? getMobileTitleOffset(containerRef.current) : undefined
+    const nextMobileTitleOffset = isMobileView ? getMobileTitleOffset(containerRef.current) : undefined
     const mobileTitle = containerRef.current.querySelector(".mobile-title")
     const title = containerRef.current.querySelector(".title-description")
     const titleHeight = getVisibleHeight(title)
     const mobileTitleHeight = getVisibleHeight(mobileTitle)
-    const previewHeight = (isMobile ? mobileTitleHeight : titleHeight) ?? titleHeight ?? mobileTitleHeight ?? anim.previewHeight
+    const previewHeight = (isMobileView ? mobileTitleHeight : titleHeight) ?? titleHeight ?? mobileTitleHeight ?? anim.previewHeight
     const tl = gsap.timeline()
 
     tl
@@ -200,7 +181,7 @@ export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) 
       .to(q(".close-button"), { opacity: 0.5, pointerEvents: "auto", duration: 0.3, ease: "power2.out" }); // prettier-ignore
   
     return tl
-  }, [anim, containerRef])
+  }, [anim, containerRef, isMobile, isTablet])
 
   const toggle = contextSafe(() => {
     if (!containerRef.current) return;
@@ -230,7 +211,8 @@ export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) 
     })
   });
 
-  const handleResize = useCallback(() => {
+  // on resize with debouncing
+  useResize(() => {
     if (!timelineRef.current || !containerRef.current) return
     if (resizeStrategy === "rebuild") {
       const progress = timelineRef.current.progress()
@@ -240,37 +222,7 @@ export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) 
       timelineRef.current?.progress(progress).reversed(reversed)
       return
     }
-  }, [buildTimeline, containerRef, resizeStrategy])
-
-  useResize(handleResize, {delay: 20})
+  }, {delay: 20})
 
   return { toggle, isExpanded };
-}
-
-function getTitleOffset(container: HTMLElement): number | undefined {
-  const dateIndex = container.querySelector(".date-index");
-  const titleDescription = container.querySelector(".title-description");
-  if (!dateIndex || !titleDescription) return undefined;
-  const dateRect = dateIndex.getBoundingClientRect();
-  const titleRect = titleDescription.getBoundingClientRect();
-  return dateRect.left - titleRect.left;
-}
-
-// Helper: Calculate mobile title offset to align with date-index
-function getMobileTitleOffset(container: HTMLElement): { x: number; y: number } | undefined {
-  const dateIndex = container.querySelector(".date-index");
-  const mobileTitle = container.querySelector(".mobile-title");
-  if (!dateIndex || !mobileTitle) return undefined;
-  const dateRect = dateIndex.getBoundingClientRect();
-  const mobileTitleRect = mobileTitle.getBoundingClientRect();
-  return {
-    x: dateRect.left - mobileTitleRect.left,
-    y: -(mobileTitleRect.top - dateRect.top),
-  };
-}
-
-function getVisibleHeight(element: Element | null): number | undefined {
-  if (!element) return undefined
-  if (window.getComputedStyle(element).display === "none") return undefined
-  return element.getBoundingClientRect().height
 }

@@ -54,6 +54,7 @@ export const sizeContainers = async (containers: HTMLDivElement[]) => {
   containers.forEach(div => {
     const mediaElement = div.querySelector("img, video") as HTMLElement | null
     if (!mediaElement) return
+  console.log(mediaElement, "updating containers")
     mediaElement.offsetWidth
     const width = Math.round(mediaElement.getBoundingClientRect().width)
     div.style.width = `${width}px`

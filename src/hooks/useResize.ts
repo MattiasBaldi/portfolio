@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 type UseResizeObjectOptions = {
   delay?: number
@@ -31,11 +31,25 @@ type UseResizeOptions = {
   delay?: number, 
 }
 export function useResize(onResize: () => void, options: UseResizeOptions) {
-useEffect(() => {
+  const [innerWidth, setInnerWidth] = useState<number>(window.innerWidth)
+  const timeoutRef = useRef<number | undefined>(undefined)
+  const { delay = 100 } = options
 
-  //if()
-  window.addEventListener("resize", onResize)
-  return () => window.removeEventListener("resize", onResize)
+  const handleResize = useCallback(() => {
+    if (window.innerWidth === innerWidth) return
+    if (timeoutRef.current) window.clearTimeout(timeoutRef.current)
+    timeoutRef.current = window.setTimeout(() => {
+      setInnerWidth(window.innerWidth)
+      onResize()
+    }, delay)
+  }, [delay, innerWidth, onResize])
+  
+  useEffect(() => {
+    window.addEventListener("resize", handleResize)
+    return () => {
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current)
+      window.removeEventListener("resize", handleResize)
+    }
 
-}, [onResize])
+  }, [handleResize])
 }

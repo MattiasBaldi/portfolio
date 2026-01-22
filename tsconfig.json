@@ -37,5 +37,6 @@
     // Safety & Performance
     "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/_legacy"]
 }
