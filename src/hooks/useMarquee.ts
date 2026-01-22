@@ -1,14 +1,19 @@
 import { useGSAP } from "@gsap/react"
-import { useCallback, useRef, useState, type RefObject } from "react"
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react"
 import { horizontalLoop } from "../utils/gsap/horizontalLoop"
 import { useControls } from "leva"
-import { checkReady } from "../utils/marquee"
-import { useResize } from "./useResize"
+import { checkReady, playVideosInBatches } from "../utils/marquee"
 
-export function useMarquee(wrapper: RefObject<HTMLDivElement | null>) {
+type UseMarqueeOptions = {
+  enabled?: boolean
+}
+
+export function useMarquee(wrapper: RefObject<HTMLDivElement | null>, options: UseMarqueeOptions = {}) {
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const [ready, setReady] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const enabled = options.enabled ?? true
+  const stopBatchRef = useRef<null | (() => void)>(null)
 
   const controls = useControls(
     "Marquee",
@@ -37,6 +42,7 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>) {
   
   useGSAP(() => 
     {
+      if (!enabled) return
       const containers = wrapper.current ? (Array.from(wrapper.current.children) as HTMLDivElement[]) : []
       
       if (!containers.length || !containers[0]) {
@@ -45,7 +51,7 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>) {
       }
 
       if (!ready) {
-        checkReady(containers, () => setReady(true))
+        checkReady(containers, () => setReady(true), { playVideos: false })
         return
       }
 
@@ -68,14 +74,38 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>) {
 
       if (tl) timelineRef.current = tl;
     
-      //return () => tl?.current.kill()
+      return () => tl?.kill()
       
     },
-    { scope: wrapper, dependencies: [ready, controls] }
+    { scope: wrapper, dependencies: [enabled, ready, controls] }
   ); 
+
+  useEffect(() => {
+    if (!enabled && timelineRef.current) {
+      timelineRef.current.pause()
+      setIsPaused(true)
+    }
+    if (!enabled && stopBatchRef.current) {
+      stopBatchRef.current()
+      stopBatchRef.current = null
+    }
+  }, [enabled])
+
+  useEffect(() => {
+    if (!enabled || !ready || !wrapper.current) return
+    const videos = Array.from(wrapper.current.querySelectorAll("video"))
+    if (!videos.length) return
+    stopBatchRef.current?.()
+    stopBatchRef.current = playVideosInBatches(videos, { batchSize: 2, delay: 150 })
+    return () => {
+      stopBatchRef.current?.()
+      stopBatchRef.current = null
+    }
+  }, [enabled, ready, wrapper])
 
   // toggle
   const toggle = useCallback(() => {
+      if (!enabled) return
       if (timelineRef.current) {
         if (isPaused) {
         timelineRef.current.play();
@@ -84,7 +114,7 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>) {
         }
         setIsPaused(!isPaused);
       }
-  }, [isPaused, setIsPaused, timelineRef.current])
+  }, [enabled, isPaused])
 
   return { timeline: timelineRef.current, toggle, isPaused }
 }

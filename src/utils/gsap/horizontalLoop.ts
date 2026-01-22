@@ -1,3 +1,4 @@
+// @ts-nocheck
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Draggable from "gsap/Draggable";
@@ -258,7 +259,6 @@ export function horizontalLoop(items: HTMLElement[], config: Record<string, unkn
         trigger: items[0].parentNode as HTMLElement,
         type: "x",
         onPressInit(this: Draggable) {
-            console.log("Drag started", { x: this.x, progress: tl.progress() });
           const x = this.x;
           gsap.killTweensOf(tl);
 
@@ -292,7 +292,6 @@ export function horizontalLoop(items: HTMLElement[], config: Record<string, unkn
           return lastSnap;
         },
         onRelease(this: Draggable) {
-          console.log("Released", { isThrowing: this.isThrowing });
           syncIndex();
           this.isThrowing && (indexIsDirty = true);
         },
@@ -313,3 +312,4 @@ export function horizontalLoop(items: HTMLElement[], config: Record<string, unkn
   })
   return timeline;
 }
+// @ts-nocheck

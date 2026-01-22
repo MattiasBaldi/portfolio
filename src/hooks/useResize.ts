@@ -1,10 +1,10 @@
 import { useEffect } from "react"
 
-type UseResizeOptions = {
+type UseResizeObjectOptions = {
   delay?: number
 }
 
-export function useResize<T extends Element>(ref: React.RefObject<T | null>, onResize: () => void, options: UseResizeOptions = {})
+export function useResizeObject<T extends Element>(ref: React.RefObject<T | null>, onResize: () => void, options: UseResizeOptions = {})
 {
   useEffect(() => {
     const el = ref.current; 
@@ -25,4 +25,17 @@ export function useResize<T extends Element>(ref: React.RefObject<T | null>, onR
         observer.disconnect()
     }
   }, [ref, onResize, options])
+}
+
+type UseResizeOptions = {
+  delay?: number, 
+}
+export function useResize(onResize: () => void, options: UseResizeOptions) {
+useEffect(() => {
+
+  //if()
+  window.addEventListener("resize", onResize)
+  return () => window.removeEventListener("resize", onResize)
+
+}, [onResize])
 }

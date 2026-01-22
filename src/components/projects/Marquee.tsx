@@ -6,11 +6,12 @@ import { useMarquee } from "@/hooks/useMarquee.js";
 export type MarqueeLoopProps = {
   media: MediaItem[];
   onMediaClick?: (index: number) => void;
+  show?: boolean;
 };
 
-export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
+export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
    const wrapper = useRef(null);
-   const { toggle, isPaused } = useMarquee(wrapper)
+   const { toggle, isPaused } = useMarquee(wrapper, { enabled: show ?? false })
 
   return (
     <div className="relative">
@@ -52,10 +53,10 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
                   <video
                     className="marquee-item h-full w-auto block"
                     muted
-                    autoPlay
-                    loop
+                    autoPlay={false}
+                    // loop
                     playsInline
-                    preload="metadata"
+                    preload={"none"}
                     aria-label={mediaItem.title || mediaItem.description || 'Project video'}
                   >
                     <source src={mediaItem.src} type="video/webm" />
@@ -88,19 +89,9 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
       </div>
 
       {/* Controls */}
-      <div className="absolute py-2 bottom-0 right-3 flex flex-col h-full justify-between">
+      <div className="absolute py-2 bottom-0 right-3 flex h-full justify-end items-end">
 
-     <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onMediaClick?.(0);
-          }}
-          className="p-1.5 text-grey-500 hover:text-grey-900 transition-colors cursor-pointer"
-          aria-label="View gallery"
-        >
-          <CornersOutIcon className="w-6 md:w-7"/> 
-        </button>
-
+   
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -111,6 +102,19 @@ export function Marquee({ media, onMediaClick }: MarqueeLoopProps) {
         >
           {isPaused ? <PlayIcon  className="w-6 md:w-7" />  : <PauseIcon className="w-6 md:w-7" />}
         </button>
+
+
+          <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onMediaClick?.(0);
+          }}
+          className="p-1.5 text-grey-500 hover:text-grey-900 transition-colors cursor-pointer"
+          aria-label="View gallery"
+        >
+          <CornersOutIcon className="w-6 md:w-7"/> 
+        </button>
+
 
    
       </div>

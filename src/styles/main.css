@@ -123,22 +123,19 @@
     display: none !important;
   }
 
-  .project-gap {
-    gap: 0;
-  }
 
-  .content-gap {
-    gap: 0;
+  .marquee, .wrapper, .description {
+    padding-top: 25px !important; 
   }
 
   @media (min-width: 1024px) {
-    .project-gap {
+    /* .project-gap {
       gap: 10px;
     }
 
     .content-gap {
-      gap: 10px;
-    }
+      gap: 2s0px;
+    } */
   }
 
   h1 {

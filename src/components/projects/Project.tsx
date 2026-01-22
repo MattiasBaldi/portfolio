@@ -67,7 +67,6 @@ export function Project(props: ProjectData) {
         <Content
           show={isExpanded}
           {...props}
-          contentGap={controls.contentGap}
           onMediaClick={(index) => {
             setGalleryIndex(index);
             setGalleryOpen(true);
@@ -144,7 +143,6 @@ export function Thumbnail(props: ProjectData) {
 interface ContentProps extends ProjectData {
   show: boolean; 
   onMediaClick?: (index: number) => void;
-  contentGap?: number;
 }
 
 export function Content(props: ContentProps) {
@@ -157,13 +155,14 @@ export function Content(props: ContentProps) {
 
   return (
     <div
-    className={`content h-0 left-200 flex flex-col overflow-hidden ${props.show ? "content-gap" : "gap-0"}`}
+    className={`content h-0 left-200 flex flex-col overflow-hidden`}
     >
       <Marquee
         media={props.media ?? []}
+        show={props.show}
         {...(props.onMediaClick && { onMediaClick: props.onMediaClick })}
       />
-      <div className="flex flex-col gap-3">
+      <div className="description flex flex-col gap-3">
         <p>
           {viewMore || !isLong ? (
             description
