@@ -18,6 +18,8 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>, options: U
   const observerRef = useRef<IntersectionObserver | null>(null)
   const lastLogRef = useRef(0)
 
+  console.count()
+
   const controls = useControls(
     "Marquee",
         {

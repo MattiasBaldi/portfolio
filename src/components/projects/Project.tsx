@@ -131,7 +131,6 @@ export function Thumbnail(props: ProjectData) {
         style={{ objectPosition: props.thumbnailPosition ?? 'top' }}
         src={props.thumbnail}
         alt={props.name ?? 'Project thumbnail'}
-        loading="lazy"
       />
     </div>
 

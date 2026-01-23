@@ -12,34 +12,6 @@ export type MarqueeLoopProps = {
 export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
    const wrapper = useRef(null);
    const { toggle, isPaused } = useMarquee(wrapper, { enabled: show ?? false })
-   const handleVideoMetadata = (event: React.SyntheticEvent<HTMLVideoElement>) => {
-     const video = event.currentTarget
-     const container = video.parentElement as HTMLDivElement | null
-     if (!container) return
-     const ratio = video.videoWidth > 0 && video.videoHeight > 0
-       ? video.videoWidth / video.videoHeight
-       : 0
-     if (!ratio) return
-     requestAnimationFrame(() => {
-       requestAnimationFrame(() => {
-         const height = container.getBoundingClientRect().height
-         if (height <= 0) return
-         container.style.width = `${Math.round(height * ratio)}px`
-       })
-     })
-     if (video.readyState < 2) {
-       const handleLoadedData = () => {
-         video.pause()
-       }
-       video.addEventListener("loadeddata", handleLoadedData, { once: true })
-       try {
-         video.currentTime = 0.01
-       } catch {
-         // iOS can throw if not seekable yet.
-       }
-       video.load()
-     }
-   }
 
   return (
     <div className="relative">
@@ -64,16 +36,8 @@ export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
           
           const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(mediaItem.src);
           const extension = mediaItem.src.split(".").pop()?.toLowerCase()
-          const sourceType = extension === "webm"
-            ? "video/webm"
-            : extension === "ogg"
-              ? "video/ogg"
-              : extension === "mov"
-                ? "video/quicktime"
-                : "video/mp4"
-          const poster = extension === "mp4"
-            ? mediaItem.src.replace(/\.mp4$/i, ".poster.webp")
-            : undefined
+          const sourceType = extension === "webm" ? "video/webm" : extension === "ogg" ? "video/ogg" : extension === "mov" ? "video/quicktime" : "video/mp4" //prettier-ignore
+          const poster = extension === "mp4" ? mediaItem.src.replace(/\.mp4$/i, ".poster.webp") : undefined //prettier-ignore
 
           return (
             <div
@@ -93,11 +57,9 @@ export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
                     className="marquee-item h-full w-auto block"
                     muted
                     autoPlay={false}
-                    // loop
                     playsInline
-                    preload={"metadata"}
+                    preload={"auto"}
                     poster={poster}
-                    onLoadedMetadata={handleVideoMetadata}
                     aria-label={mediaItem.title || mediaItem.description || 'Project video'}
                   >
                     <source src={mediaItem.src} type={sourceType} />

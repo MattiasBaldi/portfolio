@@ -6,7 +6,7 @@ import { useMedia } from "@hooks/useMedia";
 import { EASE_OPTIONS } from "../utils/gsap/ease";
 import { useResize } from "@/hooks/useResize";
 import { getMobileTitleOffset, getTitleOffset, getVisibleHeight } from "@/utils/accordion";
-import { context } from "@react-three/fiber";
+
 
 function useAccordionControls() {
   return useControls(
