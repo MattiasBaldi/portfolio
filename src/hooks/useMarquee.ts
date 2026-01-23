@@ -99,7 +99,7 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>, options: U
   }, [enabled])
 
   /** Observer */
-  // Observe videos and force them to only play if they are in frame, else dont
+  // Observe videos and force them to only play if they are in frame, else don't
   useEffect(() => {
     if (!enabled || !ready || !wrapper.current) return
     const videos = Array.from(wrapper.current.querySelectorAll("video"))

@@ -124,7 +124,7 @@ export function Thumbnail(props: ProjectData) {
 
     <div className="thumbnail flex items-end justify-end min-w-full h-full lg:min-w-40 relative overflow-hidden">
 
-      {/* Thumnail */}
+      {/* Thumbnail */}
       <img
         ref={thumbnail}
         className="thumbnail h-full w-full object-cover"

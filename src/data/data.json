@@ -33,8 +33,8 @@
       { "src": "./labs-showroom/marquee/2.mp4", "description": "Experience" },
       { "src": "./labs-showroom/marquee/2.webp", "description": "Stills - selective bloom and live shadow maps" },
       { "src": "./labs-showroom/marquee/proces_4.webp", "description": "Modelling iterations" },
-      { "src": "./labs-showroom/marquee/proces_18.webp", "description": "Performance proces" },
-      { "src": "./labs-showroom/marquee/proces_38.webp", "description": "Performance proces" },
+      { "src": "./labs-showroom/marquee/proces_18.webp", "description": "Performance process" },
+      { "src": "./labs-showroom/marquee/proces_38.webp", "description": "Performance process" },
       { "src": "./labs-showroom/marquee/3.webp", "description": "3D modeling" },
       { "src": "./labs-showroom/marquee/5.webp", "description": "Stills - selective bloom" }
     ],
@@ -72,7 +72,7 @@
     "thumbnailPosition": "center center",
     "media": [
       { "src": "./claes-peter/marquee/1.mp4", "description": "Landing page" },
-      { "src": "./claes-peter/marquee/2.webp", "description": "Marquee proces" },
+      { "src": "./claes-peter/marquee/2.webp", "description": "Marquee process" },
       { "src": "./claes-peter/marquee/3.webp", "description": "Moodboard" },
       { "src": "./claes-peter/marquee/4.webp", "description": "Design feedback" }
     ],
