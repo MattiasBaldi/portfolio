@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { memo, useRef, useState } from "react";
 import { InfoIcon, PlayIcon, PauseIcon, GridFourIcon, CornersOutIcon } from '@phosphor-icons/react'
 import type { MediaItem } from "../../App.js";
 import { useMarquee } from "@/hooks/useMarquee.js";
@@ -9,10 +9,11 @@ export type MarqueeLoopProps = {
   show?: boolean;
 };
 
-export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
+export function Marquee({ media, onMediaClick, show, active }: MarqueeLoopProps) {
    const wrapper = useRef(null);
-   const { toggle, isPaused } = useMarquee(wrapper, { enabled: show ?? false })
+   const { toggle, isPaused, refreshMarquee } = useMarquee(wrapper, { enabled: show ?? false })
 
+  
   return (
     <div className="relative">
       {/* Marquee */}
@@ -32,64 +33,9 @@ export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
           backfaceVisibility: 'hidden',
         }}
       >
-        {media.map((mediaItem, i) => { 
-          
-          const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(mediaItem.src);
-          const extension = mediaItem.src.split(".").pop()?.toLowerCase()
-          const sourceType = extension === "webm" ? "video/webm" : extension === "ogg" ? "video/ogg" : extension === "mov" ? "video/quicktime" : "video/mp4" //prettier-ignore
-          const poster = extension === "mp4" ? mediaItem.src.replace(/\.mp4$/i, ".poster.webp") : undefined //prettier-ignore
-
-          return (
-            <div
-              key={i}
-              className="relative flex-shrink-0 group h-50 md:h-75 lg:h-115"
-              style={{
-                width: 'auto',
-                margin: 0,
-                padding: 0,
-                backfaceVisibility: 'hidden',
-                willChange: 'transform',
-              }}
-            >
-              {isVideo ? (
-                <>
-                  <video
-                    className="marquee-item h-full w-auto block"
-                    muted
-                    autoPlay={false}
-                    playsInline
-                    preload={"auto"}
-                    poster={poster}
-                    aria-label={mediaItem.title || mediaItem.description || 'Project video'}
-                  >
-                    <source src={mediaItem.src} type={sourceType} />
-                  </video>
-                </>
-              ) : (
-                <img
-                  src={mediaItem.src}
-                  alt={mediaItem.title || mediaItem.description || 'Project media'}
-                  className="marquee-item h-full w-auto block"
-                  loading="lazy"
-                />
-              )}
-
-            {/* Dont delete or uncomment below */}
-            {/* Lightbox button - shows on hover */}
-            {/* <InfoIcon
-            onClick={(e) => { e.stopPropagation(); onMediaClick?.(i); }}
-            size={32}
-            className="
-              absolute top-2 right-2 p-1 rounded
-              opacity-100 lg:opacity-0 lg:group-hover:opacity-100
-              transition-opacity cursor-pointer
-              text-white mix-blend-difference
-              hidden lg:flex
-            "
-            /> */}
-            </div>
-          );
-        })}
+        {media.map((mediaItem, i) => (
+          <MarqueeItem key={`${mediaItem.src}-${i}`} mediaItem={mediaItem} refreshMarquee={refreshMarquee}/>
+        ))}
       </div>
 
       {/* Controls */}
@@ -106,22 +52,83 @@ export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
         >
           {isPaused ? <PlayIcon  className="w-6 md:w-7" />  : <PauseIcon className="w-6 md:w-7" />}
         </button>
-
-          {/* Dont delete or uncomment below */}
-          {/* <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onMediaClick?.(0);
-          }}
-          className="p-1.5 text-grey-500 hover:text-grey-900 transition-colors cursor-pointer"
-          aria-label="View gallery"
-        >
-          <CornersOutIcon className="w-6 md:w-7"/> 
-        </button> */}
-
-
    
       </div>
     </div>
   );
 }
+
+type MarqueeItemProps = {
+  mediaItem: MediaItem;
+  refreshMarquee: () => void; 
+};
+
+export const MarqueeItem = memo(({ mediaItem, refreshMarquee }: MarqueeItemProps) => {
+  const [buffering, setBuffering] = useState(false)
+  const [showPoster, setShowPoster] = useState(true)
+  const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(mediaItem.src);
+  const extension = mediaItem.src.split(".").pop()?.toLowerCase()
+  const sourceType = extension === "webm" ? "video/webm" : extension === "ogg" ? "video/ogg" : extension === "mov" ? "video/quicktime" : "video/mp4" //prettier-ignore
+  const poster = isVideo ? mediaItem.src.replace(/\.[^/.]+$/, '.poster.webp') : undefined
+
+  return (
+    <div
+      className="relative flex-shrink-0 group h-50 md:h-75 lg:h-115"
+      style={{
+        width: 'auto',
+        margin: 0,
+        padding: 0,
+        backfaceVisibility: 'hidden',
+        willChange: 'transform',
+      }}
+    >
+      {isVideo ? (
+        <>
+          <video
+            className="marquee-item  w-auto block h-50 md:h-75 lg:h-115"
+            muted
+            autoPlay={false}
+            playsInline
+            preload={"metadata"}
+            aria-label={mediaItem.title || mediaItem.description || 'Project video'}
+            onLoadStart={() => {
+              setBuffering(true)
+              setShowPoster(true)
+            }}
+            onWaiting={() => setBuffering(true)}
+            onPlaying={() => {
+              setBuffering(false)
+              setShowPoster(false)
+            }}
+            onCanPlay={() => setBuffering(false)}
+            onLoadedData={() => setBuffering(false)}
+          >
+            <source src={mediaItem.src} type={sourceType} />
+          </video>
+          {poster && (
+            <img
+              src={poster}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-200 pointer-events-none"
+              style={{ opacity: showPoster ? 1 : 0 }}
+            />
+          )}
+          {buffering && (
+            <div className="absolute inset-0 flex items-center justify-center border-1-red p-5">
+              <div className="h-8 w-8 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+            </div>
+          )}
+        </>
+      ) : (
+        <img
+          src={mediaItem.src}
+          alt={mediaItem.title || mediaItem.description || 'Project media'}
+          className="marquee-item w-auto block h-50 md:h-75 lg:h-115"
+          onLoad={() => refreshMarquee()}
+          loading="lazy"
+        />
+      )}
+    </div>
+  )
+})

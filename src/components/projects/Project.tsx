@@ -131,6 +131,7 @@ export function Thumbnail(props: ProjectData) {
         style={{ objectPosition: props.thumbnailPosition ?? 'top' }}
         src={props.thumbnail}
         alt={props.name ?? 'Project thumbnail'}
+        loading="lazy"
       />
     </div>
 
@@ -140,6 +141,7 @@ export function Thumbnail(props: ProjectData) {
 
 interface ContentProps extends ProjectData {
   show: boolean; 
+  active: boolean; 
   onMediaClick?: (index: number) => void;
 }
 
@@ -157,6 +159,7 @@ export function Content(props: ContentProps) {
     >
       <Marquee
         media={props.media ?? []}
+        active={props.active}
         show={props.show}
         {...(props.onMediaClick && { onMediaClick: props.onMediaClick })}
       />

@@ -2,7 +2,7 @@ import { useGSAP } from "@gsap/react"
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react"
 import { horizontalLoop } from "../utils/gsap/horizontalLoop"
 import { useControls } from "leva"
-import { checkReady, sizeContainers } from "../utils/marquee"
+import { sizeContainers } from "../utils/marquee"
 import { useResize } from "./useResize"
 
 type UseMarqueeOptions = {
@@ -17,8 +17,6 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>, options: U
   const enabled = options.enabled ?? true
   const observerRef = useRef<IntersectionObserver | null>(null)
   const lastLogRef = useRef(0)
-
-  console.count()
 
   const controls = useControls(
     "Marquee",
@@ -45,19 +43,9 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>, options: U
   
   const {context, contextSafe} = useGSAP(() => 
     {
-      if (!enabled) return
-      const containers = wrapper.current ? (Array.from(wrapper.current.children) as HTMLDivElement[]) : []
+      if (!enabled && !ready) return
+       const containers = wrapper.current ? (Array.from(wrapper.current.children) as HTMLDivElement[]) : []
       
-      if (!containers.length || !containers[0]) {
-        setReady(false)
-        return
-      }
-
-      if (!ready) {
-        checkReady(containers, () => setReady(true), { playVideos: false })
-        return
-      }
-
       const tl = horizontalLoop(containers, {
         repeat: Infinity,
         draggable: controls.draggable,
@@ -82,23 +70,6 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>, options: U
     { scope: wrapper, dependencies: [enabled, ready, controls, refreshKey], revertOnUpdate: true }
   ); 
 
-  useEffect(() => {
-    if (!enabled && timelineRef.current) {
-      timelineRef.current.pause()
-      setIsPaused(true)
-    }
-    if (enabled && timelineRef.current) {
-      timelineRef.current.play()
-      setIsPaused(false)
-    }
-    
-    if (!enabled && wrapper.current) {
-      observerRef.current?.disconnect()
-      observerRef.current = null
-      const videos = Array.from(wrapper.current.querySelectorAll("video"))
-      videos.forEach((video) => video.pause())
-    }
-  }, [enabled])
 
   /** Observer */
   // Observe videos and force them to only play if they are in frame, else don't
@@ -137,6 +108,25 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>, options: U
     }
   }, [enabled, ready, wrapper])
 
+  /** Play Pause */
+  useEffect(() => {
+    if (!enabled && timelineRef.current) {
+      timelineRef.current.pause()
+      setIsPaused(true)
+    }
+    if (enabled && timelineRef.current) {
+      timelineRef.current.play()
+      setIsPaused(false)
+    }
+    
+    if (!enabled && wrapper.current) {
+      observerRef.current?.disconnect()
+      observerRef.current = null
+      const videos = Array.from(wrapper.current.querySelectorAll("video"))
+      videos.forEach((video) => video.pause())
+    }
+  }, [enabled])
+
   // toggle
   const toggle = useCallback(() => {
       if (!enabled) return
@@ -155,18 +145,16 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>, options: U
     if (!enabled || !ready || !wrapper.current) return
     const containers = Array.from(wrapper.current.children) as HTMLDivElement[]
     if (!containers.length) return
-    void sizeContainers(containers).then(() => {
-      setRefreshKey((value) => value + 1)
-    })
+    void sizeContainers(containers).then(() => { setRefreshKey((value) => value + 1)})
   }, [enabled, ready, wrapper])
 
   useResize(refreshMarquee, { delay: 20 })
-
+  
   useEffect(() => {
     if (!enabled) return
     refreshMarquee()
-    console.log({enabled})
-  }, [enabled, ready, refreshMarquee])
+    setReady(true)
+  }, [enabled, refreshMarquee])
 
-  return { timeline: timelineRef.current, toggle, isPaused }
+  return { timeline: timelineRef.current, toggle, isPaused, refreshMarquee }
 }

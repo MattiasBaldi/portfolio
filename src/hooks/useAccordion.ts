@@ -1,6 +1,6 @@
 import { useGSAP, type ContextSafeFunc } from "@gsap/react";
 import { useControls, folder } from "leva";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useMedia } from "./useMedia";
 import { EASE_OPTIONS } from "../utils/gsap/ease";
@@ -200,6 +200,7 @@ export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) 
     }
   }, {delay: 20})
 
-  return { toggle, isExpanded };
+
+  return { toggle, isExpanded};
 }
 
