@@ -55,19 +55,21 @@ export default function Header() {
             <div className="flex flex-col md:flex-row-reverse gap-10 md:gap-20 lg:gap-60 w-full">
 
               {/* text */}
-         <div className="flex flex-col gap-10 max-w-175">
-            <p >
-               I create immersive digital experiences that deliver real impact for brands and businesses. With a background in design and technology from Copenhagen School of Design and Technology, I work across the digital landscape, specializing in 3D web experiences with WebGL, WebGPU, and Three.js.
-            </p>
-
-            <p>
-            I’ve worked with most modern web stacks and focus on clean software design, selecting frameworks, languages, and architectures based on each project’s needs, grounded in solid computer science and software engineering. My primary tools are TypeScript, Three.js, React, and React Three Fiber, and I also use AI-assisted development (Claude Code) as an assitant and to optimize workflow.
-            </p>
-
-
-
-          </div>
-
+              <div className="flex flex-col gap-10 max-w-175">
+                <p>
+                  I create immersive digital experiences for brands and businesses. With a background
+                  in design and technology from Copenhagen School of Design and Technology, I
+                  specialize in high-end 3D web experiences using WebGL, WebGPU, and Three.js, while
+                  also working across modern web development and real-time 3D.
+                </p>
+                <p>
+                  I emphasize clean software architecture and robust engineering, selecting
+                  frameworks and technologies based on each project’s requirements. My core stack
+                  includes TypeScript, Three.js, React, and React Three Fiber, and I use AI-assisted
+                  development (Claude Code) strictly as a productivity tool to accelerate iteration
+                  and optimize workflow.
+                </p>
+              </div>
 
               <Links />
             </div>

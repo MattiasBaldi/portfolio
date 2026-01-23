@@ -31,7 +31,7 @@ type UseResizeOptions = {
   delay?: number, 
 }
 
-type Dependencies = any[]; 
+type Dependencies = unknown[]; 
 
 export function useResize(onResize: () => void, options: UseResizeOptions, dependencies?: Dependencies) {
   const [innerWidth, setInnerWidth] = useState<number>(window.innerWidth)

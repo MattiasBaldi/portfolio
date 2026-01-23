@@ -41,7 +41,7 @@ export function useMarquee(wrapper: RefObject<HTMLDivElement | null>, options: U
     [timelineRef] // your deps
   );
   
-  const {context, contextSafe} = useGSAP(() => 
+  useGSAP(() => 
     {
       if (!enabled && !ready) return
        const containers = wrapper.current ? (Array.from(wrapper.current.children) as HTMLDivElement[]) : []

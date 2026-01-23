@@ -1,6 +1,6 @@
-import { useGSAP, type ContextSafeFunc } from "@gsap/react";
+import { useGSAP } from "@gsap/react";
 import { useControls, folder } from "leva";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import gsap from "gsap";
 import { useMedia } from "./useMedia";
 import { EASE_OPTIONS } from "../utils/gsap/ease";
@@ -125,8 +125,6 @@ function useAccordionControls() {
 
 export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) {
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
-  const [titleOffset, setTitleOffset] = useState<number | undefined>(undefined)
-  const [mobileTitleOffset, setMobileTitleOffset] = useState<{ x: number; y: number } | undefined>(undefined)
   const { isMobile, isTablet } = useMedia()
   const resizeStrategy: "rebuild" = "rebuild"
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -140,10 +138,8 @@ export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) 
     const isMobileView = isMobile || isTablet
     const nextTitleOffset = getTitleOffset(containerRef.current)
     const nextMobileTitleOffset = isMobileView ? getMobileTitleOffset(containerRef.current) : undefined
-    const mobileTitle = containerRef.current.querySelector(".mobile-title")
-    const title = containerRef.current.querySelector(".title-description")
     const titleHeight = getVisibleHeight(containerRef.current, ".title-description")
-      const mobileTitleHeight = getVisibleHeight(containerRef.current, ".mobile-title")
+    const mobileTitleHeight = getVisibleHeight(containerRef.current, ".mobile-title")
     const previewHeight = (isMobileView ? mobileTitleHeight : titleHeight) ?? titleHeight ?? mobileTitleHeight ?? anim.previewHeight
     const tl = gsap.timeline()
 
@@ -168,17 +164,6 @@ export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) 
     }
     
     // Dont recreate it otherwise
-    else {
-      const children = timelineRef.current.getChildren();       // Update offsets if timeline already exists
-      const titleTween = children[1] as gsap.core.Tween | undefined
-      if (titleTween && typeof titleOffset === "number") {
-        titleTween.vars.x = titleOffset;
-      }
-      const mobileTitleTween = children[5] as gsap.core.Tween | undefined
-      if (mobileTitleTween && mobileTitleOffset) {
-        mobileTitleTween.vars.x = mobileTitleOffset.x;
-      }
-    }
 
     // toggle forward/back
     setIsExpanded(prev => {
@@ -203,4 +188,3 @@ export function useAccordion(containerRef: React.RefObject<HTMLElement | null>) 
 
   return { toggle, isExpanded};
 }
-
