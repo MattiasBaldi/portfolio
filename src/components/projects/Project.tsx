@@ -17,7 +17,7 @@ export function Projects() {
         <div key={project.id}>
           <Project {...project} />
         </div>
-          <hr className="border-gray-500 -mx-[10px] md:-mx-[40px] xl:mx-0 w-[calc(100%+20px)] md:w-[calc(100%+80px)] xl:w-full" />
+          <hr className="border-gray-500 mx-2.5 md:-mx-10 xl:mx-0 w-[calc(100%+20px)] md:w-[calc(100%+80px)] xl:w-full" />
           </>
       ))}
     </div>
