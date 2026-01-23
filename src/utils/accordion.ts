@@ -20,8 +20,10 @@ export function getMobileTitleOffset(container: HTMLElement): { x: number; y: nu
   };
 }
 
-export function getVisibleHeight(element: Element | null): number | undefined {
-  if (!element) return undefined
-  if (window.getComputedStyle(element).display === "none") return undefined
-  return element.getBoundingClientRect().height
+export function getVisibleHeight(scope: HTMLElement, selector: string): number | undefined {
+  if (!selector || !scope) return undefined
+  const el = scope.querySelector(selector)
+  if (!el) return; 
+  if (window.getComputedStyle(el).display === "none") return undefined
+  return el.getBoundingClientRect().height
 }

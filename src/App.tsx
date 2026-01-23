@@ -52,12 +52,14 @@ export default function App() {
 
   return (
     <>
+
       <main className="flex container flex-col gap-2 md:gap-3 lg:gap-7 lg:mt-5 justify-center overflow-auto overflow-x-hidden">
         <Header />
           <hr className="w-[200vw] relative left-[-50vw] lg:w-full lg:left-0" />
         <Projects />
       </main>
       <Leva hidden={!isDebug} collapsed={true}/>
+
     </>
   );
 }

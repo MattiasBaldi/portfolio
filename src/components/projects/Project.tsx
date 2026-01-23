@@ -13,10 +13,12 @@ export function Projects() {
   return (
     <div className="overflow-x-hidden h-fit flex flex-col gap-3">
       {data.map((project) => (
+        <>
         <div key={project.id}>
           <Project {...project} />
-          <hr className="border-gray-500 -mx-[10px] md:-mx-[40px] xl:mx-0 w-[calc(100%+20px)] md:w-[calc(100%+80px)] xl:w-full" />
         </div>
+          <hr className="border-gray-500 -mx-[10px] md:-mx-[40px] xl:mx-0 w-[calc(100%+20px)] md:w-[calc(100%+80px)] xl:w-full" />
+          </>
       ))}
     </div>
   );
@@ -24,7 +26,6 @@ export function Projects() {
 
 export function Project(props: ProjectData) {
   const container = useRef<HTMLDivElement>(null);
-  const { contextSafe } = useGSAP({ scope: container });
   const [isHovering, setIsHovering] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);

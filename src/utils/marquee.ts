@@ -8,22 +8,25 @@ export const waitVideos = async (videos: HTMLVideoElement[], playOnReady = true)
             video.muted = true
             video.controls = false
 
-            if (video.readyState >= 1) {
+            const hasIntrinsicSize = () => video.videoWidth > 0 && video.videoHeight > 0
+            const maybeResolve = () => {
+              if (!hasIntrinsicSize() && video.readyState < 2) return false
               if (playOnReady) video.play().catch(() => {})
               resolve()
-              return
+              return true
             }
 
+            if (maybeResolve()) return
+
             const timeout = setTimeout(resolve, 2000)
-            video.addEventListener(
-              "loadedmetadata",
-              () => {
+            const onReady = () => {
+              if (maybeResolve()) {
                 clearTimeout(timeout)
-                if (playOnReady) video.play().catch(() => {})
-                resolve()
-              },
-              { once: true }
-            )
+              }
+            }
+            video.addEventListener("loadedmetadata", onReady, { once: true })
+            video.addEventListener("loadeddata", onReady, { once: true })
+            video.addEventListener("canplay", onReady, { once: true })
             video.load()
           })
       )
@@ -54,9 +57,23 @@ export const sizeContainers = async (containers: HTMLDivElement[]) => {
   containers.forEach(div => {
     const mediaElement = div.querySelector("img, video") as HTMLElement | null
     if (!mediaElement) return
-  console.log(mediaElement, "updating containers")
     mediaElement.offsetWidth
-    const width = Math.round(mediaElement.getBoundingClientRect().width)
+    const rect = mediaElement.getBoundingClientRect()
+    let width = Math.round(rect.width)
+    const height = rect.height
+    const img = mediaElement as HTMLImageElement
+    const video = mediaElement as HTMLVideoElement
+    const imgRatio = img.naturalWidth > 0 && img.naturalHeight > 0
+      ? img.naturalWidth / img.naturalHeight
+      : 0
+    const videoRatio = video.videoWidth > 0 && video.videoHeight > 0
+      ? video.videoWidth / video.videoHeight
+      : 0
+    const ratio = imgRatio || videoRatio
+    if (ratio > 0 && height > 0) {
+      // Use intrinsic aspect ratio so max-width clamping doesn't freeze width on resize.
+      width = Math.round(height * ratio)
+    }
     div.style.width = `${width}px`
   })
 }

@@ -30,7 +30,10 @@ export function useResizeObject<T extends Element>(ref: React.RefObject<T | null
 type UseResizeOptions = {
   delay?: number, 
 }
-export function useResize(onResize: () => void, options: UseResizeOptions) {
+
+type Dependencies = any[]; 
+
+export function useResize(onResize: () => void, options: UseResizeOptions, dependencies?: Dependencies) {
   const [innerWidth, setInnerWidth] = useState<number>(window.innerWidth)
   const timeoutRef = useRef<number | undefined>(undefined)
   const { delay = 100 } = options
@@ -51,5 +54,5 @@ export function useResize(onResize: () => void, options: UseResizeOptions) {
       window.removeEventListener("resize", handleResize)
     }
 
-  }, [handleResize])
+  }, [handleResize, dependencies])
 }

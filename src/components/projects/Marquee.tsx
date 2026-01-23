@@ -12,6 +12,34 @@ export type MarqueeLoopProps = {
 export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
    const wrapper = useRef(null);
    const { toggle, isPaused } = useMarquee(wrapper, { enabled: show ?? false })
+   const handleVideoMetadata = (event: React.SyntheticEvent<HTMLVideoElement>) => {
+     const video = event.currentTarget
+     const container = video.parentElement as HTMLDivElement | null
+     if (!container) return
+     const ratio = video.videoWidth > 0 && video.videoHeight > 0
+       ? video.videoWidth / video.videoHeight
+       : 0
+     if (!ratio) return
+     requestAnimationFrame(() => {
+       requestAnimationFrame(() => {
+         const height = container.getBoundingClientRect().height
+         if (height <= 0) return
+         container.style.width = `${Math.round(height * ratio)}px`
+       })
+     })
+     if (video.readyState < 2) {
+       const handleLoadedData = () => {
+         video.pause()
+       }
+       video.addEventListener("loadeddata", handleLoadedData, { once: true })
+       try {
+         video.currentTime = 0.01
+       } catch {
+         // iOS can throw if not seekable yet.
+       }
+       video.load()
+     }
+   }
 
   return (
     <div className="relative">
@@ -35,6 +63,17 @@ export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
         {media.map((mediaItem, i) => { 
           
           const isVideo = /\.(webm|mp4|mov|m4v|ogg)$/i.test(mediaItem.src);
+          const extension = mediaItem.src.split(".").pop()?.toLowerCase()
+          const sourceType = extension === "webm"
+            ? "video/webm"
+            : extension === "ogg"
+              ? "video/ogg"
+              : extension === "mov"
+                ? "video/quicktime"
+                : "video/mp4"
+          const poster = extension === "mp4"
+            ? mediaItem.src.replace(/\.mp4$/i, ".poster.webp")
+            : undefined
 
           return (
             <div
@@ -56,10 +95,12 @@ export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
                     autoPlay={false}
                     // loop
                     playsInline
-                    preload={"none"}
+                    preload={"metadata"}
+                    poster={poster}
+                    onLoadedMetadata={handleVideoMetadata}
                     aria-label={mediaItem.title || mediaItem.description || 'Project video'}
                   >
-                    <source src={mediaItem.src} type="video/webm" />
+                    <source src={mediaItem.src} type={sourceType} />
                   </video>
                 </>
               ) : (
@@ -71,8 +112,9 @@ export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
                 />
               )}
 
+            {/* Dont delete or uncomment below */}
             {/* Lightbox button - shows on hover */}
-            <InfoIcon
+            {/* <InfoIcon
             onClick={(e) => { e.stopPropagation(); onMediaClick?.(i); }}
             size={32}
             className="
@@ -82,14 +124,14 @@ export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
               text-white mix-blend-difference
               hidden lg:flex
             "
-            />
+            /> */}
             </div>
           );
         })}
       </div>
 
       {/* Controls */}
-      <div className="absolute py-2 bottom-0 right-3 flex h-full justify-end items-end">
+      <div className="absolute py-2 bottom-0 right-3 flex h-fit justify-end items-end">
 
    
         <button
@@ -103,8 +145,8 @@ export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
           {isPaused ? <PlayIcon  className="w-6 md:w-7" />  : <PauseIcon className="w-6 md:w-7" />}
         </button>
 
-
-          <button
+          {/* Dont delete or uncomment below */}
+          {/* <button
           onClick={(e) => {
             e.stopPropagation();
             onMediaClick?.(0);
@@ -113,7 +155,7 @@ export function Marquee({ media, onMediaClick, show }: MarqueeLoopProps) {
           aria-label="View gallery"
         >
           <CornersOutIcon className="w-6 md:w-7"/> 
-        </button>
+        </button> */}
 
 
    
