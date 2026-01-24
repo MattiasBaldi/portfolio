@@ -6,6 +6,7 @@ import { CloseButton } from "../ui/Button.js";
 import type { ProjectData } from "../../App.js";
 import { useAccordion } from "../../hooks/useAccordion.js";
 import data from "../../data/data.json" with { type: "json" };
+import { cfImage, cfMedia, isImage, isVideo } from "@/utils/media.js";
 
 const Gallery = lazy(() => import("./Gallery.js").then(module => ({ default: module.Gallery })));
 
@@ -110,8 +111,6 @@ export function TitleDescription(props: ProjectData) {
 }
 
 export function Thumbnail(props: ProjectData) {
-  const thumbnail = useRef(null);
-
   return (
 
     <div className="w-full flex flex-col gap-4 justify-between lg:w-100 px-4">
@@ -122,21 +121,80 @@ export function Thumbnail(props: ProjectData) {
       <p className="h-fit truncate max-w-full pr-4">{props.category}</p>
     </div>
 
-    <div className="thumbnail flex items-end justify-end min-w-full h-full lg:min-w-40 relative overflow-hidden">
-
-      {/* Thumbnail */}
-      <img
-        ref={thumbnail}
-        className="thumbnail h-full w-full object-cover"
-        style={{ objectPosition: props.thumbnailPosition ?? 'top' }}
-        src={props.thumbnail}
-        alt={props.name ?? 'Project thumbnail'}
-        loading="lazy"
-      />
-    </div>
-
+    <ThumnailImage {...props} /> 
     </div>
   );
+}
+
+export function ThumnailImage(props: ProjectData) {
+  const thumbnail = useRef(null)
+  const isImg = !!isImage(props?.thumbnail ?? '')
+  const isVid = !!isVideo(props?.thumbnail ?? '')
+
+  if (!props.thumbnail || (!isImg && !isVid)) return <p>image error</p>
+
+  const compressProps = {
+    image: {
+      format: 'auto',
+      quality: 80
+    },
+    video: {
+      mode: 'video',
+      duration: 7,
+      audio: false
+    }
+  }
+
+  const widths = {
+    sm: 480,
+    md: 960,
+    lg: 1440
+  }
+
+  const sizes = '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
+
+  const imgSrcSet = [
+    `${cfImage(props.thumbnail, { ...compressProps.image, width: widths.sm })} ${widths.sm}w`,
+    `${cfImage(props.thumbnail, { ...compressProps.image, width: widths.md })} ${widths.md}w`,
+    `${cfImage(props.thumbnail, { ...compressProps.image, width: widths.lg })} ${widths.lg}w`
+  ].join(', ')
+
+
+  console.log(imgSrcSet)
+
+
+  return (
+    <div className="thumbnail flex items-end justify-end min-w-full h-full lg:min-w-40 relative overflow-hidden">
+      {isImg && (
+        <img
+          ref={thumbnail}
+          className="thumbnail h-full w-full object-cover"
+          style={{ objectPosition: props.thumbnailPosition ?? 'top' }}
+          sizes={sizes}
+          srcSet={imgSrcSet}
+          src={cfImage(props.thumbnail, { ...compressProps.image, width: widths.md })}
+          alt={props.name ?? 'Project thumbnail'}
+          loading="lazy"
+        />
+      )}
+      {isVid && (
+        <video
+          controls={false}
+          autoPlay
+          muted
+          loop
+          className="thumbnail h-full w-full object-cover"
+          style={{ objectPosition: props.thumbnailPosition ?? 'top' }}
+          playsInline
+          preload="metadata"
+        >
+          <source src={cfMedia(props.thumbnail, { ...compressProps.video, width: widths.sm })} type="video/mp4" />
+          <source src={cfMedia(props.thumbnail, { ...compressProps.video, width: widths.md })} type="video/mp4" />
+          <source src={cfMedia(props.thumbnail, { ...compressProps.video, width: widths.lg })} type="video/mp4" />
+        </video>
+      )}
+    </div>
+  )
 }
 
 interface ContentProps extends ProjectData {

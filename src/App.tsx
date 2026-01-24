@@ -30,20 +30,13 @@ export default function App() {
   const isDebug = useDebug();
   let dStyles = document.head.appendChild(document.createElement("style"));
 
-
   // debug
   useControls(
     "debug",
     {
       borders: {
         value: false,
-        onChange: (v) => {
-          v
-            ? (dStyles.textContent = "*:not([class*='leva']):not([class*='leva'] *) { border: 1px solid red; }")
-            : (dStyles.textContent = dStyles.textContent.replace(
-                "*:not([class*='leva']):not([class*='leva'] *) { border: 1px solid red; }",
-                ""
-              )); //
+        onChange: (v) => { v ? (dStyles.textContent = "*:not([class*='leva']):not([class*='leva'] *) { border: 1px solid red; }")  : (dStyles.textContent = dStyles.textContent.replace( "*:not([class*='leva']):not([class*='leva'] *) { border: 1px solid red; }", "")); //
         },
       },
     },

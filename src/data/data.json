@@ -4,17 +4,17 @@
     "name": "Spice My Way",
     "description": "A WebGL product customizer that lets customers mix custom spice blends in real-time, integrated directly into Shopify. Built with performance-critical shader optimization using manual texture 2D array allocation and deallocation to minimize bandwidth—crucial for mobile devices typically limited to 8-16 textures per GPU in WebGL2.",
     "disclaimer": "This project is currently under NDA with limited available resources. Some visuals may be incomplete as development is ongoing.",
-    "thumbnail": "./spicemyway/experience/thumbnail.webp",
+    "thumbnail": "./spicemyway/legacy/experience/thumbnail.webp",
     "thumbnailPosition": "center center",
     "media": [
-      { "src": "./spicemyway/experience/marquee/intro.webp", "description": "Low fidelity client preview" },
-      { "src": "./spicemyway/experience/marquee/3.webp", "description": "Final preview" },
-      { "src": "./spicemyway/experience/marquee/1.mp4", "description": "Beta version" },
-      { "src": "./spicemyway/experience/marquee/proces_2.webp", "description": "Diagrams" },
-      { "src": "./spicemyway/experience/marquee/2.webp", "description": "Fetching API nutrition info from fdc matching spices" },
-      { "src": "./spicemyway/experience/marquee/proces_1.webp", "description": "Diagrams" },
-      { "src": "./spicemyway/experience/marquee/inspiration.webp", "description": "Moodboard" },
-      { "src": "./spicemyway/experience/marquee/proces_3.webp", "description": "Diagrams dataflow" }
+      { "src": "./spicemyway/legacy/experience/marquee/intro.webp", "description": "Low fidelity client preview" },
+      { "src": "./spicemyway/legacy/experience/marquee/3.webp", "description": "Final preview" },
+      { "src": "./spicemyway/legacy/experience/marquee/1.mp4", "description": "Beta version" },
+      { "src": "./spicemyway/legacy/experience/marquee/proces_2.webp", "description": "Diagrams" },
+      { "src": "./spicemyway/legacy/experience/marquee/2.webp", "description": "Fetching API nutrition info from fdc matching spices" },
+      { "src": "./spicemyway/legacy/experience/marquee/proces_1.webp", "description": "Diagrams" },
+      { "src": "./spicemyway/legacy/experience/marquee/inspiration.webp", "description": "Moodboard" },
+      { "src": "./spicemyway/legacy/experience/marquee/proces_3.webp", "description": "Diagrams dataflow" }
     ],
     "category": "Web App",
     "year": 2026
@@ -26,17 +26,17 @@
     "links": [
       { "label": "Live Demo (Desktop only)", "url": "https://showroom-prototype.pages.dev/" }
     ],
-    "thumbnail": "./labs-showroom/thumbnail.webp",
+    "thumbnail": "./labs-showroom/legacy/thumbnail.webp",
     "thumbnailPosition": "left center",
     "media": [
-      { "src": "./labs-showroom/marquee/1.webp", "description": "Gamificated teaser of intro screen" },
-      { "src": "./labs-showroom/marquee/2.mp4", "description": "Experience" },
-      { "src": "./labs-showroom/marquee/2.webp", "description": "Stills - selective bloom and live shadow maps" },
-      { "src": "./labs-showroom/marquee/proces_4.webp", "description": "Modelling iterations" },
-      { "src": "./labs-showroom/marquee/proces_18.webp", "description": "Performance process" },
-      { "src": "./labs-showroom/marquee/proces_38.webp", "description": "Performance process" },
-      { "src": "./labs-showroom/marquee/3.webp", "description": "3D modeling" },
-      { "src": "./labs-showroom/marquee/5.webp", "description": "Stills - selective bloom" }
+      { "src": "./labs-showroom/legacy/marquee/1.webp", "description": "Gamificated teaser of intro screen" },
+      { "src": "./labs-showroom/legacy/marquee/2.mp4", "description": "Experience" },
+      { "src": "./labs-showroom/legacy/marquee/2.webp", "description": "Stills - selective bloom and live shadow maps" },
+      { "src": "./labs-showroom/legacy/marquee/proces_4.webp", "description": "Modelling iterations" },
+      { "src": "./labs-showroom/legacy/marquee/proces_18.webp", "description": "Performance process" },
+      { "src": "./labs-showroom/legacy/marquee/proces_38.webp", "description": "Performance process" },
+      { "src": "./labs-showroom/legacy/marquee/3.webp", "description": "3D modeling" },
+      { "src": "./labs-showroom/legacy/marquee/5.webp", "description": "Stills - selective bloom" }
     ],
     "category": "Webgl",
     "year": 2025
@@ -46,20 +46,20 @@
     "name": "Spice My Way",
     "description": "A custom e-commerce website built with Shopify Liquid, following the client's design vision. Features a tailored blogging system that extends Shopify's built-in functionality with custom Liquid templates, giving the client full control over content management and page styling.",
     "disclaimer": "This project is under NDA. Some parts of the website are still in development and cannot be publicly linked yet.",
-    "thumbnail": "./spicemyway/website/thumbnail.webp",
+    "thumbnail": "./spicemyway/legacy/website/thumbnail.webp",
     "thumbnailPosition": "left center",
     "media": [
-      { "src": "./spicemyway/website/marquee/1.webp", "description": "Home landing page" },
-      { "src": "./spicemyway/website/marquee/2.webp", "description": "Product catalog" },
-      { "src": "./spicemyway/website/marquee/3.webp", "description": "Information page design and test" },
-      { "src": "./spicemyway/website/marquee/4.webp", "description": "Custom blog page" },
-      { "src": "./spicemyway/website/marquee/5.webp", "description": "Shopping cart" },
-      { "src": "./spicemyway/website/marquee/7.webp", "description": "Individual food item mobile" },
-      { "src": "./spicemyway/website/marquee/proces_1.webp", "description": "Color selection" },
-      { "src": "./spicemyway/website/marquee/proces_2.webp", "description": "Design mockups" },
-      { "src": "./spicemyway/website/marquee/proces_3.webp", "description": "Font selection" },
-      { "src": "./spicemyway/website/marquee/proces_4.webp", "description": "Moodboard" },
-      { "src": "./spicemyway/website/marquee/proces_5.webp", "description": "Testing assumptions" }
+      { "src": "./spicemyway/legacy/website/marquee/1.webp", "description": "Home landing page" },
+      { "src": "./spicemyway/legacy/website/marquee/2.webp", "description": "Product catalog" },
+      { "src": "./spicemyway/legacy/website/marquee/3.webp", "description": "Information page design and test" },
+      { "src": "./spicemyway/legacy/website/marquee/4.webp", "description": "Custom blog page" },
+      { "src": "./spicemyway/legacy/website/marquee/5.webp", "description": "Shopping cart" },
+      { "src": "./spicemyway/legacy/website/marquee/7.webp", "description": "Individual food item mobile" },
+      { "src": "./spicemyway/legacy/website/marquee/proces_1.webp", "description": "Color selection" },
+      { "src": "./spicemyway/legacy/website/marquee/proces_2.webp", "description": "Design mockups" },
+      { "src": "./spicemyway/legacy/website/marquee/proces_3.webp", "description": "Font selection" },
+      { "src": "./spicemyway/legacy/website/marquee/proces_4.webp", "description": "Moodboard" },
+      { "src": "./spicemyway/legacy/website/marquee/proces_5.webp", "description": "Testing assumptions" }
     ],
     "category": "E-commerce",
     "year": 2025
@@ -68,13 +68,13 @@
     "id": 4,
     "name": "Claes Peter",
     "description": "Web design and development for Claes Peter design studio, with a strong emphasis on minimalism and visual refinement. The site prioritizes clean aesthetics and intuitive navigation to showcase the studio's work.",
-    "thumbnail": "./claes-peter/1.gif",
+    "thumbnail": "./claes-peter/legacy/1.gif",
     "thumbnailPosition": "center center",
     "media": [
-      { "src": "./claes-peter/marquee/1.mp4", "description": "Landing page" },
-      { "src": "./claes-peter/marquee/2.webp", "description": "Marquee process" },
-      { "src": "./claes-peter/marquee/3.webp", "description": "Moodboard" },
-      { "src": "./claes-peter/marquee/4.webp", "description": "Design feedback" }
+      { "src": "./claes-peter/legacy/marquee/1.mp4", "description": "Landing page" },
+      { "src": "./claes-peter/legacy/marquee/2.webp", "description": "Marquee process" },
+      { "src": "./claes-peter/legacy/marquee/3.webp", "description": "Moodboard" },
+      { "src": "./claes-peter/legacy/marquee/4.webp", "description": "Design feedback" }
     ],
     "category": "Web design + development",
     "year": 2024
@@ -83,18 +83,18 @@
     "id": 5,
     "name": "Virtuall Pro",
     "description": "A marketing campaign for Virtuall Pro featuring three distinctive jacket designs created for viral social media advertising. The 3D models were optimized for both promotional content and augmented reality experiences, allowing users to view the jackets in AR on their devices.",
-    "thumbnail": "./virtuall-pro/thumbnail.gif",
+    "thumbnail": "./virtuall-pro/legacy/thumbnail.gif",
     "thumbnailPosition": "center center",
     "media": [
-      { "src": "./virtuall-pro/marquee/1.mp4", "description": "Jacket 1/3" },
-      { "src": "./virtuall-pro/marquee/2.mp4", "description": "Jacket 2/3" },
-      { "src": "./virtuall-pro/marquee/3.mp4", "description": "Jacket 3/3" },
-      { "src": "./virtuall-pro/marquee/4.mp4", "description": "Augmented reality" },
-      { "src": "./virtuall-pro/marquee/6.mp4", "description": "Lava jacket realtime render" },
-      { "src": "./virtuall-pro/marquee/proces.mp4", "description": "Development process" },
-      { "src": "./virtuall-pro/marquee/proces_1.mp4", "description": "Development process" },
-      { "src": "./virtuall-pro/marquee/proces_2.mp4", "description": "Development process" },
-      { "src": "./virtuall-pro/marquee/proces_3.mp4", "description": "Development process" }
+      { "src": "./virtuall-pro/legacy/marquee/1.mp4", "description": "Jacket 1/3" },
+      { "src": "./virtuall-pro/legacy/marquee/2.mp4", "description": "Jacket 2/3" },
+      { "src": "./virtuall-pro/legacy/marquee/3.mp4", "description": "Jacket 3/3" },
+      { "src": "./virtuall-pro/legacy/marquee/4.mp4", "description": "Augmented reality" },
+      { "src": "./virtuall-pro/legacy/marquee/6.mp4", "description": "Lava jacket realtime render" },
+      { "src": "./virtuall-pro/legacy/marquee/proces.mp4", "description": "Development process" },
+      { "src": "./virtuall-pro/legacy/marquee/proces_1.mp4", "description": "Development process" },
+      { "src": "./virtuall-pro/legacy/marquee/proces_2.mp4", "description": "Development process" },
+      { "src": "./virtuall-pro/legacy/marquee/proces_3.mp4", "description": "Development process" }
     ],
     "category": "3D + AR",
     "year": 2023
@@ -103,16 +103,16 @@
     "id": 6,
     "name": "Simone Juice",
     "description": "A personal portfolio website for photographer Simone Juice, designed to elegantly showcase their photography work with a focus on visual storytelling and seamless image presentation.",
-    "thumbnail": "./simone-juice/thumbnail.webp",
+    "thumbnail": "./simone-juice/legacy/thumbnail.webp",
     "thumbnailPosition": "center center",
     "media": [
-      { "src": "./simone-juice/marquee/1.mp4", "description": "" },
-      { "src": "./simone-juice/marquee/2.webp", "description": "Main page" },
-      { "src": "./simone-juice/marquee/proces.webp", "description": "Tablet" },
-      { "src": "./simone-juice/marquee/proces_2.webp", "description": "Menu" },
-      { "src": "./simone-juice/marquee/proces_3.webp", "description": "Menu mobile" },
-      { "src": "./simone-juice/marquee/proces_4.webp", "description": "Wireframes" },
-      { "src": "./simone-juice/marquee/proces_5.webp", "description": "Moodboard" }
+      { "src": "./simone-juice/legacy/marquee/1.mp4", "description": "" },
+      { "src": "./simone-juice/legacy/marquee/2.webp", "description": "Main page" },
+      { "src": "./simone-juice/legacy/marquee/proces.webp", "description": "Tablet" },
+      { "src": "./simone-juice/legacy/marquee/proces_2.webp", "description": "Menu" },
+      { "src": "./simone-juice/legacy/marquee/proces_3.webp", "description": "Menu mobile" },
+      { "src": "./simone-juice/legacy/marquee/proces_4.webp", "description": "Wireframes" },
+      { "src": "./simone-juice/legacy/marquee/proces_5.webp", "description": "Moodboard" }
     ],
     "category": "Web design + dev",
     "year": 2024
