@@ -1,9 +1,6 @@
-import "@/styles/main.css";
-import Header from "./components/Header.js";
-import {Projects} from "./components/projects/Project.jsx";
-import { Leva, useControls } from "leva";
-import { useDebug } from "./hooks/useDebug.js";
-import { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Admin from './pages/Admin';
 
 export type MediaItem = {
   src: string;
@@ -24,42 +21,15 @@ export type ProjectData = {
   year?: number;
 };
 
-export type Data = ProjectData[]
+export type Data = ProjectData[];
 
 export default function App() {
-  const isDebug = useDebug();
-  let dStyles = document.head.appendChild(document.createElement("style"));
-
-
-  // debug
-  useControls(
-    "debug",
-    {
-      borders: {
-        value: false,
-        onChange: (v) => {
-          v
-            ? (dStyles.textContent = "*:not([class*='leva']):not([class*='leva'] *) { border: 1px solid red; }")
-            : (dStyles.textContent = dStyles.textContent.replace(
-                "*:not([class*='leva']):not([class*='leva'] *) { border: 1px solid red; }",
-                ""
-              )); //
-        },
-      },
-    },
-    { collapsed: true }
-  );
-
   return (
-    <>
-
-      <main className="flex container flex-col gap-2 md:gap-3 lg:gap-7 lg:mt-5 justify-center overflow-auto overflow-x-hidden">
-        <Header />
-          <hr className="w-[200vw] relative left-[-50vw] lg:w-full lg:left-0" />
-        <Projects />
-      </main>
-      <Leva hidden={!isDebug} collapsed={true}/>
-
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/admin/*" element={<Admin />} />
+      </Routes>
+    </Router>
   );
 }

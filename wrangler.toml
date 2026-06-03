@@ -1,0 +1,16 @@
+name = "portfolio"
+pages_build_output_dir = "dist"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "portfolio-cms"
+database_id = "8cb2c2fe-bcb0-48e9-a40c-693dd73d3a0c"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "portfolio-images"
+
+[vars]
+CF_ACCOUNT_ID = "e7641e1dfbec2ad034dc27cd41fa8325"
+CF_ACCESS_AUD = "fccbb536d304a229b3f805f28ba6b4188439d9e8590c9f84d8f1a99e35ec37ac"
