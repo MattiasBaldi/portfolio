@@ -40,7 +40,7 @@ export default defineConfig({
     allowedHosts: [".trycloudflare.com"],
     proxy: {
       '/api': {
-        target: 'https://cms-wip.portfolio-64h.pages.dev',
+        target: 'https://portfolio-64h.pages.dev',
         changeOrigin: true,
         secure: true,
       },
