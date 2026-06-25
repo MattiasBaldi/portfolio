@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -108,8 +108,18 @@ export default function Admin() {
     },
   });
 
+  const [pendingPreviews, setPendingPreviews] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!uploadMutation.isPending) setPendingPreviews([]);
+  }, [uploadMutation.isPending]);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: (files) => uploadMutation.mutate(files),
+    onDrop: (files) => {
+      const previews = files.filter(f => f.type.startsWith('image/')).map(f => URL.createObjectURL(f));
+      setPendingPreviews(previews);
+      uploadMutation.mutate(files);
+    },
     accept: { 'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.webp'], 'video/*': ['.mp4', '.webm', '.mov'] },
   });
 
@@ -183,10 +193,19 @@ export default function Admin() {
           </div>
 
           {/* Image grid */}
-          {images.length > 0 && (
+          {(images.length > 0 || pendingPreviews.length > 0) && (
             <div>
               <p className="text-xs text-gray-400 mb-2">Click an image to set as thumbnail</p>
               <div className="grid gap-3 grid-cols-[repeat(auto-fill,minmax(140px,1fr))]">
+                {/* Pending upload previews */}
+                {pendingPreviews.map((src, i) => (
+                  <div key={`pending-${i}`} className="relative rounded overflow-hidden border-2 border-dashed border-gray-300 animate-pulse">
+                    <img src={src} className="w-full h-32 object-cover bg-gray-100 opacity-60" alt="Uploading..." />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                      <span className="text-white text-xs font-medium">Uploading…</span>
+                    </div>
+                  </div>
+                ))}
                 {images.map((img) => {
                   const isThumb = activeProject.thumbnail === img.r2_key;
                   return (
