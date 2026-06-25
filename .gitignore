@@ -35,6 +35,16 @@ public/pillow.py
 # Claude Code
 .claude/
 
+# Cloudflare local dev state
+.wrangler/
+
+# Local scripts / one-offs
+public/convert.py
+public/pillow.py
+
+# VS Code history extension
+.history/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
