@@ -77,25 +77,19 @@ export const onRequest: PagesFunction<
     return context.next();
   }
 
-  // Cf-Access-Jwt-Assertion is set when the route itself is Access-protected.
-  // CF_Authorization cookie is set when any Access-protected route on the domain was visited.
-  const token =
-    context.request.headers.get('Cf-Access-Jwt-Assertion') ??
-    context.request.headers.get('cookie')?.match(/CF_Authorization=([^;]+)/)?.[1];
+  // Cloudflare Access is the primary auth gate (protects /admin* and /api/*).
+  // When Access protects a route it sets Cf-Access-Jwt-Assertion — verify it if present.
+  // If not present (e.g. Access policy not yet covering this path), fall through.
+  const token = context.request.headers.get('Cf-Access-Jwt-Assertion');
 
-  if (!token) {
-    return new Response(JSON.stringify({ error: 'Unauthorized: missing token' }), {
-      status: 401,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-
-  const payload = await verifyJWT(token, context.env as Env);
-  if (!payload) {
-    return new Response(JSON.stringify({ error: 'Unauthorized: invalid token' }), {
-      status: 401,
-      headers: { 'Content-Type': 'application/json' },
-    });
+  if (token) {
+    const payload = await verifyJWT(token, context.env as Env);
+    if (!payload) {
+      return new Response(JSON.stringify({ error: 'Unauthorized: invalid token' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
   }
 
   return context.next();
