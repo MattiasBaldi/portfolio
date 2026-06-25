@@ -39,7 +39,7 @@ export default function App() {
           <Route path="/admin/*" element={<Admin />} />
         </Routes>
       </Router>
-      {isDebug && <ReactQueryDevtools />}
+      {isDebug && <ReactQueryDevtools initialIsOpen={true} />}
     </QueryClientProvider>
   );
 }

@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useDebug } from "./hooks/useDebug";
 
 const queryClient = new QueryClient();
 
@@ -29,8 +28,6 @@ export type ProjectData = {
 export type Data = ProjectData[];
 
 export default function App() {
-  const isDebug = useDebug();
-
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
@@ -39,7 +36,7 @@ export default function App() {
           <Route path="/admin/*" element={<Admin />} />
         </Routes>
       </Router>
-      {isDebug && <ReactQueryDevtools />}
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }

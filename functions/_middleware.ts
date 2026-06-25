@@ -72,7 +72,7 @@ export const onRequest: PagesFunction<
   }
 
   // Public endpoints (no auth required)
-  const publicEndpoints = ['/api/projects'];
+  const publicEndpoints = ['/api/projects', '/api/r2/'];
   if (publicEndpoints.some(ep => context.request.url.includes(ep))) {
     return context.next();
   }

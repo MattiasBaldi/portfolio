@@ -38,6 +38,13 @@ export default defineConfig({
   ],
   server: {
     allowedHosts: [".trycloudflare.com"],
+    proxy: {
+      '/api': {
+        target: 'https://cms-wip.portfolio-64h.pages.dev',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
   },
   resolve: {
     alias: {
