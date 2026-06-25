@@ -77,7 +77,12 @@ export const onRequest: PagesFunction<
     return context.next();
   }
 
-  const token = context.request.headers.get('Cf-Access-Jwt-Assertion');
+  // Cf-Access-Jwt-Assertion is set when the route itself is Access-protected.
+  // CF_Authorization cookie is set when any Access-protected route on the domain was visited.
+  const token =
+    context.request.headers.get('Cf-Access-Jwt-Assertion') ??
+    context.request.headers.get('cookie')?.match(/CF_Authorization=([^;]+)/)?.[1];
+
   if (!token) {
     return new Response(JSON.stringify({ error: 'Unauthorized: missing token' }), {
       status: 401,
