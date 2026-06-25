@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
+import { QueryDevtools } from './components/QueryDevtools';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/admin/*" element={<Admin />} />
         </Routes>
       </Router>
+      <QueryDevtools />
     </QueryClientProvider>
   );
 }
