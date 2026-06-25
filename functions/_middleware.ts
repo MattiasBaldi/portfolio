@@ -71,6 +71,12 @@ export const onRequest: PagesFunction<
     return context.next();
   }
 
+  // Public endpoints (no auth required)
+  const publicEndpoints = ['/api/projects'];
+  if (publicEndpoints.some(ep => context.request.url.includes(ep))) {
+    return context.next();
+  }
+
   const token = context.request.headers.get('Cf-Access-Jwt-Assertion');
   if (!token) {
     return new Response(JSON.stringify({ error: 'Unauthorized: missing token' }), {
