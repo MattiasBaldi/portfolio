@@ -55,14 +55,18 @@ export default function Admin() {
   });
 
   const uploadMutation = useMutation({
-    mutationFn: async (file: File) => {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('projectSlug', selectedProject);
-      formData.append('caption', '');
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      if (!res.ok) throw new Error('Upload failed');
-      return res.json();
+    mutationFn: async (files: File[]) => {
+      await Promise.all(
+        files.map(async (file) => {
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('projectSlug', selectedProject);
+          formData.append('caption', '');
+          const res = await fetch('/api/upload', { method: 'POST', body: formData });
+          if (!res.ok) throw new Error(`Upload failed: ${file.name}`);
+          return res.json();
+        })
+      );
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['images', selectedProject] }),
   });
@@ -105,7 +109,7 @@ export default function Admin() {
   });
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: (files) => files.forEach((f) => uploadMutation.mutate(f)),
+    onDrop: (files) => uploadMutation.mutate(files),
     accept: { 'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.webp'], 'video/*': ['.mp4', '.webm', '.mov'] },
   });
 
