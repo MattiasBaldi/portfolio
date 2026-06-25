@@ -6,6 +6,7 @@ compatibility_date = "2025-01-01"
 binding = "DB"
 database_name = "portfolio-cms"
 database_id = "8cb2c2fe-bcb0-48e9-a40c-693dd73d3a0c"
+migrations_dir = "migrations"
 
 [[r2_buckets]]
 binding = "R2"
